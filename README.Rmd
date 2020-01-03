@@ -1,0 +1,33 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo=FALSE}
+library(magrittr)
+```
+
+# bleiglas
+
+bleiglas is an R package that provides some helper functions for 3D tessellation and subsequent cutting of the resulting polygons along one dimension for plotting.
+
+## 3D tessellation
+
+Let's get some data in three dimension with an arbitrary sample variable. I decided to use @dirkseidenstickers *Archives des datations radiocarbone d'Afrique centrale* dataset for this purpose. It includes radiocarbon datings 
+
+<details><summary>Click here for details of data preparation</summary>
+<p>
+```{r, message=FALSE}
+c14_cmr <- c14bazAAR::get_c14data("adrac") %>% dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
+coords <- data.frame(c14_cmr$lat, c14_cmr$lon) %>% sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% sf::st_transform(crs = 4088) %>% sf::st_coordinates()
+c14 <- c14_cmr %>% dplyr::transmute(x = coords[,1], y = coords[,2], z = c14age * 1000) # necessary rescaling of temporal data
+```
+</p>
+</details>
+
+```{r}
+c14 
+```
