@@ -17,11 +17,11 @@ knit_hooks$set(webgl = hook_rgl)
 
 # bleiglas
 
-bleiglas is an R package that provides some helper functions for 3D tessellation and subsequent cutting of the resulting polygons along one dimension for plotting.
+bleiglas is an R package that provides some helper functions for 3D tessellation and subsequent cutting of the resulting polygons along one dimension for plotting. The workflow is described below:
 
-## 3D tessellation
+### Get some data
 
-Let's get some data in three dimension with an arbitrary sample variable. I decided to use @dirkseidenstickers *Archives des datations radiocarbone d'Afrique centrale* dataset for this purpose. It includes radiocarbon datings 
+Let's get some data in three dimension with an arbitrary sample variable. I decided to use @dirkseidenstickers *Archives des datations radiocarbone d'Afrique centrale* dataset for this purpose. It includes radiocarbon datings from Central Africa that combine spatial (x & y) and temporal (z) information.
 
 <details><summary>Click here for details of data preparation</summary>
 <p>
@@ -39,17 +39,39 @@ c14 <- c14_cmr %>%
     id = 1:nrow(.),
     x = coords[,1], 
     y = coords[,2], 
-    z = c14age * 1000 # necessary rescaling of temporal data
+    z = c14age * 1000 # rescaling of temporal data
 )
 ```
 </p>
 </details>
 
+<br>
+
+I selected dates from Cameroon between 1000 and 3000 uncalibrated BP, projected them on a simple cylindrical projection. Cameroon is so close to the equator, that this projection should even represent distances, angles and areas quite correctly. I rescaled the temporal data with a factor of 1000 to better show the effect of 3D tessellation. You can imagine the samples to be observations in a 3D geo-time-space where one year equals one kilometre.
+
 ```{r}
 c14 
 ```
 
-Run tessellation 
+### 3D tessellation
+
+[Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling space with polygons so that neither gaps and nor overlaps occur. This is an exciting application for art (e.g. textile art or architecture) and an interesting challenge for mathematics. As a computational archaeologist I know one particular tessellation algorithm that has quiet some relevance for geostatistical operations like e.g. spatial interpolation: Voronoi tilings as produced with [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation). These are tessellations where each polygon covers the space closest to one of a set of sample points.
+
+<table style="width:100%">
+  <tr>
+    <th>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ceramic_Tile_Tessellations_in_Marrakech.jpg/320px-Ceramic_Tile_Tessellations_in_Marrakech.jpg" height="150" /><figcaption>Islamic mosaic with tile tessellations in Marrakech, Morocco. <a href="https://en.wikipedia.org/wiki/File:Ceramic_Tile_Tessellations_in_Marrakech.jpg">wiki</a></figcaption></figure>
+    </th>
+    <th>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Delaunay_Voronoi.svg/441px-Delaunay_Voronoi.svg.png" height="150" /> <figcaption>Delaunay triangulation and its Voronoi diagram. <a href="https://commons.wikimedia.org/wiki/File:Delaunay_Voronoi.svg">wiki</a></figcaption></figure>
+    </th>
+    <th>
+      <figure><img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" /> <figcaption>Output example of voro++ rendered with POV-Ray. <a href="http://math.lbl.gov/voro++">math.lbl.gov</a></figcaption></figure>
+    </th>
+  <tr>
+</table>
+
+Voronoi tessellation can be calculated not just for 2D surfaces, but also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/) software library does exactly this for 3D space. `bleiglas::tessellate()` is a very minimal wrapper function that calls voro++ for datasets like the one introduced above.
 
 ```{r}
 raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
