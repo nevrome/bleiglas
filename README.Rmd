@@ -21,13 +21,31 @@ Let's get some data in three dimension with an arbitrary sample variable. I deci
 <details><summary>Click here for details of data preparation</summary>
 <p>
 ```{r, message=FALSE}
-c14_cmr <- c14bazAAR::get_c14data("adrac") %>% dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
-coords <- data.frame(c14_cmr$lat, c14_cmr$lon) %>% sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% sf::st_transform(crs = 4088) %>% sf::st_coordinates()
-c14 <- c14_cmr %>% dplyr::transmute(x = coords[,1], y = coords[,2], z = c14age * 1000) # necessary rescaling of temporal data
+c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
+  dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
+
+coords <- data.frame(c14_cmr$lat, c14_cmr$lon) %>% 
+  sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% 
+  sf::st_transform(crs = 4088) %>% 
+  sf::st_coordinates()
+
+c14 <- c14_cmr %>% 
+  dplyr::transmute(
+    id = 1:nrow(.),
+    x = coords[,1], 
+    y = coords[,2], 
+    z = c14age * 1000 # necessary rescaling of temporal data
+)
 ```
 </p>
 </details>
 
 ```{r}
 c14 
+```
+
+Run tessellation 
+
+```{r}
+raw_voro_output <- tessellate(c14[, c("id", "x", "y", "z")])
 ```
