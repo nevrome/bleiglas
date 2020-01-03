@@ -1,6 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+``` r
+library(magrittr)
+library(knitr)
+library(rgl)
+knit_hooks$set(webgl = hook_rgl)
+```
+
 # bleiglas
 
 bleiglas is an R package that provides some helper functions for 3D
@@ -91,8 +98,11 @@ polygon_edges %<>% dplyr::mutate(
 c14 %<>% dplyr::mutate(
   z = z / 1000
 )
+```
 
-#### 3d plot with sample points and polygons #### 
+3d plot with sample points and polygons
+
+``` r
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
 rgl::aspect3d(1, 1, 1)
@@ -102,3 +112,5 @@ rgl::segments3d(
   z = as.vector(t(polygon_edges[,c(3,6)]))
 )
 ```
+
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
