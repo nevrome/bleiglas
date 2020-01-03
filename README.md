@@ -161,17 +161,46 @@ Voronoi tessellation can be calculated not just for 2D surfaces, but
 also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/)
 software library does exactly this for 3D space.
 `bleiglas::tessellate()` is a very minimal wrapper function that calls
-voro++ for datasets like the one introduced above.
+the voro++ command line interface for datasets like the one introduced
+above.
 
 ``` r
 raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
 ```
 
-Read voro++ output
+    Container geometry        : [213124:1.35658e+06] [1.08714e+06:1.75688e+06] [1.01e+06:2.99e+06]
+    Computational grid size   : 5 by 3 by 8 (estimated from file)
+    Filename                  : /tmp/Rtmpcqs4Vq/file64b2461d69e0
+    Output string             : %i§%P§%t
+    Total imported particles  : 399 (3.3 per grid block)
+    Total V. cells computed   : 353
+    Total container volume    : 1.51632e+18
+    Total V. cell volume      : 1.40304e+18
+
+The output of voro++ is highly customizable, but structurally complex. I
+focussed on the edges of the resulting 3D polygons and wrote a parser
+function `bleiglas::read_polygon_edges()` that can transform the output
+to a tidy data.frame with the coordinates (x, y, z) of the start (a) and
+end point (b) of each polygon edge.
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
+
+    ## # A tibble: 21,986 x 7
+    ##       x.a     y.a     z.a    x.b     y.b     z.b    id
+    ##     <dbl>   <dbl>   <dbl>  <dbl>   <dbl>   <dbl> <dbl>
+    ##  1 213124 1087140 1010000 213124 1087140 1121520    43
+    ##  2 213124 1087140 1010000 335336 1087140 1010000    43
+    ##  3 213124 1087140 1010000 213124 1334410 1010000    43
+    ##  4 215243 1352160 1183610 213124 1352900 1183750    43
+    ##  5 215243 1352160 1183610 356316 1130520 1134280    43
+    ##  6 215243 1352160 1183610 242959 1339430 1126700    43
+    ##  7 363436 1087140 1120260 368333 1117300 1121420    43
+    ##  8 363436 1087140 1120260 358949 1087140 1124170    43
+    ##  9 363436 1087140 1120260 352272 1087140 1054060    43
+    ## 10 213124 1334410 1010000 327271 1213480 1010000    43
+    ## # … with 21,976 more rows
 
 plot edges and data
 
@@ -199,7 +228,7 @@ rgl::segments3d(
 )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)
@@ -221,4 +250,4 @@ cut_surfaces %>%
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
