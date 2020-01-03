@@ -13,6 +13,10 @@ library(knitr)
 library(rgl)
 library(ggplot2)
 knit_hooks$set(webgl = hook_rgl)
+view_matrix <- structure(c(0.586383819580078, 0.356217533349991, -0.727502763271332, 
+0, -0.810031354427338, 0.257360488176346, -0.526888787746429, 
+0, -0.000456457957625389, 0.898260772228241, 0.439460128545761, 
+0, 0, 0, 0, 1), .Dim = c(4L, 4L))
 ```
 
 # bleiglas
@@ -100,9 +104,9 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 polygon_edges
 ```
 
-plot edges and data
+We can plot these polygon edges (black) together with the input sample points (red) in 3D. Before we do that, we can change the scaling of the temporal information again to increase the readability of the plot.
 
-```{r}
+```{r, webgl=TRUE, fig.width=10, fig.align="center"}
 polygon_edges %<>% dplyr::mutate(
   z.a = z.a / 1000,
   z.b = z.b / 1000
@@ -111,11 +115,7 @@ polygon_edges %<>% dplyr::mutate(
 c14 %<>% dplyr::mutate(
   z = z / 1000
 )
-```
 
-3d plot with sample points and polygons
-
-```{r, webgl=TRUE}
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
 rgl::aspect3d(1, 1, 1)
@@ -124,7 +124,10 @@ rgl::segments3d(
   y = as.vector(t(polygon_edges[,c(2,5)])),
   z = as.vector(t(polygon_edges[,c(3,6)]))
 )
+rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 ```
+
+### Cutting the polygons
 
 ```{r}
 cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)

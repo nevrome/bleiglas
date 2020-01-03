@@ -168,9 +168,11 @@ above.
 raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
 ```
 
+voro++ prints some config info on the command line:
+
     Container geometry        : [213124:1.35658e+06] [1.08714e+06:1.75688e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 5 by 3 by 8 (estimated from file)
-    Filename                  : /tmp/Rtmpcqs4Vq/file64b2461d69e0
+    Filename                  : /tmp/Rtmpcqs4Vq/file...
     Output string             : %i§%P§%t
     Total imported particles  : 399 (3.3 per grid block)
     Total V. cells computed   : 353
@@ -179,9 +181,9 @@ raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
 
 The output of voro++ is highly customizable, but structurally complex. I
 focussed on the edges of the resulting 3D polygons and wrote a parser
-function `bleiglas::read_polygon_edges()` that can transform the output
-to a tidy data.frame with the coordinates (x, y, z) of the start (a) and
-end point (b) of each polygon edge.
+function `bleiglas::read_polygon_edges()` that can transform it to a
+tidy data.frame with the coordinates (x, y, z) of the start (a) and end
+point (b) of each polygon edge.
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
@@ -202,7 +204,9 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
     ## 10 213124 1334410 1010000 327271 1213480 1010000    43
     ## # … with 21,976 more rows
 
-plot edges and data
+We can plot these polygon edges (black) together with the input sample
+points (red) in 3D. Before we do that, we can change the scaling of the
+temporal information again to increase the readability of the plot.
 
 ``` r
 polygon_edges %<>% dplyr::mutate(
@@ -213,11 +217,7 @@ polygon_edges %<>% dplyr::mutate(
 c14 %<>% dplyr::mutate(
   z = z / 1000
 )
-```
 
-3d plot with sample points and polygons
-
-``` r
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
 rgl::aspect3d(1, 1, 1)
@@ -226,9 +226,12 @@ rgl::segments3d(
   y = as.vector(t(polygon_edges[,c(2,5)])),
   z = as.vector(t(polygon_edges[,c(3,6)]))
 )
+rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+<img src="README_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+
+### Cutting the polygons
 
 ``` r
 cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)
@@ -250,4 +253,4 @@ cut_surfaces %>%
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
