@@ -7,10 +7,11 @@ always_allow_html: true
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup}
+```{r setup, echo = FALSE}
 library(magrittr)
 library(knitr)
 library(rgl)
+library(ggplot2)
 knit_hooks$set(webgl = hook_rgl)
 ```
 
@@ -85,3 +86,25 @@ rgl::segments3d(
   z = as.vector(t(polygon_edges[,c(3,6)]))
 )
 ```
+
+```{r}
+cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)
+```
+
+```{r}
+cut_surfaces %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = time), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time) +
+  theme_bw() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+

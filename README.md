@@ -1,13 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-``` r
-library(magrittr)
-library(knitr)
-library(rgl)
-knit_hooks$set(webgl = hook_rgl)
-```
-
 # bleiglas
 
 bleiglas is an R package that provides some helper functions for 3D
@@ -114,3 +107,25 @@ rgl::segments3d(
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)
+```
+
+``` r
+cut_surfaces %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = time), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time) +
+  theme_bw() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
