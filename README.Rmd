@@ -47,5 +47,35 @@ c14
 Run tessellation 
 
 ```{r}
-raw_voro_output <- tessellate(c14[, c("id", "x", "y", "z")])
+raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
 ```
+
+Read voro++ output
+
+```{r}
+polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
+```
+
+plot edges and data
+
+```{r}
+polygon_edges %<>% dplyr::mutate(
+  z.a = z.a / 1000,
+  z.b = z.b / 1000
+)
+
+c14 %<>% dplyr::mutate(
+  z = z / 1000
+)
+
+#### 3d plot with sample points and polygons #### 
+rgl::axes3d()
+rgl::points3d(c14$x, c14$y, c14$z, color = "red")
+rgl::aspect3d(1, 1, 1)
+rgl::segments3d(
+  x = as.vector(t(polygon_edges[,c(1,4)])),
+  y = as.vector(t(polygon_edges[,c(2,5)])),
+  z = as.vector(t(polygon_edges[,c(3,6)]))
+)
+```
+

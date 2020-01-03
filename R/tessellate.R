@@ -1,3 +1,11 @@
+#' tessellate
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 tessellate <- function(x) {
 
   to_voro <- tempfile()
