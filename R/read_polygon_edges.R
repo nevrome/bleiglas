@@ -8,60 +8,58 @@
 #' @examples
 read_polygon_edges <- function(x) {
 
-  polygon_edges <- lapply(
+  polygon_edges_list <- lapply(
     x,
     function(x) {
       
-      string_elems <- x %>% strsplit("§") %>% unlist()
+      string_elems <- unlist(strsplit(x, "§"))
       
       # read id    
-      id <- string_elems[1] %>% as.numeric()
+      id <- as.numeric(string_elems[1])
       
       # parse polygon vertex coordinates
-      vertices_one_poly <- string_elems[2] %>% strsplit(" ") %>% unlist()
-      one_poly_many_vertices <- lapply(
-        vertices_one_poly,
-        function(y) {
-          one_poly_one_vertex <- y %>% gsub("\\(", "", .) %>% gsub("\\)", "", .) %>% strsplit(",") %>% unlist() %>% as.numeric()
-          return(one_poly_one_vertex)
-        }
-      ) %>% do.call(rbind, .) 
+      vertices_one_poly <- lapply(strsplit(gsub("\\(|\\)", "", unlist(strsplit(string_elems[2], " "))), ","), as.numeric)
+      one_poly_many_vertices <- data.table::as.data.table(data.table::transpose(vertices_one_poly))
       colnames(one_poly_many_vertices) <- c("x", "y", "z")
-      one_poly_many_vertices %<>% tibble::as_tibble()
       one_poly_many_vertices$in_poly_id <- 0:(nrow(one_poly_many_vertices) - 1)
       
       # parse polygon edge lines
-      faces_one_poly <- string_elems[3] %>% strsplit(" ") %>% unlist()
-      one_poly_many_connections <- lapply(
-        faces_one_poly,
-        function(y) {
-          one_poly_one_face <- y %>% gsub("\\(", "", .) %>% gsub("\\)", "", .) %>% strsplit(",") %>% unlist() %>% as.numeric()
-          one_poly_one_face_connections <- tibble::tibble(
-            start = one_poly_one_face,
-            stop = one_poly_one_face[c(2:length(one_poly_one_face), 1)]
-          )
-          return(one_poly_one_face_connections)
-        }
-      ) %>% do.call(rbind, .) 
+      faces_one_poly <- lapply(strsplit(gsub("\\(|\\)", "", unlist(strsplit(string_elems[3], " "))), ","), as.numeric)
+      one_poly_many_connections <- data.table::rbindlist(
+        lapply(
+          faces_one_poly,
+          function(y) {
+            data.frame(
+              start = y,
+              stop = y[c(2:length(y), 1)]
+            )
+          }
+        )
+      )
       
-      connections <- dplyr::left_join(
+      connections.a <- data.table::merge.data.table(
         one_poly_many_vertices,
         one_poly_many_connections,
-        by = c("in_poly_id" = "start")
-      ) %>%
-        dplyr::left_join(
-          one_poly_many_vertices,
-          by = c("stop" = "in_poly_id"),
-          suffix = c(".a", ".b")
-        ) %>%
-        dplyr::select(
-          -in_poly_id, -stop
-        )
+        by.x = "in_poly_id",
+        by.y = "start"
+      )
       
+      connections <- data.table::merge.data.table(
+          connections.a,
+          one_poly_many_vertices,
+          by.x = "stop",
+          by.y = "in_poly_id",
+          suffixes = c(".a", ".b")
+        ) 
+
       connections$id <- id
       
       return(connections)
     }
-  ) %>% do.call(rbind, .)
+  )
+  
+  polygon_edges <- data.table::rbindlist(polygon_edges_list)
+  
+  return(tibble::as_tibble(polygon_edges[,-c(1, 2)]))
 
 }
