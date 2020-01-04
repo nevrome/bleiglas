@@ -14,7 +14,7 @@ cut_polygons <- function(x, cuts, crs) {
 
   result_polygons <- lapply(
     cuts, function(z) {
-      do.call(rbind, purrr::compact(lapply(
+      do.call(rbind, lapply(
         split(x, x$id), function(x, z) {
           
           intersection_points <- as.data.frame(do.call(rbind, by(
@@ -37,7 +37,7 @@ cut_polygons <- function(x, cuts, crs) {
           return(polygon_2d)
         },
         z
-      )))
+      ))
     })
   
   return(do.call(rbind, result_polygons))
