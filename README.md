@@ -5,8 +5,8 @@
 
 bleiglas is an R package that provides some helper functions for 3D
 tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent
-horizontal cutting of the resulting polygons for plotting. The general
-workflow is described below.
+horizontal cutting of the resulting polygons for 2D plotting. The
+general workflow is described below.
 
 ### Get some data
 
@@ -217,7 +217,7 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <p>
 
-    ## # A tibble: 24,136 x 7
+    ## # A tibble: 24,138 x 7
     ##        x.a    y.a     z.a     x.b    y.b     z.b    id
     ##      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>   <dbl> <dbl>
     ##  1 1352610 233681 1240760 1381950 158990 1274740    38
@@ -230,7 +230,7 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
     ##  8  937143 374007 1308060  937143 326505 1224480    38
     ##  9  937143 185322 1292500  937143 326505 1224480    38
     ## 10  937143 326505 1224480 1190420 336013 1202560    38
-    ## # … with 24,126 more rows
+    ## # … with 24,128 more rows
 
 </p>
 
