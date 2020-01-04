@@ -27,10 +27,11 @@ bleiglas is an R package that provides some helper functions for 3D tessellation
 
 Let's get some data in three dimension with an arbitrary sample variable. I decided to use @dirkseidenstickers *Archives des datations radiocarbone d'Afrique centrale* dataset for this purpose. It includes radiocarbon datings from Central Africa that combine spatial (x & y) and temporal (z) information.
 
-I selected dates from Cameroon between 1000 and 3000 uncalibrated BP, projected them on a simple cylindrical projection (epsg 4088). Cameroon is so close to the equator, that this projection should even represent distances, angles and areas quite correctly. I rescaled the temporal data with a factor of 1000 to better show the effect of 3D tessellation. You can imagine the samples to be observations in a 3D geo-time-space where one year equals one kilometre.
-
 <details><summary>Click here for details of data preparation</summary>
 <p>
+
+I selected dates from Cameroon between 1000 and 3000 uncalibrated BP, projected them on a simple cylindrical projection (epsg 4088). Cameroon is so close to the equator, that this projection should even represent distances, angles and areas quite correctly. I rescaled the temporal data with a factor of 1000 to better show the effect of 3D tessellation. You can imagine the samples to be observations in a 3D geo-time-space where one year equals one kilometre.
+
 ```{r, message=FALSE}
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
@@ -49,6 +50,7 @@ c14 <- c14_cmr %>%
     material = material
 )
 ```
+
 </p>
 </details>
 
@@ -64,7 +66,7 @@ c14
 
 ### 3D tessellation
 
-[Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling space with polygons so that neither gaps and nor overlaps occur. This is an exciting application for art (e.g. textile art or architecture) and an interesting challenge for mathematics. As a computational archaeologist I know one particular tessellation algorithm that has quiet some relevance for geostatistical operations like e.g. spatial interpolation: Voronoi tilings as produced with [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation). These are tessellations where each polygon covers the space closest to one of a set of sample points.
+[Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling space with polygons so that neither gaps nor overlaps occur. This is an exciting application for art (e.g. textile art or architecture) and an interesting challenge for mathematics. As a computational archaeologist I know one particular tessellation algorithm that has quiet some relevance for geostatistical operations like e.g. spatial interpolation: Voronoi tilings as produced with [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation). These are tessellations where each polygon covers the space closest to one of a set of sample points.
 
 <table style="width:100%">
   <tr>
@@ -105,7 +107,7 @@ The output of voro++ is highly customizable, but structurally complex. I focusse
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-<details><summary>Data: <b>polygon_edges</b></summary>
+<details><summary>Data</summary>
 <p>
 
 ```{r, echo=FALSE}
@@ -115,8 +117,7 @@ polygon_edges
 </p>
 </details>
 
-We can plot these polygon edges (black) together with the input sample points (red) in 3D. 
-<details><summary>Before we do that, we can change the scaling of the temporal information again to increase the readability of the plot.</summary>
+<details><summary>We can plot these polygon edges (black) together with the input sample points (red) in 3D. Before we do that, we can change the scaling of the temporal information again to increase the readability of the plot.</summary>
 <p>
 
 ```{r}
@@ -130,10 +131,22 @@ c14 %<>% dplyr::mutate(
 )
 ```
 
+```{r, webgl=TRUE, fig.width=10, fig.align="center", eval=FALSE}
+rgl::axes3d()
+rgl::points3d(c14$x, c14$y, c14$z, color = "red")
+rgl::aspect3d(1, 1, 1)
+rgl::segments3d(
+  x = as.vector(t(polygon_edges[,c(1,4)])),
+  y = as.vector(t(polygon_edges[,c(2,5)])),
+  z = as.vector(t(polygon_edges[,c(3,6)]))
+)
+rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
+```
+
 </p>
 </details>
 
-```{r, webgl=TRUE, fig.width=10, fig.align="center"}
+```{r, webgl=TRUE, fig.width=10, fig.align="center", echo=FALSE}
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
 rgl::aspect3d(1, 1, 1)
@@ -157,7 +170,7 @@ cut_surfaces <- bleiglas::cut_polygons(
 )
 ```
 
-<details><summary>Data: <b>cut_surfaces</b></summary>
+<details><summary>Data</summary>
 <p>
 
 ```{r, echo=FALSE}

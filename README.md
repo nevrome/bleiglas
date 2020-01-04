@@ -15,6 +15,12 @@ radiocarbone d’Afrique centrale* dataset for this purpose. It includes
 radiocarbon datings from Central Africa that combine spatial (x & y) and
 temporal (z) information.
 
+<details>
+
+<summary>Click here for details of data preparation</summary>
+
+<p>
+
 I selected dates from Cameroon between 1000 and 3000 uncalibrated BP,
 projected them on a simple cylindrical projection (epsg 4088). Cameroon
 is so close to the equator, that this projection should even represent
@@ -22,12 +28,6 @@ distances, angles and areas quite correctly. I rescaled the temporal
 data with a factor of 1000 to better show the effect of 3D tessellation.
 You can imagine the samples to be observations in a 3D geo-time-space
 where one year equals one kilometre.
-
-<details>
-
-<summary>Click here for details of data preparation</summary>
-
-<p>
 
 ``` r
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
@@ -97,12 +97,12 @@ c14
 ### 3D tessellation
 
 [Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling
-space with polygons so that neither gaps and nor overlaps occur. This is
-an exciting application for art (e.g. textile art or architecture) and
-an interesting challenge for mathematics. As a computational
-archaeologist I know one particular tessellation algorithm that has
-quiet some relevance for geostatistical operations like e.g. spatial
-interpolation: Voronoi tilings as produced with [Delaunay
+space with polygons so that neither gaps nor overlaps occur. This is an
+exciting application for art (e.g. textile art or architecture) and an
+interesting challenge for mathematics. As a computational archaeologist
+I know one particular tessellation algorithm that has quiet some
+relevance for geostatistical operations like e.g. spatial interpolation:
+Voronoi tilings as produced with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
 one of a set of sample points.
@@ -200,7 +200,7 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <details>
 
-<summary>Data: <b>polygon\_edges</b></summary>
+<summary>Data</summary>
 
 <p>
 
@@ -223,13 +223,12 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 </details>
 
-We can plot these polygon edges (black) together with the input sample
-points (red) in 3D.
-
 <details>
 
-<summary>Before we do that, we can change the scaling of the temporal
-information again to increase the readability of the plot.</summary>
+<summary>We can plot these polygon edges (black) together with the input
+sample points (red) in 3D. Before we do that, we can change the scaling
+of the temporal information again to increase the readability of the
+plot.</summary>
 
 <p>
 
@@ -244,10 +243,6 @@ c14 %<>% dplyr::mutate(
 )
 ```
 
-</p>
-
-</details>
-
 ``` r
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
@@ -260,7 +255,11 @@ rgl::segments3d(
 rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+</p>
+
+</details>
+
+<img src="README_files/figure-gfm/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 ### Cutting the polygons
 
@@ -284,7 +283,7 @@ cut_surfaces <- bleiglas::cut_polygons(
 
 <details>
 
-<summary>Data: <b>cut\_surfaces</b></summary>
+<summary>Data</summary>
 
 <p>
 
@@ -337,7 +336,7 @@ cut_surfaces %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 <details>
 
@@ -374,7 +373,7 @@ cut_surfaces_cropped %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 <details>
 
@@ -409,4 +408,4 @@ cut_surfaces_material %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
