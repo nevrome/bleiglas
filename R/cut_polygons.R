@@ -1,13 +1,15 @@
-#' Title
+#' cut_polygons
 #'
-#' @param x 
-#' @param cuts 
-#' @param crs 
+#' Figuratively cut horizontal slices of a 3D, tessellated cube.
 #'
-#' @return
+#' @param x data.frame with output of voro++ as produced with 
+#' \link{tessellate} and then \link{read_polygon_edges}
+#' @param cuts numeric vector with z-axis coordinates where cuts should be applied
+#' @param crs coordinate reference system of the resulting 2D polygons
+#'
+#' @return simple features object with 2D polygons that result from the cutting operation
+#' 
 #' @export
-#'
-#' @examples
 cut_polygons <- function(x, cuts, crs) {
 
   result_polygons <- lapply(

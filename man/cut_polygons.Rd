@@ -2,20 +2,21 @@
 % Please edit documentation in R/cut_polygons.R
 \name{cut_polygons}
 \alias{cut_polygons}
-\title{Title}
+\title{cut_polygons}
 \usage{
 cut_polygons(x, cuts, crs)
 }
 \arguments{
-\item{x}{}
+\item{x}{data.frame with output of voro++ as produced with 
+\link{tessellate} and then \link{read_polygon_edges}}
 
-\item{cuts}{}
+\item{cuts}{numeric vector with z-axis coordinates where cuts should be applied}
 
-\item{crs}{}
+\item{crs}{coordinate reference system of the resulting 2D polygons}
 }
 \value{
-
+simple features object with 2D polygons that result from the cutting operation
 }
 \description{
-Title
+Figuratively cut horizontal slices of a 3D, tessellated cube.
 }

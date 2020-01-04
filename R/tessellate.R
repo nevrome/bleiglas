@@ -23,6 +23,7 @@
 #' @param voro_path system path to the voro++ executable. Default: "voro++"
 #'
 #' @return raw, linewise output of voro++ in a character vector
+#' 
 #' @export
 tessellate <- function(
   x, 
