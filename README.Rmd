@@ -45,7 +45,8 @@ c14 <- c14_cmr %>%
     id = 1:nrow(.),
     x = coords[,1], 
     y = coords[,2], 
-    z = c14age * 1000 # rescaling of temporal data
+    z = c14age * 1000, # rescaling of temporal data
+    material = material
 )
 ```
 </p>
@@ -104,7 +105,7 @@ The output of voro++ is highly customizable, but structurally complex. I focusse
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-<details><summary>Data: <b>polygon\_edges</b></summary>
+<details><summary>Data: <b>polygon_edges</b></summary>
 <p>
 
 ```{r, echo=FALSE}
@@ -151,12 +152,12 @@ The static 3D plot is of rather dubious value for understanding the tessellation
 ```{r}
 cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges, 
-  cuts = c(2800, 2500, 2200, 1900, 1600, 1300), 
+  cuts = c(2500, 2000, 1500), 
   crs = 4088
 )
 ```
 
-<details><summary>Data: <b>cut\_surfaces</b></summary>
+<details><summary>Data: <b>cut_surfaces</b></summary>
 <p>
 
 ```{r, echo=FALSE}
@@ -169,7 +170,7 @@ cut_surfaces
 <details><summary>With this data we can plot a matrix of maps that show the cut surfaces.</summary>
 <p>
 
-```{r, fig.width=10, fig.align="center", eval=FALSE}
+```{r, fig.width=8, fig.align="center", eval=FALSE}
 cut_surfaces %>%
   ggplot() +
   geom_sf(
@@ -177,7 +178,7 @@ cut_surfaces %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -187,7 +188,7 @@ cut_surfaces %>%
 </p>
 </details>
 
-```{r, fig.width=10, fig.align="center", echo=FALSE}
+```{r, fig.width=8, fig.align="center", echo=FALSE}
 cut_surfaces %>%
   ggplot() +
   geom_sf(
@@ -195,7 +196,7 @@ cut_surfaces %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -213,7 +214,7 @@ cameroon_border <- rnaturalearth::ne_countries(scale = "medium", returnclass = "
 cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)
 ```
 
-```{r, fig.width=10, fig.align="center", eval=FALSE}
+```{r, fig.width=8, fig.align="center", eval=FALSE}
 cut_surfaces_cropped %>%
   ggplot() +
   geom_sf(
@@ -221,7 +222,7 @@ cut_surfaces_cropped %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -231,7 +232,7 @@ cut_surfaces_cropped %>%
 <p>
 </details>
 
-```{r, fig.width=10, fig.align="center", echo=FALSE}
+```{r, fig.width=8, fig.align="center", echo=FALSE}
 cut_surfaces_cropped %>%
   ggplot() +
   geom_sf(
@@ -239,10 +240,53 @@ cut_surfaces_cropped %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
   )
 ```
 
+
+<details><summary>Of course we can visualise any point-wise information we initially had as a feature of the tessellation polygons.</summary>
+<p>
+
+```{r, warning=FALSE}
+cut_surfaces_material <- cut_surfaces_cropped %>%
+  dplyr::left_join(
+    c14, by = "id"
+  )
+```
+
+```{r, fig.width=8, fig.align="center", eval=FALSE}
+cut_surfaces_material %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = material), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+</p>
+</details>
+
+```{r, fig.width=8, fig.align="center", echo=FALSE}
+cut_surfaces_material %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = material), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```

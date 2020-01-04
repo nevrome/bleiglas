@@ -53,7 +53,8 @@ c14 <- c14_cmr %>%
     id = 1:nrow(.),
     x = coords[,1], 
     y = coords[,2], 
-    z = c14age * 1000 # rescaling of temporal data
+    z = c14age * 1000, # rescaling of temporal data
+    material = material
 )
 ```
 
@@ -74,19 +75,19 @@ c14
     ##  Radiocarbon date list
     ##  dates       405 
     ## 
-    ## # A tibble: 405 x 4
-    ##       id        x       y       z
-    ##    <int>    <dbl>   <dbl>   <dbl>
-    ##  1     1 1284303. 450331. 1920000
-    ##  2     2 1284303. 450331. 2596000
-    ##  3     3 1284303. 450331. 2360000
-    ##  4     4 1284303. 450331. 2380000
-    ##  5     5 1278776. 434150. 2810000
-    ##  6     6 1278776. 434150. 2710000
-    ##  7     7 1278776. 434150. 1860000
-    ##  8     8 1278776. 434150. 1960000
-    ##  9     9 1278776. 434150. 2820000
-    ## 10    10 1278776. 434150. 2110000
+    ## # A tibble: 405 x 5
+    ##       id        x       y       z material
+    ##    <int>    <dbl>   <dbl>   <dbl> <chr>   
+    ##  1     1 1284303. 450331. 1920000 <NA>    
+    ##  2     2 1284303. 450331. 2596000 <NA>    
+    ##  3     3 1284303. 450331. 2360000 <NA>    
+    ##  4     4 1284303. 450331. 2380000 <NA>    
+    ##  5     5 1278776. 434150. 2810000 <NA>    
+    ##  6     6 1278776. 434150. 2710000 <NA>    
+    ##  7     7 1278776. 434150. 1860000 <NA>    
+    ##  8     8 1278776. 434150. 1960000 <NA>    
+    ##  9     9 1278776. 434150. 2820000 <NA>    
+    ## 10    10 1278776. 434150. 2110000 <NA>    
     ## # … with 395 more rows
 
 </p>
@@ -276,7 +277,7 @@ project the resulting 2D polygons correctly.
 ``` r
 cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges, 
-  cuts = c(2800, 2500, 2200, 1900, 1600, 1300), 
+  cuts = c(2500, 2000, 1500), 
   crs = 4088
 )
 ```
@@ -287,7 +288,7 @@ cut_surfaces <- bleiglas::cut_polygons(
 
 <p>
 
-    ## Simple feature collection with 110 features and 2 fields
+    ## Simple feature collection with 63 features and 2 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
     ## bbox:           xmin: 1087140 ymin: 213124 xmax: 1756880 ymax: 1356580
@@ -295,16 +296,16 @@ cut_surfaces <- bleiglas::cut_polygons(
     ## proj4string:    +proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=6371007 +units=m +no_defs
     ## First 10 features:
     ##    time  id                       geometry
-    ## 1  2800   5 POLYGON ((1298689 213124, 1...
-    ## 2  2800  57 POLYGON ((1298689 213124, 1...
-    ## 3  2800 106 POLYGON ((1120865 503265.9,...
-    ## 4  2800 126 POLYGON ((1445058 969270.6,...
-    ## 5  2800 154 POLYGON ((1433017 382168.4,...
-    ## 6  2800 341 POLYGON ((1756880 213124, 1...
-    ## 7  2800 401 POLYGON ((1384936 557341, 1...
-    ## 8  2500  16 POLYGON ((1193932 315609.9,...
-    ## 9  2500  54 POLYGON ((1146789 374017.9,...
-    ## 10 2500  56 POLYGON ((1146789 374017.9,...
+    ## 1  2500  16 POLYGON ((1193932 315609.9,...
+    ## 2  2500  54 POLYGON ((1146789 374017.9,...
+    ## 3  2500  56 POLYGON ((1146789 374017.9,...
+    ## 4  2500  85 POLYGON ((1416023 455769.2,...
+    ## 5  2500 106 POLYGON ((1157246 1126940, ...
+    ## 6  2500 108 POLYGON ((1389740 324622.2,...
+    ## 7  2500 141 POLYGON ((1386791 333246.8,...
+    ## 8  2500 151 POLYGON ((1162469 213124, 1...
+    ## 9  2500 195 POLYGON ((1381969 213124, 1...
+    ## 10 2500 279 POLYGON ((1167769 487267.6,...
 
 </p>
 
@@ -325,7 +326,7 @@ cut_surfaces %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -362,7 +363,7 @@ cut_surfaces_cropped %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -374,3 +375,38 @@ cut_surfaces_cropped %>%
 </details>
 
 <img src="README_files/figure-gfm/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+
+<details>
+
+<summary>Of course we can visualise any point-wise information we
+initially had as a feature of the tessellation polygons.</summary>
+
+<p>
+
+``` r
+cut_surfaces_material <- cut_surfaces_cropped %>%
+  dplyr::left_join(
+    c14, by = "id"
+  )
+```
+
+``` r
+cut_surfaces_material %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = material), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+</p>
+
+</details>
+
+<img src="README_files/figure-gfm/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
