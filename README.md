@@ -10,29 +10,33 @@ general workflow is described below.
 
 ### Get some data
 
-Let’s get some data in three dimension with an arbitrary sample
-variable. I decided to use @dirkseidenstickers *Archives des datations
-radiocarbone d’Afrique centrale* dataset for this purpose. It includes
-radiocarbon datings from Central Africa that combine spatial (x & y) and
-temporal (z) information.
+I decided to use Dirk Seidenstickers [*Archives des datations
+radiocarbone d’Afrique
+centrale*](https://github.com/dirkseidensticker/aDRAC) dataset for this
+purpose. It includes radiocarbon datings from Central Africa that
+combine spatial (x & y) and temporal (z) position with some meta
+information.
 
 <details>
 
-<summary>Click here for details of data preparation</summary>
+<summary>Click here for the data preparation steps</summary>
 
 <p>
 
-I selected dates from Cameroon between 1000 and 3000 uncalibrated BP,
-projected them on a simple cylindrical projection (epsg 4088). Cameroon
-is so close to the equator, that this projection should even represent
-distances, angles and areas quite correctly. I rescaled the temporal
-data with a factor of 1000 to better show the effect of 3D tessellation.
-You can imagine the samples to be observations in a 3D geo-time-space
-where one year equals one kilometre. Samples with equal position in all
-three dimensions have to be avoided.
+I selected dates from Cameroon between 1000 and 3000 uncalibrated BP and
+projected them into a worldwide cylindrical reference system (epsg
+[4088](https://epsg.io/4088)). As Cameroon is close to the equator this
+projection should represent distances, angles and areas sufficiently
+correct for this example exercise. I rescaled the temporal data with a
+factor of 1000 to better show the effect of 3D tessellation. You can
+imagine the samples to be observations in a 3D geo-time-space where one
+year equals one kilometre. I had to remove samples with equal position
+in all three dimensions for the tessellation.
 
 ``` r
+# download raw data
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
+  # filter data
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR") 
 ```
 
@@ -45,6 +49,7 @@ c14_cmr <- c14bazAAR::get_c14data("adrac") %>%
       |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
 
 ``` r
+# remove doubles
 c14_cmr_unique <- c14_cmr %>%
   dplyr::mutate(
     rounded_coords_lat = round(lat, 3),
@@ -54,11 +59,13 @@ c14_cmr_unique <- c14_cmr %>%
   dplyr::filter(dplyr::row_number() == 1) %>%
   dplyr::ungroup()
 
+# transform coordinates
 coords <- data.frame(c14_cmr_unique$lon, c14_cmr_unique$lat) %>% 
   sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% 
   sf::st_transform(crs = 4088) %>% 
   sf::st_coordinates()
 
+# create active dataset
 c14 <- c14_cmr_unique %>% 
   dplyr::transmute(
     id = 1:nrow(.),
@@ -108,9 +115,9 @@ c14
 space with polygons so that neither gaps nor overlaps occur. This is an
 exciting application for art (e.g. textile art or architecture) and an
 interesting challenge for mathematics. As a computational archaeologist
-I know one particular tessellation algorithm that has quiet some
-relevance for geostatistical operations like e.g. spatial interpolation:
-Voronoi tilings as produced with [Delaunay
+I was already aware of one particular tessellation algorithm that has
+quiet some relevance for geostatistical analysis like e.g. spatial
+interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
 one of a set of sample points.
@@ -174,12 +181,15 @@ Output example of voro++ rendered with POV-Ray.
 
 </table>
 
-Voronoi tessellation can be calculated not just for 2D surfaces, but
-also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/)
-software library does exactly this for 3D space.
+I learned that Voronoi tessellation can be calculated not just for 2D
+surfaces, but also for higher dimensions. The
+[voro++](http://math.lbl.gov/voro++/) software library does exactly this
+for 3D space.
+
 `bleiglas::tessellate()` is a minimal wrapper function that calls the
-voro++ command line interface for datasets like the one introduced
-above. Therefore you have to install voro++ to use it.
+voro++ command line interface (therefore you have to install voro++ to
+use it) for datasets like the one introduced above. We can apply it like
+this:
 
 ``` r
 raw_voro_output <- bleiglas::tessellate(
@@ -189,8 +199,13 @@ raw_voro_output <- bleiglas::tessellate(
 )
 ```
 
-I increased the size of the tessellation box by 150 kilometres to each
-(spatial) direction. voro++ prints some config info on the command line:
+`bleiglas::tessellate(c14[, c("id", "x", "y", "z")])` would be
+sufficient, but I decided to increased the size of the tessellation box
+by 150 kilometres to each (spatial) direction to cover the area of
+Cameroon.
+
+The output of voro++ is highly customizable, but structurally complex.
+With `-v` it first of all prints some config info on the command line.
 
     Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -201,11 +216,12 @@ I increased the size of the tessellation box by 150 kilometres to each
     Total container volume    : 2.77155e+18
     Total V. cell volume      : 2.77168e+18
 
-The output of voro++ is highly customizable, but structurally complex. I
-focussed on the edges of the resulting 3D polygons and wrote a parser
-function `bleiglas::read_polygon_edges()` that can transform it to a
-tidy data.frame with the coordinates (x, y, z) of the start (a) and end
-point (b) of each polygon edge.
+It then produces an output file (`*.vol`) that can contain all sorts of
+geometry information for the calculated 3D polygons. I focussed on the
+edges of the polygons and wrote a parser function
+`bleiglas::read_polygon_edges()` that can transform the complex voro++
+output to a tidy data.frame with six columns: the coordinates (x, y, z)
+of the start (a) and end point (b) of each polygon edge.
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
@@ -239,11 +255,12 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 <details>
 
 <summary>We can plot these polygon edges (black) together with the input
-sample points (red) in 3D. Before we do that, we can change the scaling
-of the temporal information again to increase the readability of the
-plot.</summary>
+sample points (red) in 3D.</summary>
 
 <p>
+
+Before plotting I wanted to changed the scaling of the temporal
+information back again to increase the readability of the plot.
 
 ``` r
 polygon_edges %<>% dplyr::mutate(
@@ -276,13 +293,12 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 
 ### Cutting the polygons
 
-The static 3D plot is of rather dubious value for understanding the
-tessellation. I therefore introduce the function
-`bleiglas::cut_polygons()` that can cut the 3D polygons at different
-levels of the z-axis. The function assumes x and y represent
-geographical coordinates. The cuts therefore produce sets of spatial 2D
-polygons at different values of z – in our example different points in
-time. The parameter `cuts` takes a numeric vector of cutting points,
+The static 3D plot is of rather dubious value: Very hard to read. I
+therefore wrote `bleiglas::cut_polygons()` that can cut the 3D polygons
+at different levels of the z-axis. As the function assumes that x and y
+represent geographic coordinates, the cuts produce sets of spatial 2D
+polygons for different values of z – in our example different points in
+time. The parameter `cuts` takes a numeric vector of cutting points and
 `crs` defines the spatial coordinate reference system of x and y to
 project the resulting 2D polygons correctly.
 
@@ -356,7 +372,7 @@ cut_surfaces %>%
 
 <summary>As all input dates come from Cameroon it might be a sensible
 decision to cut the polygon surfaces to the outline of this
-administrative, spatial unit.</summary>
+administrative unit.</summary>
 
 <p>
 
@@ -391,8 +407,8 @@ cut_surfaces_cropped %>%
 
 <details>
 
-<summary>Of course we can visualise any point-wise information we
-initially had as a feature of the tessellation polygons.</summary>
+<summary>Finally we can also visualise any point-wise information in our
+input data as a feature of the tessellation polygons.</summary>
 
 <p>
 
