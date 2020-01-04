@@ -35,7 +35,7 @@ tessellate <- function(
   to_voro <- tempfile()
   from_voro <- paste0(to_voro, ".vol")
   
-  readr::write_delim(x, path = to_voro, col_names = F)
+  utils::write.table(x, file = to_voro, quote = FALSE, row.names = F, col.names = F)
   
   system(paste(
     voro_path,

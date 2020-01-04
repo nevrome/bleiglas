@@ -11,7 +11,6 @@ Description: What the package does (one paragraph).
 License: What license it uses
 Imports: 
     data.table,
-    readr,
     sf,
     tibble
 Encoding: UTF-8
