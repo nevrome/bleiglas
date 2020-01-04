@@ -91,23 +91,27 @@ c14
   <tr>
 </table>
 
-Voronoi tessellation can be calculated not just for 2D surfaces, but also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/) software library does exactly this for 3D space. `bleiglas::tessellate()` is a very minimal wrapper function that calls the voro++ command line interface for datasets like the one introduced above.
+Voronoi tessellation can be calculated not just for 2D surfaces, but also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/) software library does exactly this for 3D space. `bleiglas::tessellate()` is a minimal wrapper function that calls the voro++ command line interface for datasets like the one introduced above.
 
 ```{r}
-raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
+raw_voro_output <- bleiglas::tessellate(
+  c14[, c("id", "x", "y", "z")],
+  x_min = min(c14$x) - 150000, x_max = max(c14$x) + 150000, 
+  y_min = min(c14$y) - 150000, y_max = max(c14$y) + 150000
+)
 ```
 
-voro++ prints some config info on the command line:
+I increased the size of the tessellation box by 150 kilometres to each (spatial) direction. voro++ prints some config info on the command line:
 
 ```
-Container geometry        : [1.08714e+06:1.75688e+06] [213124:1.35658e+06] [1.01e+06:2.99e+06]
-Computational grid size   : 3 by 5 by 7 (estimated from file)
-Filename                  : /tmp/RtmpqawYn1/file5e7af3a0823
+Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
+Computational grid size   : 3 by 5 by 6 (estimated from file)
+Filename                  : /tmp/Rtmpf2W27D/file1932362bb49
 Output string             : %i§%P§%t
-Total imported particles  : 374 (3.6 per grid block)
-Total V. cells computed   : 373
-Total container volume    : 1.51632e+18
-Total V. cell volume      : 1.5155e+18
+Total imported particles  : 379 (4.2 per grid block)
+Total V. cells computed   : 379
+Total container volume    : 2.77155e+18
+Total V. cell volume      : 2.77156e+18
 ```
 
 The output of voro++ is highly customizable, but structurally complex. I focussed on the edges of the resulting 3D polygons and wrote a parser function `bleiglas::read_polygon_edges()` that can transform it to a tidy data.frame with the coordinates (x, y, z) of the start (a) and end point (b) of each polygon edge.

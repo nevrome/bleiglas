@@ -27,7 +27,8 @@ is so close to the equator, that this projection should even represent
 distances, angles and areas quite correctly. I rescaled the temporal
 data with a factor of 1000 to better show the effect of 3D tessellation.
 You can imagine the samples to be observations in a 3D geo-time-space
-where one year equals one kilometre.
+where one year equals one kilometre. Samples with equal position in all
+three dimensions have to be avoided.
 
 ``` r
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
@@ -175,24 +176,29 @@ Output example of voro++ rendered with POV-Ray.
 Voronoi tessellation can be calculated not just for 2D surfaces, but
 also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/)
 software library does exactly this for 3D space.
-`bleiglas::tessellate()` is a very minimal wrapper function that calls
-the voro++ command line interface for datasets like the one introduced
+`bleiglas::tessellate()` is a minimal wrapper function that calls the
+voro++ command line interface for datasets like the one introduced
 above.
 
 ``` r
-raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
+raw_voro_output <- bleiglas::tessellate(
+  c14[, c("id", "x", "y", "z")],
+  x_min = min(c14$x) - 150000, x_max = max(c14$x) + 150000, 
+  y_min = min(c14$y) - 150000, y_max = max(c14$y) + 150000
+)
 ```
 
-voro++ prints some config info on the command line:
+I increased the size of the tessellation box by 150 kilometres to each
+(spatial) direction. voro++ prints some config info on the command line:
 
-    Container geometry        : [1.08714e+06:1.75688e+06] [213124:1.35658e+06] [1.01e+06:2.99e+06]
-    Computational grid size   : 3 by 5 by 7 (estimated from file)
-    Filename                  : /tmp/RtmpqawYn1/file5e7af3a0823
+    Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
+    Computational grid size   : 3 by 5 by 6 (estimated from file)
+    Filename                  : /tmp/Rtmpf2W27D/file1932362bb49
     Output string             : %i§%P§%t
-    Total imported particles  : 374 (3.6 per grid block)
-    Total V. cells computed   : 373
-    Total container volume    : 1.51632e+18
-    Total V. cell volume      : 1.5155e+18
+    Total imported particles  : 379 (4.2 per grid block)
+    Total V. cells computed   : 379
+    Total container volume    : 2.77155e+18
+    Total V. cell volume      : 2.77156e+18
 
 The output of voro++ is highly customizable, but structurally complex. I
 focussed on the edges of the resulting 3D polygons and wrote a parser
@@ -210,20 +216,20 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <p>
 
-    ## # A tibble: 22,740 x 7
+    ## # A tibble: 24,136 x 7
     ##        x.a    y.a     z.a     x.b    y.b     z.b    id
     ##      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>   <dbl> <dbl>
-    ##  1 1087140 332136 1211500 1190420 336013 1202560    38
-    ##  2 1352610 233681 1240760 1190420 336013 1202560    38
-    ##  3 1233910 377313 1268590 1190420 336013 1202560    38
-    ##  4 1190420 336013 1202560 1087140 332136 1211500    38
-    ##  5 1087140 213124 1268840 1087140 332136 1211500    38
-    ##  6 1087140 384358 1303390 1087140 332136 1211500    38
-    ##  7 1212250 387699 1290170 1309730 225141 1313810    38
-    ##  8 1289680 241638 1324360 1309730 225141 1313810    38
-    ##  9 1322850 213124 1306720 1309730 225141 1313810    38
-    ## 10 1190420 336013 1202560 1352610 233681 1240760    38
-    ## # … with 22,730 more rows
+    ##  1 1352610 233681 1240760 1381950 158990 1274740    38
+    ##  2 1324180 130338 1292500 1381950 158990 1274740    38
+    ##  3 1309730 225141 1313810 1381950 158990 1274740    38
+    ##  4 1201420 392245 1299830 1289680 241638 1324360    38
+    ##  5 1276830 227624 1327040 1289680 241638 1324360    38
+    ##  6 1309730 225141 1313810 1289680 241638 1324360    38
+    ##  7 1190420 336013 1202560  937143 326505 1224480    38
+    ##  8  937143 374007 1308060  937143 326505 1224480    38
+    ##  9  937143 185322 1292500  937143 326505 1224480    38
+    ## 10  937143 326505 1224480 1190420 336013 1202560    38
+    ## # … with 24,126 more rows
 
 </p>
 
@@ -293,24 +299,24 @@ cut_surfaces <- bleiglas::cut_polygons(
 
 <p>
 
-    ## Simple feature collection with 66 features and 2 fields
+    ## Simple feature collection with 74 features and 2 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
-    ## bbox:           xmin: 1087140 ymin: 213124 xmax: 1756880 ymax: 1356580
+    ## bbox:           xmin: 937143 ymin: 63124.2 xmax: 1906880 ymax: 1506580
     ## epsg (SRID):    4088
     ## proj4string:    +proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=6371007 +units=m +no_defs
     ## First 10 features:
     ##     time  id                              x
-    ## 16  2500  16 POLYGON ((1193932 315609.9,...
+    ## 16  2500  16 POLYGON ((1193932 315611.5,...
+    ## 44  2500  44 POLYGON ((1906880 811490.3,...
     ## 51  2500  51 POLYGON ((1146789 374017.9,...
     ## 53  2500  53 POLYGON ((1195186 319422.3,...
     ## 82  2500  82 POLYGON ((1416023 455769.2,...
-    ## 102 2500 102 POLYGON ((1087140 978989.7,...
-    ## 104 2500 104 POLYGON ((1470267 213124, 1...
+    ## 102 2500 102 POLYGON ((1082637 969464, 9...
+    ## 104 2500 104 POLYGON ((1578607 63124.2, ...
     ## 134 2500 134 POLYGON ((1386791 333246.8,...
-    ## 143 2500 143 POLYGON ((1087140 213124, 1...
-    ## 186 2500 186 POLYGON ((1162469 213124, 1...
-    ## 263 2500 263 POLYGON ((1263909 361378.2,...
+    ## 143 2500 143 POLYGON ((937143 63124.2, 9...
+    ## 186 2500 186 POLYGON ((1116403 63124.2, ...
 
 </p>
 
