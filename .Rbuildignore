@@ -4,3 +4,4 @@
 ^CONTRIBUTING\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README_files$

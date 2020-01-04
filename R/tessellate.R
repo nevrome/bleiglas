@@ -17,7 +17,7 @@
 #' @param z_max maximum z-axis coordinate of the box. Default: max(z)
 #' @param output_definition string that describes how the output file of voro++ should be structured.
 #' This is passed to the -c option of the command line interface. All possible customization options 
-#' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i§\%P§\%t"
+#' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"
 #' @param options string with additional options passed to voro++. All options are documented 
 #' \href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"
 #' @param voro_path system path to the voro++ executable. Default: "voro++"
@@ -28,7 +28,7 @@
 tessellate <- function(
   x, 
   x_min = NA, x_max = NA, y_min = NA, y_max = NA, z_min = NA, z_max = NA,
-  output_definition = "%i§%P§%t", options = "-v",
+  output_definition = "%i*%P*%t", options = "-v",
   voro_path = "voro++"
 ) {
 

@@ -12,7 +12,7 @@ tessellate(
   y_max = NA,
   z_min = NA,
   z_max = NA,
-  output_definition = "\%i§\%P§\%t",
+  output_definition = "\%i*\%P*\%t",
   options = "-v",
   voro_path = "voro++"
 )
@@ -40,7 +40,7 @@ tessellate(
 
 \item{output_definition}{string that describes how the output file of voro++ should be structured.
 This is passed to the -c option of the command line interface. All possible customization options 
-are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i§\%P§\%t"}
+are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"}
 
 \item{options}{string with additional options passed to voro++. All options are documented 
 \href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"}
