@@ -27,13 +27,15 @@ bleiglas is an R package that provides some helper functions for 3D tessellation
 
 Let's get some data in three dimension with an arbitrary sample variable. I decided to use @dirkseidenstickers *Archives des datations radiocarbone d'Afrique centrale* dataset for this purpose. It includes radiocarbon datings from Central Africa that combine spatial (x & y) and temporal (z) information.
 
+I selected dates from Cameroon between 1000 and 3000 uncalibrated BP, projected them on a simple cylindrical projection (epsg 4088). Cameroon is so close to the equator, that this projection should even represent distances, angles and areas quite correctly. I rescaled the temporal data with a factor of 1000 to better show the effect of 3D tessellation. You can imagine the samples to be observations in a 3D geo-time-space where one year equals one kilometre.
+
 <details><summary>Click here for details of data preparation</summary>
 <p>
 ```{r, message=FALSE}
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
 
-coords <- data.frame(c14_cmr$lat, c14_cmr$lon) %>% 
+coords <- data.frame(c14_cmr$lon, c14_cmr$lat) %>% 
   sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% 
   sf::st_transform(crs = 4088) %>% 
   sf::st_coordinates()
@@ -49,13 +51,15 @@ c14 <- c14_cmr %>%
 </p>
 </details>
 
-<br>
-
-I selected dates from Cameroon between 1000 and 3000 uncalibrated BP, projected them on a simple cylindrical projection. Cameroon is so close to the equator, that this projection should even represent distances, angles and areas quite correctly. I rescaled the temporal data with a factor of 1000 to better show the effect of 3D tessellation. You can imagine the samples to be observations in a 3D geo-time-space where one year equals one kilometre.
+<details><summary>Data: <b>c14</b></summary>
+<p>
 
 ```{r}
 c14 
 ```
+
+</p>
+</details>
 
 ### 3D tessellation
 
@@ -100,13 +104,21 @@ The output of voro++ is highly customizable, but structurally complex. I focusse
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
+<details><summary>Data: <b>polygon\_edges</b></summary>
+<p>
+
 ```{r, echo=FALSE}
 polygon_edges
 ```
 
-We can plot these polygon edges (black) together with the input sample points (red) in 3D. Before we do that, we can change the scaling of the temporal information again to increase the readability of the plot.
+</p>
+</details>
 
-```{r, webgl=TRUE, fig.width=10, fig.align="center"}
+We can plot these polygon edges (black) together with the input sample points (red) in 3D. 
+<details><summary>Before we do that, we can change the scaling of the temporal information again to increase the readability of the plot.</summary>
+<p>
+
+```{r}
 polygon_edges %<>% dplyr::mutate(
   z.a = z.a / 1000,
   z.b = z.b / 1000
@@ -115,7 +127,12 @@ polygon_edges %<>% dplyr::mutate(
 c14 %<>% dplyr::mutate(
   z = z / 1000
 )
+```
 
+</p>
+</details>
+
+```{r, webgl=TRUE, fig.width=10, fig.align="center"}
 rgl::axes3d()
 rgl::points3d(c14$x, c14$y, c14$z, color = "red")
 rgl::aspect3d(1, 1, 1)
@@ -129,11 +146,30 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 
 ### Cutting the polygons
 
-```{r}
-cut_surfaces <- bleiglas::cut_polygons(polygon_edges, c(2500, 2000, 1500), crs = 4088)
-```
+The static 3D plot is of rather dubious value for understanding the tessellation. I therefore introduce the function `bleiglas::cut_polygons()` that can cut the 3D polygons at different levels of the z-axis. The function assumes x and y represent geographical coordinates. The cuts therefore produce sets of spatial 2D polygons at different values of z -- in our example different points in time. The parameter `cuts` takes a numeric vector of cutting points, `crs` defines the spatial coordinate reference system of x and y to project the resulting 2D polygons correctly.
 
 ```{r}
+cut_surfaces <- bleiglas::cut_polygons(
+  polygon_edges, 
+  cuts = c(2800, 2500, 2200, 1900, 1600, 1300), 
+  crs = 4088
+)
+```
+
+<details><summary>Data: <b>cut\_surfaces</b></summary>
+<p>
+
+```{r, echo=FALSE}
+cut_surfaces
+```
+
+</p>
+</details>
+
+<details><summary>With this data we can plot a matrix of maps that show the cut surfaces.</summary>
+<p>
+
+```{r, fig.width=10, fig.align="center", eval=FALSE}
 cut_surfaces %>%
   ggplot() +
   geom_sf(
@@ -141,12 +177,72 @@ cut_surfaces %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
-  theme_bw() +
+  facet_wrap(~time, nrow = 2) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
   )
 ```
 
+</p>
+</details>
+
+```{r, fig.width=10, fig.align="center", echo=FALSE}
+cut_surfaces %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = time), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time, nrow = 2) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+<details><summary>As all input dates come from Cameroon it might be a sensible decision to cut the polygon surfaces to the outline of this administrative, spatial unit.</summary>
+<p>
+
+```{r, warning=FALSE}
+cameroon_border <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") %>% 
+  dplyr::filter(name_en == "Cameroon") %>% 
+  sf::st_transform(4088)
+
+cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)
+```
+
+```{r, fig.width=10, fig.align="center", eval=FALSE}
+cut_surfaces_cropped %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = time), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time, nrow = 2) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+
+<p>
+</details>
+
+```{r, fig.width=10, fig.align="center", echo=FALSE}
+cut_surfaces_cropped %>%
+  ggplot() +
+  geom_sf(
+    aes(fill = time), 
+    color = "white",
+    lwd = 0.2
+  ) +
+  facet_wrap(~time, nrow = 2) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
 
