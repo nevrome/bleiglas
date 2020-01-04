@@ -1,11 +1,14 @@
 #' read_polygon_edges
 #'
-#' @param x 
+#' Special reader function for polygon edge output of voro++.
 #'
-#' @return
+#' @param x character vector with raw, linewise output of voro++ as produced with 
+#' \link{tessellate} when \code{output_definition = "\%i§\%P§\%t"} 
+#'
+#' @return data.frame with columns for the coordinates x, y and z of the starting and 
+#' end point of each polygon edge
+#' 
 #' @export
-#'
-#' @examples
 read_polygon_edges <- function(x) {
 
   polygon_edges_list <- lapply(

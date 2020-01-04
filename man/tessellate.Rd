@@ -48,7 +48,7 @@ are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default:
 \item{voro_path}{system path to the voro++ executable. Default: "voro++"}
 }
 \value{
-The raw, linewise output of voro++ in a character vector
+raw, linewise output of voro++ in a character vector
 }
 \description{
 Command line utility wrapper for the \href{http://math.lbl.gov/voro++}{voro++} software library.

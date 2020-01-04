@@ -22,7 +22,7 @@
 #' \href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"
 #' @param voro_path system path to the voro++ executable. Default: "voro++"
 #'
-#' @return The raw, linewise output of voro++ in a character vector
+#' @return raw, linewise output of voro++ in a character vector
 #' @export
 tessellate <- function(
   x, 
