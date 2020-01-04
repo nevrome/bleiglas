@@ -4,14 +4,52 @@
 \alias{tessellate}
 \title{tessellate}
 \usage{
-tessellate(x)
+tessellate(
+  x,
+  x_min = NA,
+  x_max = NA,
+  y_min = NA,
+  y_max = NA,
+  z_min = NA,
+  z_max = NA,
+  output_definition = "\%i§\%P§\%t",
+  options = "-v",
+  voro_path = "voro++"
+)
 }
 \arguments{
-\item{x}{}
+\item{x}{data.frame with the input points described by four variables (named columns):
+\itemize{
+  \item id: id number that is passed to the output polygon (integer)
+  \item x: x-axis coordinate (numeric)
+  \item y: y-axis coordinate (numeric)
+  \item z: z-axis coordinate (numeric)
+}}
+
+\item{x_min}{minimum x-axis coordinate of the box. Default: min(x)}
+
+\item{x_max}{maximum x-axis coordinate of the box. Default: max(x)}
+
+\item{y_min}{minimum y-axis coordinate of the box. Default: min(y)}
+
+\item{y_max}{maximum y-axis coordinate of the box. Default: max(y)}
+
+\item{z_min}{minimum z-axis coordinate of the box. Default: min(z)}
+
+\item{z_max}{maximum z-axis coordinate of the box. Default: max(z)}
+
+\item{output_definition}{string that describes how the output file of voro++ should be structured.
+This is passed to the -c option of the command line interface. All possible customization options 
+are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i§\%P§\%t"}
+
+\item{options}{string with additional options passed to voro++. All options are documented 
+\href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"}
+
+\item{voro_path}{system path to the voro++ executable. Default: "voro++"}
 }
 \value{
-
+The raw, linewise output of voro++ in a character vector
 }
 \description{
-tessellate
+Command line utility wrapper for the \href{http://math.lbl.gov/voro++}{voro++} software library.
 }
