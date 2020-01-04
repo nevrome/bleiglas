@@ -10,46 +10,35 @@
 #' @examples
 cut_polygons <- function(x, cuts, crs) {
 
-  ju <- pbapply::pblapply(
+  result_polygons <- lapply(
     cuts, function(z) {
-      lapply(
+      do.call(rbind, purrr::compact(lapply(
         split(x, x$id), function(x, z) {
           
-          intersection_points <- by(
+          intersection_points <- as.data.frame(do.call(rbind, by(
             x, 1:nrow(x), function(y, z) {
               line_plane_intersection(c(y$x.a, y$y.a, y$z.a), c(y$x.b, y$y.b, y$z.b), z)
             }, 
-            z
-          ) %>% 
-            do.call(rbind, .) %>%
-            as.data.frame()
+            z,
+            simplify = FALSE
+          )))
           
           if (nrow(intersection_points) < 3 | any(is.na(intersection_points))) {
             return(NULL)
           }
+
+          intersection_points_spatial <- sf::st_as_sf(intersection_points, coords = c(1, 2), crs = crs) 
+          polygon_2d <- sf::st_as_sf(sf::st_convex_hull(sf::st_union(intersection_points_spatial)))
+          polygon_2d$time <- z
+          polygon_2d$id <- x$id[1]
           
-          hull_polygon <- intersection_points %>%
-            sf::st_as_sf(coords = c(1, 2), crs = crs) %>%
-            #sf::st_union() %>%
-            concaveman::concaveman() %>%
-            #sf::st_convex_hull() %>% plot
-            sf::st_as_sf() %>%
-            dplyr::mutate(
-              time = z
-            )
-          hull_polygon$id <- x$id[1]
-          
-          return(hull_polygon)
+          return(polygon_2d)
         },
         z
-      ) %>% 
-        purrr::compact() %>%
-        mapedit:::combine_list_of_sf(.)
+      )))
     })
   
-  schu <- ju %>% purrr::compact() %>% mapedit:::combine_list_of_sf(.)
-
-  return(schu)
+  return(do.call(rbind, result_polygons))
   
 }
 
