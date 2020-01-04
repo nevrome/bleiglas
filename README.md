@@ -31,7 +31,7 @@ where one year equals one kilometre.
 
 ``` r
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
-  dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR")
+  dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR") 
 ```
 
     ## 
@@ -43,12 +43,21 @@ c14_cmr <- c14bazAAR::get_c14data("adrac") %>%
       |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
 
 ``` r
-coords <- data.frame(c14_cmr$lon, c14_cmr$lat) %>% 
+c14_cmr_unique <- c14_cmr %>%
+  dplyr::mutate(
+    rounded_coords_lat = round(lat, 3),
+    rounded_coords_lon = round(lon, 3)
+  ) %>%
+  dplyr::group_by(rounded_coords_lat, rounded_coords_lon, c14age) %>%
+  dplyr::filter(dplyr::row_number() == 1) %>%
+  dplyr::ungroup()
+
+coords <- data.frame(c14_cmr_unique$lon, c14_cmr_unique$lat) %>% 
   sf::st_as_sf(coords = c(1, 2), crs = 4326) %>% 
   sf::st_transform(crs = 4088) %>% 
   sf::st_coordinates()
 
-c14 <- c14_cmr %>% 
+c14 <- c14_cmr_unique %>% 
   dplyr::transmute(
     id = 1:nrow(.),
     x = coords[,1], 
@@ -72,10 +81,7 @@ c14 <- c14_cmr %>%
 c14 
 ```
 
-    ##  Radiocarbon date list
-    ##  dates       405 
-    ## 
-    ## # A tibble: 405 x 5
+    ## # A tibble: 380 x 5
     ##       id        x       y       z material
     ##    <int>    <dbl>   <dbl>   <dbl> <chr>   
     ##  1     1 1284303. 450331. 1920000 <NA>    
@@ -88,7 +94,7 @@ c14
     ##  8     8 1278776. 434150. 1960000 <NA>    
     ##  9     9 1278776. 434150. 2820000 <NA>    
     ## 10    10 1278776. 434150. 2110000 <NA>    
-    ## # … with 395 more rows
+    ## # … with 370 more rows
 
 </p>
 
@@ -179,14 +185,14 @@ raw_voro_output <- bleiglas::tessellate(c14[, c("id", "x", "y", "z")])
 
 voro++ prints some config info on the command line:
 
-    Container geometry        : [213124:1.35658e+06] [1.08714e+06:1.75688e+06] [1.01e+06:2.99e+06]
-    Computational grid size   : 5 by 3 by 8 (estimated from file)
-    Filename                  : /tmp/Rtmpcqs4Vq/file...
+    Container geometry        : [1.08714e+06:1.75688e+06] [213124:1.35658e+06] [1.01e+06:2.99e+06]
+    Computational grid size   : 3 by 5 by 7 (estimated from file)
+    Filename                  : /tmp/RtmpqawYn1/file5e7af3a0823
     Output string             : %i§%P§%t
-    Total imported particles  : 399 (3.3 per grid block)
-    Total V. cells computed   : 353
+    Total imported particles  : 374 (3.6 per grid block)
+    Total V. cells computed   : 373
     Total container volume    : 1.51632e+18
-    Total V. cell volume      : 1.40304e+18
+    Total V. cell volume      : 1.5155e+18
 
 The output of voro++ is highly customizable, but structurally complex. I
 focussed on the edges of the resulting 3D polygons and wrote a parser
@@ -204,20 +210,20 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <p>
 
-    ## # A tibble: 22,012 x 7
+    ## # A tibble: 22,740 x 7
     ##        x.a    y.a     z.a     x.b    y.b     z.b    id
     ##      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>   <dbl> <dbl>
-    ##  1 1334410 213124 1010000 1087140 213124 1010000    43
-    ##  2 1087140 335336 1010000 1087140 213124 1010000    43
-    ##  3 1087140 213124 1121520 1087140 213124 1010000    43
-    ##  4 1087140 213124 1010000 1334410 213124 1010000    43
-    ##  5 1213480 327271 1010000 1334410 213124 1010000    43
-    ##  6 1345420 213124 1045070 1334410 213124 1010000    43
-    ##  7 1087140 213124 1121520 1352900 213124 1183750    43
-    ##  8 1345420 213124 1045070 1352900 213124 1183750    43
-    ##  9 1352160 215243 1183610 1352900 213124 1183750    43
-    ## 10 1087140 213124 1010000 1087140 335336 1010000    43
-    ## # … with 22,002 more rows
+    ##  1 1087140 332136 1211500 1190420 336013 1202560    38
+    ##  2 1352610 233681 1240760 1190420 336013 1202560    38
+    ##  3 1233910 377313 1268590 1190420 336013 1202560    38
+    ##  4 1190420 336013 1202560 1087140 332136 1211500    38
+    ##  5 1087140 213124 1268840 1087140 332136 1211500    38
+    ##  6 1087140 384358 1303390 1087140 332136 1211500    38
+    ##  7 1212250 387699 1290170 1309730 225141 1313810    38
+    ##  8 1289680 241638 1324360 1309730 225141 1313810    38
+    ##  9 1322850 213124 1306720 1309730 225141 1313810    38
+    ## 10 1190420 336013 1202560 1352610 233681 1240760    38
+    ## # … with 22,730 more rows
 
 </p>
 
@@ -287,24 +293,24 @@ cut_surfaces <- bleiglas::cut_polygons(
 
 <p>
 
-    ## Simple feature collection with 63 features and 2 fields
+    ## Simple feature collection with 66 features and 2 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
     ## bbox:           xmin: 1087140 ymin: 213124 xmax: 1756880 ymax: 1356580
     ## epsg (SRID):    4088
     ## proj4string:    +proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=6371007 +units=m +no_defs
     ## First 10 features:
-    ##    time  id                       geometry
-    ## 1  2500  16 POLYGON ((1193932 315609.9,...
-    ## 2  2500  54 POLYGON ((1146789 374017.9,...
-    ## 3  2500  56 POLYGON ((1146789 374017.9,...
-    ## 4  2500  85 POLYGON ((1416023 455769.2,...
-    ## 5  2500 106 POLYGON ((1157246 1126940, ...
-    ## 6  2500 108 POLYGON ((1389740 324622.2,...
-    ## 7  2500 141 POLYGON ((1386791 333246.8,...
-    ## 8  2500 151 POLYGON ((1162469 213124, 1...
-    ## 9  2500 195 POLYGON ((1381969 213124, 1...
-    ## 10 2500 279 POLYGON ((1167769 487267.6,...
+    ##     time  id                              x
+    ## 16  2500  16 POLYGON ((1193932 315609.9,...
+    ## 51  2500  51 POLYGON ((1146789 374017.9,...
+    ## 53  2500  53 POLYGON ((1195186 319422.3,...
+    ## 82  2500  82 POLYGON ((1416023 455769.2,...
+    ## 102 2500 102 POLYGON ((1087140 978989.7,...
+    ## 104 2500 104 POLYGON ((1470267 213124, 1...
+    ## 134 2500 134 POLYGON ((1386791 333246.8,...
+    ## 143 2500 143 POLYGON ((1087140 213124, 1...
+    ## 186 2500 186 POLYGON ((1162469 213124, 1...
+    ## 263 2500 263 POLYGON ((1263909 361378.2,...
 
 </p>
 
@@ -325,6 +331,7 @@ cut_surfaces %>%
     color = "white",
     lwd = 0.2
   ) +
+  geom_sf_text(aes(label = id)) +
   facet_wrap(~time) +
   theme(
     axis.text = element_blank(),
