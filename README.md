@@ -4,8 +4,9 @@
 # bleiglas
 
 bleiglas is an R package that provides some helper functions for 3D
-tessellation and subsequent cutting of the resulting polygons along one
-dimension for plotting. The workflow is described below:
+tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent
+horizontal cutting of the resulting polygons for plotting. The general
+workflow is described below.
 
 ### Get some data
 
@@ -178,7 +179,7 @@ also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/)
 software library does exactly this for 3D space.
 `bleiglas::tessellate()` is a minimal wrapper function that calls the
 voro++ command line interface for datasets like the one introduced
-above.
+above. Therefore you have to install voro++ to use it.
 
 ``` r
 raw_voro_output <- bleiglas::tessellate(
