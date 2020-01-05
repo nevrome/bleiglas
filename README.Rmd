@@ -23,6 +23,17 @@ view_matrix <- structure(c(0.586383819580078, 0.356217533349991, -0.727502763271
 
 bleiglas is an R package that provides some helper functions for 3D tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent horizontal cutting of the resulting polygons for 2D plotting. The general workflow is described below.
 
+## Installation 
+
+You can install bleiglas from github
+
+```{r, eval=FALSE}
+if(!require('devtools')) install.packages('devtools')
+devtools::install_github("ropensci/c14bazAAR")
+```
+
+For the main function tessellate you also have to [install the voro++ software](http://math.lbl.gov/voro++/download/). FOr Linux users: The package is already available in all major software repositories.
+
 ### Get some data
 
 I decided to use Dirk Seidenstickers [*Archives des datations radiocarbone d'Afrique centrale*](https://github.com/dirkseidensticker/aDRAC) dataset for this purpose. It includes radiocarbon datings from Central Africa that combine spatial (x & y) and temporal (z) position with some meta information.
@@ -108,7 +119,7 @@ raw_voro_output <- bleiglas::tessellate(
 )
 ```
 
-`bleiglas::tessellate(c14[, c("id", "x", "y", "z")])` would be sufficient, but I decided to increased the size of the tessellation box by 150 kilometres to each (spatial) direction to cover the area of Cameroon. 
+`bleiglas::tessellate(c14[, c("id", "x", "y", "z")])` would be sufficient, but I decided to increase the size of the tessellation box by 150 kilometres to each (spatial) direction to cover the area of Cameroon. 
 
 The output of voro++ is highly customizable, but structurally complex. With `-v` it first of all prints some config info on the command line. 
 
@@ -246,7 +257,7 @@ cut_surfaces %>%
 
 ```{r, warning=FALSE}
 cameroon_border <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") %>% 
-  dplyr::filter(name_en == "Cameroon") %>% 
+  dplyr::filter(name == "Cameroon") %>% 
   sf::st_transform(4088)
 
 cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)

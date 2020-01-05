@@ -8,6 +8,19 @@ tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent
 horizontal cutting of the resulting polygons for 2D plotting. The
 general workflow is described below.
 
+## Installation
+
+You can install bleiglas from github
+
+``` r
+if(!require('devtools')) install.packages('devtools')
+devtools::install_github("ropensci/c14bazAAR")
+```
+
+For the main function tessellate you also have to [install the voro++
+software](http://math.lbl.gov/voro++/download/). FOr Linux users: The
+package is already available in all major software repositories.
+
 ### Get some data
 
 I decided to use Dirk Seidenstickers [*Archives des datations
@@ -40,13 +53,7 @@ c14_cmr <- c14bazAAR::get_c14data("adrac") %>%
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR") 
 ```
 
-    ## 
-      |                                                        
-      |                                                  |   0%
-      |                                                        
-      |++++++++++++++++++++++++++++++++++++++++++++++++++|  99%
-      |                                                        
-      |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+    ##   |                                                          |                                                  |   0%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++|  99%  |                                                          |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
 
 ``` r
 # remove doubles
@@ -120,7 +127,8 @@ quiet some relevance for geostatistical analysis like e.g. spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample points.
+one of a set of sample
+points.
 
 <table style="width:100%">
 
@@ -200,12 +208,13 @@ raw_voro_output <- bleiglas::tessellate(
 ```
 
 `bleiglas::tessellate(c14[, c("id", "x", "y", "z")])` would be
-sufficient, but I decided to increased the size of the tessellation box
+sufficient, but I decided to increase the size of the tessellation box
 by 150 kilometres to each (spatial) direction to cover the area of
 Cameroon.
 
 The output of voro++ is highly customizable, but structurally complex.
-With `-v` it first of all prints some config info on the command line.
+With `-v` it first of all prints some config info on the command
+    line.
 
     Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -289,7 +298,7 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 ### Cutting the polygons
 
@@ -366,19 +375,20 @@ cut_surfaces %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 <details>
 
 <summary>As all input dates come from Cameroon it might be a sensible
 decision to cut the polygon surfaces to the outline of this
-administrative unit.</summary>
+administrative
+unit.</summary>
 
 <p>
 
 ``` r
 cameroon_border <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") %>% 
-  dplyr::filter(name_en == "Cameroon") %>% 
+  dplyr::filter(name == "Cameroon") %>% 
   sf::st_transform(4088)
 
 cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)
@@ -403,7 +413,7 @@ cut_surfaces_cropped %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 <details>
 
@@ -438,4 +448,4 @@ cut_surfaces_material %>%
 
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
