@@ -29,7 +29,7 @@ You can install bleiglas from github
 
 ```{r, eval=FALSE}
 if(!require('devtools')) install.packages('devtools')
-devtools::install_github("ropensci/c14bazAAR")
+devtools::install_github("nevrome/bleiglas")
 ```
 
 For the main function tessellate you also have to [install the voro++ software](http://math.lbl.gov/voro++/download/). FOr Linux users: The package is already available in all major software repositories.
