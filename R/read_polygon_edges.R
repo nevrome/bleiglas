@@ -11,7 +11,14 @@
 #' @export
 read_polygon_edges <- function(x) {
 
-  polygon_edges_list <- lapply(
+  # decide if lapply or pblapply should be used
+  if (length(x) <= 500) {
+    map_fun <- lapply
+  } else {
+    map_fun <- pbapply::pblapply
+  }
+  
+  polygon_edges_list <- map_fun(
     x,
     function(x) {
       

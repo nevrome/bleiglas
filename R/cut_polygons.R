@@ -12,7 +12,14 @@
 #' @export
 cut_polygons <- function(x, cuts, crs) {
 
-  result_polygons <- lapply(
+  # decide if lapply or pblapply should be used
+  if (nrow(x) <= 25000) {
+    map_fun <- lapply
+  } else {
+    map_fun <- pbapply::pblapply
+  }
+  
+  result_polygons <- map_fun(
     cuts, function(z) {
       do.call(rbind, lapply(
         split(x, x$id), function(x, z) {

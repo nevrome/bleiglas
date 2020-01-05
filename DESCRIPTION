@@ -11,6 +11,7 @@ Authors@R:
 License: MIT + file LICENSE
 Imports: 
     data.table,
+    pbapply,
     sf,
     tibble
 Encoding: UTF-8
