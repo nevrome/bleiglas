@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{line_segment_plane_intersection}
 \alias{line_segment_plane_intersection}
-\title{Find the intersection points of a line and a plane}
+\title{Find the intersection points of a line segment and a plane}
 \usage{
 line_segment_plane_intersection(point_a, point_b, plane_point, plane_normal)
 }
@@ -19,7 +19,7 @@ line_segment_plane_intersection(point_a, point_b, plane_point, plane_normal)
 ...
 }
 \description{
-\code{line_plane_intersection} ...
+\code{line_segment_plane_intersection} ...
 
 Based on this solution:
 \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}

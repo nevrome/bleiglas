@@ -33,10 +33,10 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
   return rayPoint - rayVector * prod3;
 }
 
-//' Find the intersection points of a line and a plane
+//' Find the intersection points of a line segment and a plane
 //'
 //' @description
-//' \code{line_plane_intersection} ...
+//' \code{line_segment_plane_intersection} ...
 //' 
 //' Based on this solution:
 //' \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}
@@ -62,8 +62,6 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
 
   Vector3D a = Vector3D(point_a[0], point_a[1], point_a[2]);
   Vector3D b = Vector3D(point_b[0], point_b[1], point_b[2]);
-
-  Vector3D rv = b - a;
   Vector3D pp = Vector3D(plane_point[0], plane_point[1], plane_point[2]);
   Vector3D pn = Vector3D(plane_normal[0], plane_normal[1], plane_normal[2]);
   
@@ -81,24 +79,23 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
     return point_a_and_point_b;
   }
   
-  // else calculate intersection point of line and plane
-  Vector3D point_c = intersectPoint(rv, a, pn, pp);
+  // else calculate intersection point of (unlimited) line and plane
+  Vector3D rv = b - a;
+  Vector3D c = intersectPoint(rv, a, pn, pp);
   
   // check if intersection point exists (e.g. line parallel to plane)
-  if (isinf(point_c.x) || isnan(point_c.x)) {
+  if (isinf(c.x) || isnan(c.x)) {
     return R_NilValue;
   }
   
   // ignore intersection point if the line segment is not cutting the plane
-  double AB = pyth3(point_a[0], point_a[1], point_a[2], point_b[0], point_b[1], point_b[2]);
-  double AC = pyth3(point_a[0], point_a[1], point_a[2], point_c.x, point_c.y, point_c.z);
-  double BC = pyth3(point_b[0], point_b[1], point_b[2], point_c.x, point_c.y, point_c.z);
+  double AB = pyth3(a.x, a.y, a.z, b.x, b.y, b.z);
 
-  if (AB < AC || AB < BC) {
+  if (AB < pyth3(a.x, a.y, a.z, c.x, c.y, c.z) || AB < pyth3(b.x, b.y, b.z, c.x, c.y, c.z)) {
     return R_NilValue;
   } else {
     // else return the intersection point
-    NumericVector point_c_numvec { point_c.x, point_c.y, point_c.z };
+    NumericVector point_c_numvec { c.x, c.y, c.z };
     return point_c_numvec;
   }
 }
