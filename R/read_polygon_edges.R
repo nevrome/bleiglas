@@ -18,6 +18,7 @@ read_polygon_edges <- function(x) {
     map_fun <- pbapply::pblapply
   }
   
+  # apply read for each polygon
   polygon_edges_list <- map_fun(
     x,
     function(x) {
@@ -35,17 +36,9 @@ read_polygon_edges <- function(x) {
       
       # parse polygon edge lines
       faces_one_poly <- lapply(strsplit(gsub("\\(|\\)", "", unlist(strsplit(string_elems[3], " "))), ","), as.numeric)
-      one_poly_many_connections <- data.table::rbindlist(
-        lapply(
-          faces_one_poly,
-          function(y) {
-            data.frame(
-              start = y,
-              stop = y[c(2:length(y), 1)]
-            )
-          }
-        )
-      )
+      one_poly_many_connections_start <- unlist(faces_one_poly)
+      one_poly_many_connections_stop <- unlist(lapply(faces_one_poly, function(y) { y[c(2:length(y), 1)] }))
+      one_poly_many_connections <- data.table::data.table(start = one_poly_many_connections_start, stop = one_poly_many_connections_stop)
       
       connections.a <- data.table::merge.data.table(
         one_poly_many_vertices,
