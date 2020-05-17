@@ -41,10 +41,10 @@ read_polygon_edges <- function(x) {
       one_poly_many_connections <- data.table::data.table(start = one_poly_many_connections_start, stop = one_poly_many_connections_stop)
       
       connections.a <- data.table::merge.data.table(
-        one_poly_many_vertices,
         one_poly_many_connections,
-        by.x = "in_poly_id",
-        by.y = "start"
+        one_poly_many_vertices,
+        by.x = "start",
+        by.y = "in_poly_id"
       )
       
       connections <- data.table::merge.data.table(
