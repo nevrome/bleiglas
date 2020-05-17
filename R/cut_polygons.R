@@ -26,7 +26,12 @@ cut_polygons <- function(x, cuts) {
           # for future Clemens: that already is a very fast combination
           intersection_points <- do.call(rbind, by(
             x, 1:nrow(x), function(y, z) {
-              line_plane_intersection(c(y$x.a, y$y.a, y$z.a), c(y$x.b, y$y.b, y$z.b), z)
+              line_segment_plane_intersection(
+                c(y$x.a, y$y.a, y$z.a), 
+                c(y$x.b, y$y.b, y$z.b), 
+                c(0, 0, z),
+                c(0, 0, 1)
+              )
             }, 
             z
           ))
@@ -46,35 +51,9 @@ cut_polygons <- function(x, cuts) {
         },
         z
       )
-      data.table::rbindlist(polygon_2D_dfs)
+      data.table::rbindlist(polygon_2D_dfs_list)
     })
   
   return(tibble::as_tibble(data.table::rbindlist(polygon_2D_dfs_per_cut_list)))
   
-}
-
-line_plane_intersection_old <- function(point_a, point_b, cutting_height) {
-  # check if the line connecting the two points acutally cuts the plane
-  if ((point_a[3] > cutting_height) & (point_b[3] > cutting_height) | 
-      (point_a[3] < cutting_height) & (point_b[3] < cutting_height)) {
-    return(NULL)
-  }
-  # check if the line is on the plane
-  if ((point_a[3] == cutting_height) & (point_b[3] == cutting_height)) {
-    # in this case both end points have to be returned
-    return(matrix(c(point_a, point_b), 2, 3, byrow = T))
-  }
-  # prepare base point, vector and plane
-  ray_point <- point_a
-  ray_vec <- point_a - point_b
-  plane_normal <- c(0, 0, 1)
-  plane_point <- c(0, 0, cutting_height)
-  # calculate point of intersection
-  pdiff <- ray_point - plane_point
-  prod1 <- pdiff %*% plane_normal
-  prod2 <- ray_vec %*% plane_normal
-  prod3 <- prod1 / prod2
-  point <- ray_point - ray_vec * as.numeric(prod3)
-  # return point
-  return(matrix(point, ncol = 3))
 }
