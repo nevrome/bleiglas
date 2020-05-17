@@ -21,30 +21,36 @@ cut_polygons <- function(x, cuts, crs) {
   
   result_polygons <- map_fun(
     cuts, function(z) {
-      do.call(rbind, lapply(
+      polygon_2D <- lapply(
         split(x, x$id), function(x, z) {
           
-          intersection_points <- as.data.frame(do.call(rbind, by(
+          # for future Clemens: that already is a very fast combination
+          intersection_points <- do.call(rbind, by(
             x, 1:nrow(x), function(y, z) {
               line_plane_intersection(c(y$x.a, y$y.a, y$z.a), c(y$x.b, y$y.b, y$z.b), z)
             }, 
-            z,
-            simplify = FALSE
-          )))
-          
-          if (nrow(intersection_points) < 3 | any(is.na(intersection_points))) {
+            z
+          ))
+
+          if (is.null(intersection_points) || nrow(intersection_points) < 3 || any(is.na(intersection_points))) {
             return(NULL)
           }
+          
+          convex_hull_order <- grDevices::chull(intersection_points[,1], intersection_points[,2])
 
-          intersection_points_spatial <- sf::st_as_sf(intersection_points, coords = c(1, 2), crs = crs) 
-          polygon_2d <- sf::st_as_sf(sf::st_convex_hull(sf::st_union(intersection_points_spatial)))
+          polygon_2d_raw <- sf::st_polygon(list(intersection_points[c(convex_hull_order, convex_hull_order[1]),]))
+          
+          polygon_2d_sfc <- sf::st_sfc(polygon_2d_raw)
+          polygon_2d <- sf::st_as_sf(polygon_2d_sfc)
           polygon_2d$time <- z
           polygon_2d$id <- x$id[1]
+          sf::st_crs(polygon_2d) <- crs
           
           return(polygon_2d)
         },
         z
-      ))
+      )
+      do.call(rbind, polygon_2D)
     })
   
   return(do.call(rbind, result_polygons))
@@ -74,5 +80,5 @@ line_plane_intersection <- function(point_a, point_b, cutting_height) {
   prod3 <- prod1 / prod2
   point <- ray_point - ray_vec * as.numeric(prod3)
   # return point
-  return(point)
+  return(matrix(point, ncol = 3))
 }
