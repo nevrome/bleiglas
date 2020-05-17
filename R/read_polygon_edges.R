@@ -17,7 +17,7 @@ read_polygon_edges <- function(x) {
   } else {
     map_fun <- pbapply::pblapply
   }
-  
+
   # apply read for each polygon
   polygon_edges_list <- map_fun(
     x,
@@ -40,13 +40,13 @@ read_polygon_edges <- function(x) {
       one_poly_many_connections_stop <- unlist(lapply(faces_one_poly, function(y) { y[c(2:length(y), 1)] }))
       one_poly_many_connections <- data.table::data.table(start = one_poly_many_connections_start, stop = one_poly_many_connections_stop)
       
+      # merge vertex and edge information
       connections.a <- data.table::merge.data.table(
         one_poly_many_connections,
         one_poly_many_vertices,
         by.x = "start",
         by.y = "in_poly_id"
       )
-      
       connections <- data.table::merge.data.table(
           connections.a,
           one_poly_many_vertices,
