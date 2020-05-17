@@ -2,6 +2,7 @@
 
 export(.onUnload)
 export(cut_polygons)
+export(line_segment_plane_intersection)
 export(pnp)
 export(pnpmulti)
 export(read_polygon_edges)

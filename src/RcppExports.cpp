@@ -5,6 +5,20 @@
 
 using namespace Rcpp;
 
+// line_segment_plane_intersection
+SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal);
+RcppExport SEXP _bleiglas_line_segment_plane_intersection(SEXP point_aSEXP, SEXP point_bSEXP, SEXP plane_pointSEXP, SEXP plane_normalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type point_a(point_aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type point_b(point_bSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type plane_point(plane_pointSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type plane_normal(plane_normalSEXP);
+    rcpp_result_gen = Rcpp::wrap(line_segment_plane_intersection(point_a, point_b, plane_point, plane_normal));
+    return rcpp_result_gen;
+END_RCPP
+}
 // pnp
 bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy);
 RcppExport SEXP _bleiglas_pnp(SEXP vertxSEXP, SEXP vertySEXP, SEXP testxSEXP, SEXP testySEXP) {

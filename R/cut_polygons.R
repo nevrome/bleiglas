@@ -53,7 +53,7 @@ cut_polygons <- function(x, cuts) {
   
 }
 
-line_plane_intersection <- function(point_a, point_b, cutting_height) {
+line_plane_intersection_old <- function(point_a, point_b, cutting_height) {
   # check if the line connecting the two points acutally cuts the plane
   if ((point_a[3] > cutting_height) & (point_b[3] > cutting_height) | 
       (point_a[3] < cutting_height) & (point_b[3] < cutting_height)) {
