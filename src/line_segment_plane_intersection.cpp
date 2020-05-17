@@ -60,39 +60,39 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 // [[Rcpp::export]]
 SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal) {
 
-  Vector3D rp = Vector3D(point_a[0], point_a[1], point_a[2]);  
-  Vector3D rv = Vector3D(point_b[0] - point_a[0], point_b[1] - point_a[1], point_b[2] - point_a[2]);
+  Vector3D a = Vector3D(point_a[0], point_a[1], point_a[2]);
+  Vector3D b = Vector3D(point_b[0], point_b[1], point_b[2]);
+
+  Vector3D rv = b - a;
   Vector3D pp = Vector3D(plane_point[0], plane_point[1], plane_point[2]);
   Vector3D pn = Vector3D(plane_normal[0], plane_normal[1], plane_normal[2]);
   
   // check if point_a and point_b is on the plane
-  Vector3D pp_to_pa = Vector3D(pp.x - point_a[0], pp.y - point_a[1], pp.z - point_a[2]);
-  Vector3D pp_to_pb = Vector3D(pp.x - point_b[0], pp.y - point_b[1], pp.z - point_b[2]);
+  Vector3D pp_to_pa = pp - a;
+  Vector3D pp_to_pb = pp - b;
   
   double sprod_pn_pa = pn.dot(pp_to_pa);
   double sprod_pn_pb = pn.dot(pp_to_pb);
   
   if (sprod_pn_pa == 0 && sprod_pn_pb == 0) {
-    Rcout << 0 << "\n";
-    return R_NilValue;
+    // return numeric matrix with the input points in this case 
+    NumericVector point_a_and_point_b { a.x, b.x, a.y, b.y, a.z, b.z };
+    point_a_and_point_b.attr("dim") = Dimension(2, 3);
+    return point_a_and_point_b;
   }
   
-  Vector3D point_c = intersectPoint(rv, rp, pn, pp);
+  // else calculate intersection point of line and plane
+  Vector3D point_c = intersectPoint(rv, a, pn, pp);
   
-  // dist A to B
+  // ignore intersection point if the line segment is not cutting the plane
   double AB = pyth3(point_a[0], point_a[1], point_a[2], point_b[0], point_b[1], point_b[2]);
-  // dist A to C
   double AC = pyth3(point_a[0], point_a[1], point_a[2], point_c.x, point_c.y, point_c.z);
-  // dist B to C
   double BC = pyth3(point_b[0], point_b[1], point_b[2], point_c.x, point_c.y, point_c.z);
 
-  Rcout << AB << "\n";
-  Rcout << AC << "\n";
-  Rcout << BC << "\n";
-  
   if (AB < AC || AB < BC) {
     return R_NilValue;
   } else {
+    // else return the intersection point
     NumericVector point_c_numvec {point_c.x, point_c.y, point_c.z};
     return point_c_numvec;
   }

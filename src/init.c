@@ -11,13 +11,9 @@
 
 /* .Call calls */
 extern SEXP _bleiglas_line_segment_plane_intersection(SEXP, SEXP, SEXP, SEXP);
-extern SEXP _bleiglas_pnp(SEXP, SEXP, SEXP, SEXP);
-extern SEXP _bleiglas_pnpmulti(SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"_bleiglas_line_segment_plane_intersection", (DL_FUNC) &_bleiglas_line_segment_plane_intersection, 4},
-  {"_bleiglas_pnp",                             (DL_FUNC) &_bleiglas_pnp,                             4},
-  {"_bleiglas_pnpmulti",                        (DL_FUNC) &_bleiglas_pnpmulti,                        4},
   {NULL, NULL, 0}
 };
 

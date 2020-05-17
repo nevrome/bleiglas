@@ -19,31 +19,3 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// pnp
-bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy);
-RcppExport SEXP _bleiglas_pnp(SEXP vertxSEXP, SEXP vertySEXP, SEXP testxSEXP, SEXP testySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type vertx(vertxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type verty(vertySEXP);
-    Rcpp::traits::input_parameter< float >::type testx(testxSEXP);
-    Rcpp::traits::input_parameter< float >::type testy(testySEXP);
-    rcpp_result_gen = Rcpp::wrap(pnp(vertx, verty, testx, testy));
-    return rcpp_result_gen;
-END_RCPP
-}
-// pnpmulti
-LogicalVector pnpmulti(NumericVector vertx, NumericVector verty, NumericVector testx, NumericVector testy);
-RcppExport SEXP _bleiglas_pnpmulti(SEXP vertxSEXP, SEXP vertySEXP, SEXP testxSEXP, SEXP testySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type vertx(vertxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type verty(vertySEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type testx(testxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type testy(testySEXP);
-    rcpp_result_gen = Rcpp::wrap(pnpmulti(vertx, verty, testx, testy));
-    return rcpp_result_gen;
-END_RCPP
-}
