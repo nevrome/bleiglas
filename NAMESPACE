@@ -2,6 +2,7 @@
 
 export(.onUnload)
 export(cut_polygons)
+export(cut_polygons_to_sf)
 export(line_segment_plane_intersection)
 export(read_polygon_edges)
 export(tessellate)

@@ -54,6 +54,6 @@ cut_polygons <- function(x, cuts) {
       data.table::rbindlist(polygon_2D_dfs_list)
     })
   
-  return(tibble::as_tibble(data.table::rbindlist(polygon_2D_dfs_per_cut_list)))
+  return(data.table::rbindlist(polygon_2D_dfs_per_cut_list))
   
 }
