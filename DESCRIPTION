@@ -10,6 +10,7 @@ Authors@R:
            comment = c(ORCID = "0000-0003-3448-5715"))
 License: MIT + file LICENSE
 Imports: 
+    Rcpp,
     data.table,
     pbapply,
     sf,
@@ -19,3 +20,4 @@ LazyData: true
 RoxygenNote: 7.1.0
 SystemRequirements:
     voro++
+LinkingTo: Rcpp
