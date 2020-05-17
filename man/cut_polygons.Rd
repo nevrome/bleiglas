@@ -4,15 +4,13 @@
 \alias{cut_polygons}
 \title{cut_polygons}
 \usage{
-cut_polygons(x, cuts, crs)
+cut_polygons(x, cuts)
 }
 \arguments{
 \item{x}{data.frame with output of voro++ as produced with 
 \link{tessellate} and then \link{read_polygon_edges}}
 
 \item{cuts}{numeric vector with z-axis coordinates where cuts should be applied}
-
-\item{crs}{coordinate reference system of the resulting 2D polygons}
 }
 \value{
 simple features object with 2D polygons that result from the cutting operation

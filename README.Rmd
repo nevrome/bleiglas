@@ -200,8 +200,8 @@ The static 3D plot is of rather dubious value: Very hard to read. I therefore wr
 ```{r}
 cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges, 
-  cuts = c(2500, 2000, 1500), 
-  crs = 4088
+  cuts = c(2500, 2000, 1500)#, 
+  #crs = 4088
 )
 ```
 

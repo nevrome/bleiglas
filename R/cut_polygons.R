@@ -5,12 +5,11 @@
 #' @param x data.frame with output of voro++ as produced with 
 #' \link{tessellate} and then \link{read_polygon_edges}
 #' @param cuts numeric vector with z-axis coordinates where cuts should be applied
-#' @param crs coordinate reference system of the resulting 2D polygons
 #'
 #' @return simple features object with 2D polygons that result from the cutting operation
 #' 
 #' @export
-cut_polygons <- function(x, cuts, crs) {
+cut_polygons <- function(x, cuts) {
 
   # decide if lapply or pblapply should be used
   if (nrow(x) <= 25000) {
@@ -19,9 +18,9 @@ cut_polygons <- function(x, cuts, crs) {
     map_fun <- pbapply::pblapply
   }
   
-  result_polygons <- map_fun(
+  polygon_2D_dfs_per_cut_list <- map_fun(
     cuts, function(z) {
-      polygon_2D <- lapply(
+      polygon_2D_dfs_list <- lapply(
         split(x, x$id), function(x, z) {
           
           # for future Clemens: that already is a very fast combination
@@ -38,22 +37,19 @@ cut_polygons <- function(x, cuts, crs) {
           
           convex_hull_order <- grDevices::chull(intersection_points[,1], intersection_points[,2])
 
-          polygon_2d_raw <- sf::st_polygon(list(intersection_points[c(convex_hull_order, convex_hull_order[1]),]))
+          polygon_2d_df <- as.data.frame(intersection_points[c(convex_hull_order, convex_hull_order[1]),])
+          colnames(polygon_2d_df) <- c("x", "y", "z")
+          polygon_2d_df$id <- x$id[1]
+          polygon_2d_df$time <- z
           
-          polygon_2d_sfc <- sf::st_sfc(polygon_2d_raw)
-          polygon_2d <- sf::st_as_sf(polygon_2d_sfc)
-          polygon_2d$time <- z
-          polygon_2d$id <- x$id[1]
-          sf::st_crs(polygon_2d) <- crs
-          
-          return(polygon_2d)
+          return(polygon_2d_df)
         },
         z
       )
-      do.call(rbind, polygon_2D)
+      data.table::rbindlist(polygon_2D_dfs)
     })
   
-  return(do.call(rbind, result_polygons))
+  return(tibble::as_tibble(data.table::rbindlist(polygon_2D_dfs_per_cut_list)))
   
 }
 
