@@ -84,6 +84,11 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
   // else calculate intersection point of line and plane
   Vector3D point_c = intersectPoint(rv, a, pn, pp);
   
+  // check if intersection point exists (e.g. line parallel to plane)
+  if (isinf(point_c.x) || isnan(point_c.x)) {
+    return R_NilValue;
+  }
+  
   // ignore intersection point if the line segment is not cutting the plane
   double AB = pyth3(point_a[0], point_a[1], point_a[2], point_b[0], point_b[1], point_b[2]);
   double AC = pyth3(point_a[0], point_a[1], point_a[2], point_c.x, point_c.y, point_c.z);
@@ -93,7 +98,7 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
     return R_NilValue;
   } else {
     // else return the intersection point
-    NumericVector point_c_numvec {point_c.x, point_c.y, point_c.z};
+    NumericVector point_c_numvec { point_c.x, point_c.y, point_c.z };
     return point_c_numvec;
   }
 }
