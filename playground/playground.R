@@ -57,10 +57,10 @@ pred_grid <- expand.grid(
   z = seq(min(c(polygon_edges$z.a, polygon_edges$z.b)) + 1, max(c(polygon_edges$z.a, polygon_edges$z.b)) - 1, by = 200)
 )
 
-hu <- bleiglas::predict_grid(polygon_edges, pred_grid)
+pred_grid$polygon_id <- bleiglas::attribute_grid_points(polygon_edges, pred_grid)
 
-spu <- hu %>% data.table::merge.data.table(
-  c14 %>% dplyr::select(id, material), by = "id"
+spu <- pred_grid %>% data.table::merge.data.table(
+  c14 %>% dplyr::select(id, material), by.x = "polygon_id", by.y = "id"
 )
 
 ggplot() +
