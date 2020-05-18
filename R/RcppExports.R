@@ -2,32 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Find the intersection points of a line segment and a plane
-#'
-#' Based on this solution:
-#' \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}
-#'
-#' @param point_a numeric vector. Coordinates of point A
-#' @param point_b numeric vector. Coordinates of point B
-#' @param plane_point numeric vector. Coordinates of plane point
-#' @param plane_normal numeric vector. Plane normal vector
-#'
-#' @examples
-#' line_segment_plane_intersection(
-#'   c(2, 2, 0),
-#'   c(2, 2, 5),
-#'   c(0, 0, 10),
-#'   c(0, 0, 1)
-#' ) 
-#' 
-#' @noRd 
+#' @noRd
 line_segment_plane_intersection <- function(point_a, point_b, plane_point, plane_normal) {
     .Call('_bleiglas_line_segment_plane_intersection', PACKAGE = 'bleiglas', point_a, point_b, plane_point, plane_normal)
 }
 
-#' @param points numeric matrix. Coordinates of points A and B in six columns
-#' 
-#' @noRd 
+#' Find the intersection points of multiple line segments and a plane
+#' @noRd
 line_segment_plane_intersection_multi <- function(points, plane_point, plane_normal) {
     .Call('_bleiglas_line_segment_plane_intersection_multi', PACKAGE = 'bleiglas', points, plane_point, plane_normal)
+}
+
+#' Check if a point is within a polygon (2D)
+#' @noRd
+pnp <- function(vertx, verty, testx, testy) {
+    .Call('_bleiglas_pnp', PACKAGE = 'bleiglas', vertx, verty, testx, testy)
+}
+
+#' Check if multiple points are within a polygon (2D)
+#' @noRd
+pnpmulti <- function(vertx, verty, testx, testy) {
+    .Call('_bleiglas_pnpmulti', PACKAGE = 'bleiglas', vertx, verty, testx, testy)
 }
 
