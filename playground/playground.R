@@ -40,7 +40,6 @@ raw_voro_output <- bleiglas::tessellate(
   y_min = min(c14$y) - 150000, y_max = max(c14$y) + 150000
 )
 
-
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 polygon_edges %<>% dplyr::mutate(
@@ -52,7 +51,13 @@ c14 %<>% dplyr::mutate(
   z = z / 1000
 )
 
-hu <- bleiglas::create_pred_grid(polygon_edges)
+pred_grid <- expand.grid(
+  x = seq(min(c(polygon_edges$x.a, polygon_edges$x.b)) + 1, max(c(polygon_edges$x.a, polygon_edges$x.b)) - 1, by = 50000),
+  y = seq(min(c(polygon_edges$y.a, polygon_edges$y.b)) + 1, max(c(polygon_edges$y.a, polygon_edges$y.b)) - 1, by = 50000),
+  z = seq(min(c(polygon_edges$z.a, polygon_edges$z.b)) + 1, max(c(polygon_edges$z.a, polygon_edges$z.b)) - 1, by = 200)
+)
+
+hu <- bleiglas::predict_grid(polygon_edges, pred_grid)
 
 spu <- hu %>% data.table::merge.data.table(
   c14 %>% dplyr::select(id, material), by = "id"
