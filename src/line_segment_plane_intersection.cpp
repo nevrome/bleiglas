@@ -34,6 +34,8 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 }
 
 //' Find the intersection points of a line segment and a plane
+//' Based on this solution:
+//' \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}
 //' @noRd
 // [[Rcpp::export]]
 SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal) {
