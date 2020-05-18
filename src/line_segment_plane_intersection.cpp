@@ -35,9 +35,6 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 
 //' Find the intersection points of a line segment and a plane
 //'
-//' @description
-//' \code{line_segment_plane_intersection} ...
-//' 
 //' Based on this solution:
 //' \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}
 //'
@@ -45,8 +42,6 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 //' @param point_b numeric vector. Coordinates of point B
 //' @param plane_point numeric vector. Coordinates of plane point
 //' @param plane_normal numeric vector. Plane normal vector
-//'
-//' @return ...
 //'
 //' @examples
 //' line_segment_plane_intersection(
@@ -56,8 +51,7 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 //'   c(0, 0, 1)
 //' ) 
 //' 
-//' @rdname line_segment_plane_intersection
-//' @export
+//' @noRd 
 // [[Rcpp::export]]
 SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal) {
 
@@ -104,8 +98,9 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
   }
 }
 
-//' @rdname line_segment_plane_intersection
-//' @export
+//' @param points numeric matrix. Coordinates of points A and B in six columns
+//' 
+//' @noRd 
 // [[Rcpp::export]]
 SEXP line_segment_plane_intersection_multi(NumericMatrix points, NumericVector plane_point, NumericVector plane_normal) {
   

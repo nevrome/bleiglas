@@ -3,9 +3,6 @@
 
 #' Find the intersection points of a line segment and a plane
 #'
-#' @description
-#' \code{line_segment_plane_intersection} ...
-#' 
 #' Based on this solution:
 #' \url{https://rosettacode.org/wiki/Find_the_intersection_of_a_line_with_a_plane#C.2B.2B}
 #'
@@ -13,8 +10,6 @@
 #' @param point_b numeric vector. Coordinates of point B
 #' @param plane_point numeric vector. Coordinates of plane point
 #' @param plane_normal numeric vector. Plane normal vector
-#'
-#' @return ...
 #'
 #' @examples
 #' line_segment_plane_intersection(
@@ -24,14 +19,14 @@
 #'   c(0, 0, 1)
 #' ) 
 #' 
-#' @rdname line_segment_plane_intersection
-#' @export
+#' @noRd 
 line_segment_plane_intersection <- function(point_a, point_b, plane_point, plane_normal) {
     .Call('_bleiglas_line_segment_plane_intersection', PACKAGE = 'bleiglas', point_a, point_b, plane_point, plane_normal)
 }
 
-#' @rdname line_segment_plane_intersection
-#' @export
+#' @param points numeric matrix. Coordinates of points A and B in six columns
+#' 
+#' @noRd 
 line_segment_plane_intersection_multi <- function(points, plane_point, plane_normal) {
     .Call('_bleiglas_line_segment_plane_intersection_multi', PACKAGE = 'bleiglas', points, plane_point, plane_normal)
 }
