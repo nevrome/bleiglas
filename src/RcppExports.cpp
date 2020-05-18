@@ -19,3 +19,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// line_segment_plane_intersection_multi
+SEXP line_segment_plane_intersection_multi(NumericMatrix points, NumericVector plane_point, NumericVector plane_normal);
+RcppExport SEXP _bleiglas_line_segment_plane_intersection_multi(SEXP pointsSEXP, SEXP plane_pointSEXP, SEXP plane_normalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type plane_point(plane_pointSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type plane_normal(plane_normalSEXP);
+    rcpp_result_gen = Rcpp::wrap(line_segment_plane_intersection_multi(points, plane_point, plane_normal));
+    return rcpp_result_gen;
+END_RCPP
+}

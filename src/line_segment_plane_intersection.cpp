@@ -56,6 +56,7 @@ Vector3D intersectPoint(Vector3D rayVector, Vector3D rayPoint, Vector3D planeNor
 //'   c(0, 0, 1)
 //' ) 
 //' 
+//' @rdname line_segment_plane_intersection
 //' @export
 // [[Rcpp::export]]
 SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal) {
@@ -76,7 +77,8 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
     // return numeric matrix with the input points in this case 
     NumericVector point_a_and_point_b { a.x, b.x, a.y, b.y, a.z, b.z };
     point_a_and_point_b.attr("dim") = Dimension(2, 3);
-    return point_a_and_point_b;
+    NumericMatrix m = as<NumericMatrix>(point_a_and_point_b);
+    return m;
   }
   
   // else calculate intersection point of (unlimited) line and plane
@@ -95,7 +97,30 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
     return R_NilValue;
   } else {
     // else return the intersection point
-    NumericVector point_c_numvec { c.x, c.y, c.z };
-    return point_c_numvec;
+    NumericVector point_c { c.x, c.y, c.z };
+    point_c.attr("dim") = Dimension(1, 3);
+    NumericMatrix m = as<NumericMatrix>(point_c);
+    return m;
   }
+}
+
+//' @rdname line_segment_plane_intersection
+//' @export
+// [[Rcpp::export]]
+SEXP line_segment_plane_intersection_multi(NumericMatrix points, NumericVector plane_point, NumericVector plane_normal) {
+  
+  std::vector<NumericMatrix> res_multiple_segments;
+  res_multiple_segments.reserve(points.nrow());
+  for (int i = 0; i < points.nrow(); i++) {
+    NumericVector point_a = { points(i, 0), points(i, 1), points(i, 2) };
+    NumericVector point_b = { points(i, 3), points(i, 4), points(i, 5) };
+    SEXP one_segment_res = line_segment_plane_intersection(point_a, point_b, plane_point, plane_normal);
+    if (one_segment_res == R_NilValue) {
+      continue;
+    } else {
+      res_multiple_segments.push_back(one_segment_res);
+    }
+  }
+  
+  return wrap(res_multiple_segments);
 }

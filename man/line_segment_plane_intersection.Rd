@@ -2,9 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{line_segment_plane_intersection}
 \alias{line_segment_plane_intersection}
+\alias{line_segment_plane_intersection_multi}
 \title{Find the intersection points of a line segment and a plane}
 \usage{
 line_segment_plane_intersection(point_a, point_b, plane_point, plane_normal)
+
+line_segment_plane_intersection_multi(points, plane_point, plane_normal)
 }
 \arguments{
 \item{point_a}{numeric vector. Coordinates of point A}

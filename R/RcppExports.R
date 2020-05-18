@@ -24,8 +24,15 @@
 #'   c(0, 0, 1)
 #' ) 
 #' 
+#' @rdname line_segment_plane_intersection
 #' @export
 line_segment_plane_intersection <- function(point_a, point_b, plane_point, plane_normal) {
     .Call('_bleiglas_line_segment_plane_intersection', PACKAGE = 'bleiglas', point_a, point_b, plane_point, plane_normal)
+}
+
+#' @rdname line_segment_plane_intersection
+#' @export
+line_segment_plane_intersection_multi <- function(points, plane_point, plane_normal) {
+    .Call('_bleiglas_line_segment_plane_intersection_multi', PACKAGE = 'bleiglas', points, plane_point, plane_normal)
 }
 

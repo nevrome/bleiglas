@@ -24,18 +24,11 @@ cut_polygons <- function(x, cuts) {
         split(x, x$id), function(x, z) {
           
           # for future Clemens: that already is a very fast combination
-          intersection_points <- do.call(rbind, by(
-            x, 1:nrow(x), function(y, z) {
-              line_segment_plane_intersection(
-                c(y$x.a, y$y.a, y$z.a), 
-                c(y$x.b, y$y.b, y$z.b), 
-                c(0, 0, z),
-                c(0, 0, 1)
-              )
-            }, 
-            z
-          ))
-
+          intersection_points <- do.call(
+            rbind, 
+            line_segment_plane_intersection_multi(as.matrix(x[,c(1,2,3,4,5,6)]), c(0, 0, z), c(0, 0, 1))                             
+          )
+          
           if (is.null(intersection_points) || nrow(intersection_points) < 3 || any(is.na(intersection_points))) {
             return(NULL)
           }
@@ -51,9 +44,9 @@ cut_polygons <- function(x, cuts) {
         },
         z
       )
-      data.table::rbindlist(polygon_2D_dfs_list)
+      return(polygon_2D_dfs_list)
     })
   
-  return(data.table::rbindlist(polygon_2D_dfs_per_cut_list))
+  return(polygon_2D_dfs_per_cut_list)
   
 }
