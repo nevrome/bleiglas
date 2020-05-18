@@ -25,9 +25,6 @@ read_polygon_edges <- function(x) {
       
       string_elems <- unlist(strsplit(x, "\\*"))
       
-      # read id    
-      id <- as.numeric(string_elems[1])
-      
       # parse polygon vertex coordinates
       vertices_one_poly <- lapply(strsplit(gsub("\\(|\\)", "", unlist(strsplit(string_elems[2], " "))), ","), as.numeric)
       one_poly_many_vertices <- data.table::as.data.table(data.table::transpose(vertices_one_poly))
@@ -55,7 +52,7 @@ read_polygon_edges <- function(x) {
           suffixes = c(".a", ".b")
         ) 
 
-      connections$id <- id
+      connections$id <- as.integer(string_elems[1])
       
       return(connections)
     }
@@ -63,6 +60,6 @@ read_polygon_edges <- function(x) {
   
   polygon_edges <- data.table::rbindlist(polygon_edges_list)
   
-  return(tibble::as_tibble(polygon_edges[,-c(1, 2)]))
+  return(polygon_edges[,-c(1, 2)])
 
 }
