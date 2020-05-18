@@ -6,6 +6,8 @@
 #' @export
 cut_polygons_to_sf <- function(x, crs) {
   
+  x <- unlist(x, recursive = F)
+  
   polygon_list <- lapply(
     x, function(y) {
       sf::st_polygon(list(as.matrix(y[,c(1,2)])))
