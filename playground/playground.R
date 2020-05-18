@@ -81,8 +81,11 @@ res <- lapply(1:length(c14_list), function(c14_table_id) {
 
 res_total <- res %>% data.table::rbindlist()
 
-res_total %>%
-  tidyr::pivot_wider(names_from = "run", values_from = c("lat", "lon"))
-
-
-
+res_columns <- res_total %>%
+  dplyr::group_by(
+    point_id
+  ) %>%
+  dplyr::summarise(
+    mean_lat = mean(lat),
+    mean_lon = mean(lon)
+  )
