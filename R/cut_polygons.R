@@ -47,6 +47,9 @@ cut_polygons <- function(x, cuts) {
       return(polygon_2D_dfs_list)
     })
   
-  return(polygon_2D_dfs_per_cut_list)
+  names(polygon_2D_dfs_per_cut_list) <- cuts
+  flattend_list <- Filter(Negate(is.null), unlist(polygon_2D_dfs_per_cut_list, recursive = F))
+  
+  return(flattend_list)
   
 }
