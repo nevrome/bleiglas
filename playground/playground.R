@@ -52,17 +52,15 @@ c14 %<>% dplyr::mutate(
   z = z / 1000
 )
 
-hu <- bleiglas::create_pred_grid(polygon_edges) %>% dplyr::filter(
-  z == 1011
-)
+hu <- bleiglas::create_pred_grid(polygon_edges)
 
-hu %>% data.table::merge.data.table(
-  c14, by = "id"
+spu <- hu %>% data.table::merge.data.table(
+  c14 %>% dplyr::select(id, material), by = "id"
 )
 
 ggplot() +
   geom_point(
-    data = hu,
-    mapping = aes(x, y, color = as.character(id)),
+    data = spu %>% dplyr::filter(z == 2611),
+    mapping = aes(x, y, color = material),
     alpha = 0.5, size = 10
   )
