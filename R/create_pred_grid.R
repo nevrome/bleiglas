@@ -33,7 +33,7 @@ create_pred_grid <- function(
       if (is.null(grid_points_on_this_z_level) || is.null(polygons_on_this_z_level)) {
         return( NULL )
       }
-      grid_points_on_this_z_level$id <- names(polygons_on_this_z_level)[pnpmulti(
+      grid_points_on_this_z_level$id <- as.integer(names(polygons_on_this_z_level))[pnpmulti(
         polygons_on_this_z_level, grid_points_on_this_z_level$x, grid_points_on_this_z_level$y
       )]
       return(grid_points_on_this_z_level)

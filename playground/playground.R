@@ -56,6 +56,10 @@ hu <- bleiglas::create_pred_grid(polygon_edges) %>% dplyr::filter(
   z == 1011
 )
 
+hu %>% data.table::merge.data.table(
+  c14, by = "id"
+)
+
 ggplot() +
   geom_point(
     data = hu,
