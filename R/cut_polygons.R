@@ -21,12 +21,12 @@ cut_polygons <- function(x, cuts) {
   polygon_2D_dfs_per_cut_list <- map_fun(
     cuts, function(z) {
       polygon_2D_dfs_list <- lapply(
-        split(x, x$id), function(x, z) {
+        split(x, x$id), function(y, z) {
           
           # for future Clemens: that already is a very fast combination
           intersection_points <- do.call(
             rbind, 
-            line_segment_plane_intersection_multi(as.matrix(x[,c(1,2,3,4,5,6)]), c(0, 0, z), c(0, 0, 1))                             
+            line_segment_plane_intersection_multi(as.matrix(y[,c(1,2,3,4,5,6)]), c(0, 0, z), c(0, 0, 1))                             
           )
           
           if (is.null(intersection_points) || nrow(intersection_points) < 3 || any(is.na(intersection_points))) {
@@ -37,7 +37,7 @@ cut_polygons <- function(x, cuts) {
 
           polygon_2d_df <- as.data.frame(intersection_points[c(convex_hull_order, convex_hull_order[1]),])
           colnames(polygon_2d_df) <- c("x", "y", "z")
-          polygon_2d_df$id <- x$id[1]
+          polygon_2d_df$id <- y$id[1]
           polygon_2d_df$time <- z
           
           return(polygon_2d_df)
@@ -45,12 +45,16 @@ cut_polygons <- function(x, cuts) {
         z
       )
       polygon_2D_dfs_list <- Filter(Negate(is.null), polygon_2D_dfs_list)
-      return(polygon_2D_dfs_list)
+      if (length(polygon_2D_dfs_list) == 0) {
+        return(NULL)
+      } else {
+        return(polygon_2D_dfs_list)
+      }
     })
   
-  polygon_2D_dfs_per_cut_list <- Filter(Negate(is.null), polygon_2D_dfs_per_cut_list)
-  names(polygon_2D_dfs_per_cut_list) <- cuts
+  polygon_2D_dfs_per_cut_list_without_empty <- Filter(Negate(is.null), polygon_2D_dfs_per_cut_list)
+  names(polygon_2D_dfs_per_cut_list_without_empty) <- cuts[!sapply(polygon_2D_dfs_per_cut_list, function(x) {is.null(x)})]
 
-  return(polygon_2D_dfs_per_cut_list)
+  return(polygon_2D_dfs_per_cut_list_without_empty)
   
 }
