@@ -11,14 +11,7 @@
 #' @export
 cut_polygons <- function(x, cuts) {
 
-  # decide if lapply or pblapply should be used
-  if (nrow(x) <= 25000) {
-    map_fun <- lapply
-  } else {
-    map_fun <- pbapply::pblapply
-  }
-  
-  polygon_2D_dfs_per_cut_list <- map_fun(
+  polygon_2D_dfs_per_cut_list <- lapply(
     cuts, function(z) {
       polygon_2D_dfs_list <- lapply(
         split(x, x$polygon_id), function(y, z) {
