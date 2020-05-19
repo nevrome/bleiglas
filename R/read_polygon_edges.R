@@ -52,7 +52,7 @@ read_polygon_edges <- function(x) {
           suffixes = c(".a", ".b")
         ) 
 
-      connections$id <- as.integer(string_elems[1])
+      connections$polygon_id <- as.integer(string_elems[1])
       
       return(connections)
     }
