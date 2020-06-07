@@ -6,3 +6,5 @@
 ^\.Rproj\.user$
 ^README_files$
 ^playground$
+^paper\.md$
+^paper\.bib$
