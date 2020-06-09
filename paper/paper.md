@@ -39,6 +39,12 @@ The final core function of ``bleiglas`` is `bleiglas::attribute_grid_points_to_p
 
 # Example: Burial rite distributions in Bronze Age Europe
 
+![Caption for example figure.\label{fig:plot_map}](01_map_plot.jpeg)
+
+![Caption for example figure.\label{fig:plot_3D}](03_3D_plot.png)
+
+![Caption for example figure.\label{fig:plot_bleiglas}](04_bleiglas_plot.png)
+
 # Acknowledgements
 
 The package benefitted from valuable comments by Joscha Gretzinger, who also suggested the name *bleiglas* (German *Bleiglasfenster* for English *Leadlight*) inspired by the appearance of the cut surface plots.

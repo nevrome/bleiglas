@@ -53,7 +53,6 @@ p <- cut_surfaces_info %>%
     axis.title = element_blank(),
     axis.text = element_blank(),
     legend.text = element_text(size = 20),
-    panel.grid.major = element_line(colour = "grey", size = 0.3),
     strip.text.x = element_text(size = 20),
     panel.background = element_rect(fill = "#BFD5E3")
   ) 

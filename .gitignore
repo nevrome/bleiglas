@@ -45,3 +45,6 @@ src/*.dll
 
 # rendered documents
 *.html
+
+# data for JOSS figures
+paper/workflow_example/*.RData

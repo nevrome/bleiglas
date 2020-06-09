@@ -57,7 +57,7 @@ hu <- ggplot() +
     )
   ) +
   theme(
-    legend.position = "bottom",
+    legend.position = "right",
     legend.title = element_text(size = 19, face = "bold"),
     axis.title = element_blank(),
     axis.text = element_text(size = 20),
@@ -78,7 +78,7 @@ hu %>%
     device = "jpeg",
     scale = 1,
     dpi = 300,
-    width = 300, height = 280, units = "mm",
+    width = 400, height = 250, units = "mm",
     limitsize = F
   )
 
