@@ -62,8 +62,10 @@ cut_surfaces_sf <- bleiglas::cut_polygons_to_sf(
   crs = "+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m +no_defs"
 )
 
-#### crop bleiglas by land area ####
-cut_sufaces_cropped <- cut_surfaces_sf %>% sf::st_intersection(extended_area)
+#### crop bleiglas by land area and research area ####
+cut_sufaces_cropped <- cut_surfaces_sf %>% 
+  sf::st_intersection(extended_area) %>%
+  sf::st_intersection(research_area)
 
 #### join bleiglas polygons and metainformation ####
 cut_surfaces_info <- cut_sufaces_cropped %>%
@@ -73,4 +75,4 @@ cut_surfaces_info <- cut_sufaces_cropped %>%
   )
 
 #### store results ####
-save(vertices, polygon_edges, cut_surfaces_info, file = "inst/workflow_example/tesselation_calage_center_burial_type.RData")
+save(vertices, polygon_edges, cut_surfaces_info, file = "paper/workflow_example/tesselation_calage_center_burial_type.RData")

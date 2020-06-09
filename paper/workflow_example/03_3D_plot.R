@@ -1,12 +1,12 @@
 library(magrittr)
 
-load("analysis/data/tmp_data/tesselation_3D_data_burial_type.RData")
-load("analysis/data/tmp_data/research_area.RData")
+load("paper/workflow_example/tesselation_calage_center_burial_type.RData")
+load("inst/workflow_example/research_area.RData")
 raps <- sf::st_coordinates(sf::st_cast(research_area, "POINT"))[1:4,]/1000
 
 #### 3d plot rgl #### 
 # rgl::axes3d()
-# rgl::points3d(ver$x, ver$y, ver$z, color = "red")
+# rgl::points3d(vertices$x, vertices$y, vertices$z, color = "red")
 # rgl::aspect3d(1, 1, 1)
 # rgl::segments3d(
 #   x = as.vector(t(polygon_edges[,c(1,4)])),
@@ -16,7 +16,7 @@ raps <- sf::st_coordinates(sf::st_cast(research_area, "POINT"))[1:4,]/1000
 
 # rgl::writeWebGL(filename = "plots/tesselation.html",  width = 700, height = 700)
 
-threed <- ver %>%
+threed <- vertices %>%
   dplyr::transmute(
     x = x/1000, 
     y = y/1000,
@@ -29,7 +29,7 @@ polygon_edges$x.b <- polygon_edges$x.b/1000
 polygon_edges$y.b <- polygon_edges$y.b/1000
 
 # plot
-png(filename = "analysis/figures/3D_plot_tesselation_burial_type.png", width = 22, height = 18, units = "cm", res = 300)
+png(filename = "paper/03_3D_plot.png", width = 22, height = 18, units = "cm", res = 300)
 
 s <- scatterplot3d::scatterplot3d(
   threed$x, threed$y, threed$z, color = "red",
