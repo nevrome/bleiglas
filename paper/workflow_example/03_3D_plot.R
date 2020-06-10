@@ -29,13 +29,13 @@ polygon_edges$x.b <- polygon_edges$x.b/1000
 polygon_edges$y.b <- polygon_edges$y.b/1000
 
 # plot
-png(filename = "paper/03_3D_plot.png", width = 22, height = 18, units = "cm", res = 300)
+png(filename = "paper/03_3D_plot.png", width = 22, height = 14, units = "cm", res = 300)
 
 s <- scatterplot3d::scatterplot3d(
   threed$x, threed$y, threed$z, color = "red",
   cex.symbols = 0.7, angle = 70, pch = 18,
-  xlab = "x", ylab = "y", zlab = "time calBC",
-  col.axis = "grey",
+  xlab = "x [km]", ylab = "y [km]", zlab = "time [years calBC]",
+  col.axis = "grey", mar = c(3,3,0,2),
   xlim = c(-1700, 1200), ylim = c(1000, 3500), zlim = c(-2300, -700)
 )
 
