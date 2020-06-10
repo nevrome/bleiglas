@@ -1,0 +1,31 @@
+---
+title: "Temporal resampling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Temporal resampling}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+load(system.file("workflow_example", "dates_prepared.RData", package = "bleiglas", mustWork = T))
+```
+
+```{r}
+dates_prepared
+
+prediction_grid <- 
+
+?bleiglas::attribute_grid_points_to_polygons()
+```
+
+
