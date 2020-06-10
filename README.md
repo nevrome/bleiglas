@@ -18,10 +18,23 @@ devtools::install_github("nevrome/bleiglas")
 ```
 
 For the main function tessellate you also have to [install the voro++
-software](http://math.lbl.gov/voro++/download/). FOr Linux users: The
+software](http://math.lbl.gov/voro++/download/). For Linux users: The
 package is already available in all major software repositories.
 
-### Get some data
+## Documentation
+
+1.  This README (see Quickstart guide below) describes a basic workflow
+    with code and explains some of my thought process when writing this
+    package
+2.  A [JOSS
+    paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
+    (not submitted yet) gives some background and introduces the core
+    functions from a more technical point of view
+3.  A [vignette]() introduces an application of resampling analysis
+
+## Quickstart
+
+#### Getting some data
 
 I decided to use Dirk Seidenstickers [*Archives des datations
 radiocarbone d’Afrique
@@ -116,7 +129,7 @@ c14
 
 </details>
 
-### 3D tessellation
+#### 3D tessellation
 
 [Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling
 space with polygons so that neither gaps nor overlaps occur. This is an
@@ -127,8 +140,7 @@ quiet some relevance for geostatistical analysis like e.g. spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample
-points.
+one of a set of sample points.
 
 <table style="width:100%">
 
@@ -213,8 +225,7 @@ by 150 kilometres to each (spatial) direction to cover the area of
 Cameroon.
 
 The output of voro++ is highly customizable, but structurally complex.
-With `-v` it first of all prints some config info on the command
-    line.
+With `-v` it first of all prints some config info on the command line.
 
     Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -242,20 +253,18 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <p>
 
-    ## # A tibble: 24,138 x 7
-    ##        x.a    y.a     z.a     x.b    y.b     z.b    id
-    ##      <dbl>  <dbl>   <dbl>   <dbl>  <dbl>   <dbl> <dbl>
-    ##  1 1352610 233681 1240760 1381950 158990 1274740    38
-    ##  2 1324180 130338 1292500 1381950 158990 1274740    38
-    ##  3 1309730 225141 1313810 1381950 158990 1274740    38
-    ##  4 1201420 392245 1299830 1289680 241638 1324360    38
-    ##  5 1276830 227624 1327040 1289680 241638 1324360    38
-    ##  6 1309730 225141 1313810 1289680 241638 1324360    38
-    ##  7 1190420 336013 1202560  937143 326505 1224480    38
-    ##  8  937143 374007 1308060  937143 326505 1224480    38
-    ##  9  937143 185322 1292500  937143 326505 1224480    38
-    ## 10  937143 326505 1224480 1190420 336013 1202560    38
-    ## # … with 24,128 more rows
+    ##            x.a    y.a     z.a     x.b    y.b     z.b  id
+    ##     1: 1352610 233681 1240760 1381950 158990 1274740  38
+    ##     2: 1324180 130338 1292500 1381950 158990 1274740  38
+    ##     3: 1309730 225141 1313810 1381950 158990 1274740  38
+    ##     4: 1201420 392245 1299830 1289680 241638 1324360  38
+    ##     5: 1276830 227624 1327040 1289680 241638 1324360  38
+    ##    ---                                                  
+    ## 24134: 1408090 992474 2655000 1502620 926332 2717020 272
+    ## 24135: 1514160 920693 2717020 1502620 926332 2717020 272
+    ## 24136: 1599840 898736 2655000 1514160 920693 2717020 272
+    ## 24137: 1520780 928425 2770000 1514160 920693 2717020 272
+    ## 24138: 1502620 926332 2717020 1514160 920693 2717020 272
 
 </p>
 
@@ -300,23 +309,25 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 
 <img src="README_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
-### Cutting the polygons
+#### Cutting the polygons
 
 The static 3D plot is of rather dubious value: Very hard to read. I
 therefore wrote `bleiglas::cut_polygons()` that can cut the 3D polygons
 at different levels of the z-axis. As the function assumes that x and y
 represent geographic coordinates, the cuts produce sets of spatial 2D
 polygons for different values of z – in our example different points in
-time. The parameter `cuts` takes a numeric vector of cutting points and
-`crs` defines the spatial coordinate reference system of x and y to
+time. The parameter `cuts` takes a numeric vector of cutting points on
+the z axis. `bleiglas::cut_polygons()` yields a rather crude format. For
+mapping `bleiglas::cut_polygons_to_sf()` allows to transform it to `sf`.
+Here `crs` defines the spatial coordinate reference system of x and y to
 project the resulting 2D polygons correctly.
 
 ``` r
 cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges, 
-  cuts = c(2500, 2000, 1500), 
-  crs = 4088
-)
+  cuts = c(2500, 2000, 1500)
+) %>%
+  bleiglas::cut_polygons_to_sf(crs = 4088)
 ```
 
 <details>
@@ -329,20 +340,19 @@ cut_surfaces <- bleiglas::cut_polygons(
     ## geometry type:  POLYGON
     ## dimension:      XY
     ## bbox:           xmin: 937143 ymin: 63124.2 xmax: 1906880 ymax: 1506580
-    ## epsg (SRID):    4088
-    ## proj4string:    +proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=6371007 +units=m +no_defs
+    ## projected CRS:  World Equidistant Cylindrical (Sphere)
     ## First 10 features:
-    ##     time  id                              x
-    ## 16  2500  16 POLYGON ((1193932 315611.5,...
-    ## 44  2500  44 POLYGON ((1906880 811490.3,...
-    ## 51  2500  51 POLYGON ((1146789 374017.9,...
-    ## 53  2500  53 POLYGON ((1195186 319422.3,...
-    ## 82  2500  82 POLYGON ((1416023 455769.2,...
-    ## 102 2500 102 POLYGON ((1082637 969464, 9...
-    ## 104 2500 104 POLYGON ((1578607 63124.2, ...
-    ## 134 2500 134 POLYGON ((1386791 333246.8,...
-    ## 143 2500 143 POLYGON ((937143 63124.2, 9...
-    ## 186 2500 186 POLYGON ((1116403 63124.2, ...
+    ##                                 x time  id
+    ## 1  POLYGON ((1195186 319422.3,... 2500  16
+    ## 2  POLYGON ((1906880 811490.3,... 2500  44
+    ## 3  POLYGON ((1146789 374017.9,... 2500  51
+    ## 4  POLYGON ((1215920 365182.3,... 2500  53
+    ## 5  POLYGON ((1416023 455769.2,... 2500  82
+    ## 6  POLYGON ((1082637 969464, 9... 2500 102
+    ## 7  POLYGON ((1906880 63124.2, ... 2500 104
+    ## 8  POLYGON ((1386791 333246.8,... 2500 134
+    ## 9  POLYGON ((1116403 63124.2, ... 2500 143
+    ## 10 POLYGON ((1371502 63124.2, ... 2500 186
 
 </p>
 
@@ -381,8 +391,7 @@ cut_surfaces %>%
 
 <summary>As all input dates come from Cameroon it might be a sensible
 decision to cut the polygon surfaces to the outline of this
-administrative
-unit.</summary>
+administrative unit.</summary>
 
 <p>
 

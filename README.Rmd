@@ -32,9 +32,17 @@ if(!require('devtools')) install.packages('devtools')
 devtools::install_github("nevrome/bleiglas")
 ```
 
-For the main function tessellate you also have to [install the voro++ software](http://math.lbl.gov/voro++/download/). FOr Linux users: The package is already available in all major software repositories.
+For the main function tessellate you also have to [install the voro++ software](http://math.lbl.gov/voro++/download/). For Linux users: The package is already available in all major software repositories.
 
-### Get some data
+## Documentation
+
+1. This README (see Quickstart guide below) describes a basic workflow with code and explains some of my thought process when writing this package
+2. A [JOSS paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md) (not submitted yet) gives some background and introduces the core functions from a more technical point of view
+3. A [vignette]() introduces an application of resampling analysis
+
+## Quickstart
+
+#### Getting some data
 
 I decided to use Dirk Seidenstickers [*Archives des datations radiocarbone d'Afrique centrale*](https://github.com/dirkseidensticker/aDRAC) dataset for this purpose. It includes radiocarbon datings from Central Africa that combine spatial (x & y) and temporal (z) position with some meta information.
 
@@ -89,7 +97,7 @@ c14
 </p>
 </details>
 
-### 3D tessellation
+#### 3D tessellation
 
 [Tessellation](https://en.wikipedia.org/wiki/Tessellation) means filling space with polygons so that neither gaps nor overlaps occur. This is an exciting application for art (e.g. textile art or architecture) and an interesting challenge for mathematics. As a computational archaeologist I was already aware of one particular tessellation algorithm that has quiet some relevance for geostatistical analysis like e.g. spatial interpolation: Voronoi tilings that are created with [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation). These are tessellations where each polygon covers the space closest to one of a set of sample points.
 
@@ -193,16 +201,16 @@ rgl::segments3d(
 rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 ```
 
-### Cutting the polygons
+#### Cutting the polygons
 
-The static 3D plot is of rather dubious value: Very hard to read. I therefore wrote `bleiglas::cut_polygons()` that can cut the 3D polygons at different levels of the z-axis. As the function assumes that x and y represent geographic coordinates, the cuts produce sets of spatial 2D polygons for different values of z -- in our example different points in time. The parameter `cuts` takes a numeric vector of cutting points and `crs` defines the spatial coordinate reference system of x and y to project the resulting 2D polygons correctly.
+The static 3D plot is of rather dubious value: Very hard to read. I therefore wrote `bleiglas::cut_polygons()` that can cut the 3D polygons at different levels of the z-axis. As the function assumes that x and y represent geographic coordinates, the cuts produce sets of spatial 2D polygons for different values of z -- in our example different points in time. The parameter `cuts` takes a numeric vector of cutting points on the z axis. `bleiglas::cut_polygons()` yields a rather crude format. For mapping `bleiglas::cut_polygons_to_sf()` allows to transform it to `sf`. Here `crs` defines the spatial coordinate reference system of x and y to project the resulting 2D polygons correctly.
 
 ```{r}
 cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges, 
   cuts = c(2500, 2000, 1500)
 ) %>%
-  cut_polygons_to_sf(crs = 4088)
+  bleiglas::cut_polygons_to_sf(crs = 4088)
 ```
 
 <details><summary>Data</summary>
