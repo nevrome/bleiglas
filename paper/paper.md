@@ -39,7 +39,7 @@ The final core function of ``bleiglas`` is `bleiglas::attribute_grid_points_to_p
 
 # Example: Burial rite distributions in Bronze Age Europe
 
-One particular application of ``bleiglas`` is visualization of spatiotemporal data. Here we show an example of bronze age burial rites as measured on radiocarbon dates from burials in Central, Northern and Northwestern Europe between 2200 and 800 calBC. Information about source data (taken from the RADON-B database ), data preparation and meaning are presented in @Schmid2019-xn. Minimal code to perform this analysis and important technical details can be found in a vignette provided with the ``bleiglas`` R package.
+One particular application of ``bleiglas`` is visualization of spatiotemporal data. Here we show an example of bronze age burial rites as measured on radiocarbon dates from burials in Central, Northern and Northwestern Europe between 2200 and 800 calBC. Information about source data (taken from the RADON-B database [@kneiselRadonB2013]), data preparation and meaning are presented in @Schmid2019-xn. Minimal code to perform this analysis and important technical details can be found in a vignette provided with the ``bleiglas`` R package.
 
 ![Caption for example figure.\label{fig:plot_map}](01_map_plot.jpeg)
 
