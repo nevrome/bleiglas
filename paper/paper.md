@@ -39,9 +39,15 @@ The final core function of ``bleiglas`` is `bleiglas::attribute_grid_points_to_p
 
 # Example: Burial rite distributions in Bronze Age Europe
 
+One particular application of ``bleiglas`` is visualization of spatiotemporal data. Here we show an example of bronze age burial rites as measured on radiocarbon dates from burials in Central, Northern and Northwestern Europe between 2200 and 800 calBC. Information about source data (taken from the RADON-B database ), data preparation and meaning are presented in @Schmid2019-xn. Minimal code to perform this analysis and important technical details can be found in a vignette provided with the ``bleiglas`` R package.
+
 ![Caption for example figure.\label{fig:plot_map}](01_map_plot.jpeg)
 
+Bronze Age burials can be classified by two main aspects: inhumation vs. cremation (*burial type*) and flat grave vs. burial mound (*burial construction*). Figure \autoref{fig:plot_map} is a map of individual burials through time where we have some information about these two variables. Each burial has a position in space (2 dimensions: coordinates) and in time (1 dimension: here median calibrated radiocarbon age). For Figure \autoref{fig:plot_3D} and \autoref{fig:plot_bleiglas} we only look at the burial type dimension. The burials are distributed in a three dimensional, spatiotemporal space and therefore can be subjected to voronoi tessellation with voro++. The density of polygons is naturally high where the density of observed burials is high as well. 
+
 ![Caption for example figure.\label{fig:plot_3D}](03_3D_plot.png)
+
+For figure \autoref{fig:plot_bleiglas} we cut these polygons into 2D time slices that can be visualized in a map matrix (*bleiglas plot*). This matrix is a very efficient way to observe both the general switch from inhumation to cremation from the Middle Bronze Age onwards as well as on how much data this observation is based at the moment, so which spatial resolution can be expected from a model based on this data. We therefore consider the bleiglas plot to be a very effective way to visualize and communicate spatiotemporal processes derived from point patterns.
 
 ![Caption for example figure.\label{fig:plot_bleiglas}](04_bleiglas_plot.png)
 
