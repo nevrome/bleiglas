@@ -1,4 +1,14 @@
 
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Travis-CI Build
+Status](https://travis-ci.org/nevrome/bleiglas.svg?branch=master)](https://travis-ci.org/nevrome/bleiglas)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/bleiglas)](https://cran.r-project.org/package=bleiglas)
+[![license](https://img.shields.io/github/license/nevrome/bleiglas)](https://www.r-project.org/Licenses/MIT)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # bleiglas
@@ -253,18 +263,18 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 
 <p>
 
-    ##            x.a    y.a     z.a     x.b    y.b     z.b  id
-    ##     1: 1352610 233681 1240760 1381950 158990 1274740  38
-    ##     2: 1324180 130338 1292500 1381950 158990 1274740  38
-    ##     3: 1309730 225141 1313810 1381950 158990 1274740  38
-    ##     4: 1201420 392245 1299830 1289680 241638 1324360  38
-    ##     5: 1276830 227624 1327040 1289680 241638 1324360  38
-    ##    ---                                                  
-    ## 24134: 1408090 992474 2655000 1502620 926332 2717020 272
-    ## 24135: 1514160 920693 2717020 1502620 926332 2717020 272
-    ## 24136: 1599840 898736 2655000 1514160 920693 2717020 272
-    ## 24137: 1520780 928425 2770000 1514160 920693 2717020 272
-    ## 24138: 1502620 926332 2717020 1514160 920693 2717020 272
+    ##            x.a    y.a     z.a     x.b    y.b     z.b polygon_id
+    ##     1: 1352610 233681 1240760 1381950 158990 1274740         38
+    ##     2: 1324180 130338 1292500 1381950 158990 1274740         38
+    ##     3: 1309730 225141 1313810 1381950 158990 1274740         38
+    ##     4: 1201420 392245 1299830 1289680 241638 1324360         38
+    ##     5: 1276830 227624 1327040 1289680 241638 1324360         38
+    ##    ---                                                         
+    ## 24134: 1408090 992474 2655000 1502620 926332 2717020        272
+    ## 24135: 1514160 920693 2717020 1502620 926332 2717020        272
+    ## 24136: 1599840 898736 2655000 1514160 920693 2717020        272
+    ## 24137: 1520780 928425 2770000 1514160 920693 2717020        272
+    ## 24138: 1502620 926332 2717020 1514160 920693 2717020        272
 
 </p>
 
