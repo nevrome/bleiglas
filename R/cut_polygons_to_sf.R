@@ -6,6 +6,8 @@
 #' @export
 cut_polygons_to_sf <- function(x, crs) {
   
+  check_if_packages_are_available("sf")
+  
   x <- unlist(x, recursive = F)
   
   polygon_list <- lapply(
