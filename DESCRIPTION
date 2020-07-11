@@ -23,5 +23,6 @@ LinkingTo: Rcpp
 Suggests: 
     knitr,
     rmarkdown,
-    sf
+    sf,
+    testthat
 VignetteBuilder: knitr
