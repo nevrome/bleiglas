@@ -9,6 +9,8 @@ Authors@R:
            email = "clemens@nevrome.de",
            comment = c(ORCID = "0000-0003-3448-5715"))
 License: MIT + file LICENSE
+Depends:
+    R (>= 3.5.0)
 Imports: 
     Rcpp,
     data.table
