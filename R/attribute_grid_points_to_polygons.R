@@ -11,14 +11,14 @@ attribute_grid_points_to_polygons <- function(
   
   polygons_2D <- bleiglas::cut_polygons(
     polygon_edges, 
-    cuts = unique(pred_grid$z)
+    cuts = unique(prediction_grid$z)
   )
   
-  pred_grid_split_by_z <- split(pred_grid, pred_grid$z)
+  prediction_grid_split_by_z <- split(prediction_grid, prediction_grid$z)
 
-  attributed_pred_grid <- data.table::rbindlist(lapply(names(polygons_2D), function(cur_z) {
+  attributed_prediction_grid <- data.table::rbindlist(lapply(names(polygons_2D), function(cur_z) {
       
-      grid_points_on_this_z_level <- pred_grid_split_by_z[[cur_z]]
+      grid_points_on_this_z_level <- prediction_grid_split_by_z[[cur_z]]
       polygons_on_this_z_level <- polygons_2D[[cur_z]]
       
       if (is.null(grid_points_on_this_z_level) || is.null(polygons_on_this_z_level)) {
@@ -33,6 +33,6 @@ attribute_grid_points_to_polygons <- function(
     })
   )
   
-  return(attributed_pred_grid)
+  return(attributed_prediction_grid)
   
 }
