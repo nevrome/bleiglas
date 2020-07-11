@@ -2,11 +2,15 @@
 #'
 #' Figuratively cut horizontal slices of a 3D, tessellated cube.
 #'
-#' @param x data.frame with output of voro++ as produced with 
+#' @param x data.table with output of voro++ as produced with 
 #' \link{tessellate} and then \link{read_polygon_edges}
 #' @param cuts numeric vector with z-axis coordinates where cuts should be applied
 #'
-#' @return simple features object with 2D polygons that result from the cutting operation
+#' @return list of lists. One list element for each cutting surface and within these
+#' data.tables for each 2D polygon that resulted from the cutting operation. 
+#' Each data.table holds the corner coordinates for one 2D polygon.
+#' 
+#' @inherit tessellate examples
 #' 
 #' @export
 cut_polygons <- function(x, cuts) {
@@ -19,7 +23,7 @@ cut_polygons <- function(x, cuts) {
           # for future Clemens: that already is a very fast combination
           intersection_points <- do.call(
             rbind, 
-            line_segment_plane_intersection_multi(as.matrix(y[,c(1,2,3,4,5,6)]), c(0, 0, z), c(0, 0, 1))                             
+            line_segment_plane_intersection_multi(as.matrix(y[,c(1,2,3,4,5,6)]), c(0, 0, z), c(0, 0, 1))
           )
           
           if (is.null(intersection_points) || nrow(intersection_points) < 3 || any(is.na(intersection_points))) {

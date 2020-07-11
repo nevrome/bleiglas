@@ -7,11 +7,7 @@
 #' @keywords internal
 #' @noRd
 check_if_packages_are_available <- function(packages_ch) {
-  if (
-    packages_ch %>%
-    sapply(function(x) {requireNamespace(x, quietly = TRUE)}) %>%
-    all %>% `!`
-  ) {
+  if ( !all(sapply(packages_ch, function(x) {requireNamespace(x, quietly = TRUE)})) ) {
     stop(
       paste0(
         "R packages ",

@@ -18,7 +18,7 @@ tessellate(
 )
 }
 \arguments{
-\item{x}{data.frame with the input points described by four variables (named columns):
+\item{x}{data.table/data.frame with the input points described by four variables (named columns):
 \itemize{
   \item id: id number that is passed to the output polygon (integer)
   \item x: x-axis coordinate (numeric)
@@ -52,4 +52,23 @@ raw, linewise output of voro++ in a character vector
 }
 \description{
 Command line utility wrapper for the \href{http://math.lbl.gov/voro++}{voro++} software library.
+voro++ must be installed on your system to use this function.
+}
+\examples{
+random_unique_points <- unique(data.table::data.table(
+  id = NA,
+  x = runif(10),
+  y = runif(10),
+  z = runif(10)
+))
+random_unique_points$id <- 1:10
+
+voro_output <- tessellate(random_unique_points)
+
+polygon_points <- read_polygon_edges(voro_output)
+
+cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+
+cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
+
 }

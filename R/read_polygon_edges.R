@@ -5,9 +5,11 @@
 #' @param x character vector with raw, linewise output of voro++ as produced with 
 #' \link{tessellate} when \code{output_definition = "\%i*\%P*\%t"} 
 #'
-#' @return data.frame with columns for the coordinates x, y and z of the starting and 
+#' @return data.table with columns for the coordinates x, y and z of the starting and 
 #' end point of each polygon edge
-#' 
+#'
+#' @inherit tessellate examples
+#'
 #' @export
 read_polygon_edges <- function(x) {
 

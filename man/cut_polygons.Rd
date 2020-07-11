@@ -7,14 +7,34 @@
 cut_polygons(x, cuts)
 }
 \arguments{
-\item{x}{data.frame with output of voro++ as produced with 
+\item{x}{data.table with output of voro++ as produced with 
 \link{tessellate} and then \link{read_polygon_edges}}
 
 \item{cuts}{numeric vector with z-axis coordinates where cuts should be applied}
 }
 \value{
-simple features object with 2D polygons that result from the cutting operation
+list of lists. One list element for each cutting surface and within these
+data.tables for each 2D polygon that resulted from the cutting operation. 
+Each data.table holds the corner coordinates for one 2D polygon.
 }
 \description{
 Figuratively cut horizontal slices of a 3D, tessellated cube.
+}
+\examples{
+random_unique_points <- unique(data.table::data.table(
+  id = NA,
+  x = runif(10),
+  y = runif(10),
+  z = runif(10)
+))
+random_unique_points$id <- 1:10
+
+voro_output <- tessellate(random_unique_points)
+
+polygon_points <- read_polygon_edges(voro_output)
+
+cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+
+cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
+
 }

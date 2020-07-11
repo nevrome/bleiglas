@@ -1,8 +1,14 @@
 #' cut_polygons_to_sf
 #'
-#' @param x data.table. Output of cut_polygons
-#' @param crs coordinate reference system of the resulting 2D polygons
+#' Transform the polygon cut slices to the sf format. This only makes sense
+#' if the x and y coordinate of your input dataset are spatial coordinates.
 #'
+#' @param x data.table. Output of cut_polygons
+#' @param crs coordinate reference system of the resulting 2D polygons. 
+#' Integer with the EPSG code, or character with proj4string
+#' 
+#' @inherit tessellate examples
+#' 
 #' @export
 cut_polygons_to_sf <- function(x, crs) {
   

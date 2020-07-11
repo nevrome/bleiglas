@@ -9,8 +9,28 @@ cut_polygons_to_sf(x, crs)
 \arguments{
 \item{x}{data.table. Output of cut_polygons}
 
-\item{crs}{coordinate reference system of the resulting 2D polygons}
+\item{crs}{coordinate reference system of the resulting 2D polygons. 
+Integer with the EPSG code, or character with proj4string}
 }
 \description{
-cut_polygons_to_sf
+Transform the polygon cut slices to the sf format. This only makes sense
+if the x and y coordinate of your input dataset are spatial coordinates.
+}
+\examples{
+random_unique_points <- unique(data.table::data.table(
+  id = NA,
+  x = runif(10),
+  y = runif(10),
+  z = runif(10)
+))
+random_unique_points$id <- 1:10
+
+voro_output <- tessellate(random_unique_points)
+
+polygon_points <- read_polygon_edges(voro_output)
+
+cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+
+cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
+
 }
