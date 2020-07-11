@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include <cmath>
 #include "helpfunc.h"
 using namespace Rcpp;
 
@@ -65,7 +66,7 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
   Vector3D c = intersectPoint(rv, a, pn, pp);
   
   // check if intersection point exists (e.g. line parallel to plane)
-  if (isinf(c.x) || isnan(c.x)) {
+  if (std::isinf(c.x) || std::isnan(c.x)) {
     return R_NilValue;
   }
   
