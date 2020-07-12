@@ -1,6 +1,6 @@
 library(magrittr)
 
-load("paper/workflow_example/tesselation_calage_center_burial_type.RData")
+load("inst/workflow_example/tesselation_calage_center_burial_type.RData")
 load("inst/workflow_example/research_area.RData")
 raps <- sf::st_coordinates(sf::st_cast(research_area, "POINT"))[1:4,]/1000
 
@@ -29,7 +29,7 @@ polygon_edges$x.b <- polygon_edges$x.b/1000
 polygon_edges$y.b <- polygon_edges$y.b/1000
 
 # plot
-png(filename = "paper/03_3D_plot.png", width = 22, height = 14, units = "cm", res = 300)
+jpeg(filename = "paper/05_3D_plot.jpeg", width = 22, height = 14, units = "cm", res = 300)
 
 s <- scatterplot3d::scatterplot3d(
   threed$x, threed$y, threed$z, color = "red",

@@ -1,7 +1,7 @@
 library(magrittr)
 library(ggplot2)
 
-load("paper/workflow_example/tesselation_calage_center_burial_type.RData")
+load("inst/workflow_example/tesselation_calage_center_burial_type.RData")
 load("inst/workflow_example/research_area.RData")
 load("inst/workflow_example/extended_area.RData")
 
@@ -59,9 +59,9 @@ p <- cut_surfaces_info %>%
 
 p %>% 
   ggsave(
-    "paper/04_bleiglas_plot.png",
+    "paper/06_bleiglas_plot.jpeg",
     plot = .,
-    device = "png",
+    device = "jpeg",
     scale = 1,
     dpi = 300,
     width = 550, height = 280, units = "mm",

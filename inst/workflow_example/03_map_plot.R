@@ -73,7 +73,7 @@ hu <- ggplot() +
 
 hu %>%
   ggsave(
-    "paper/01_map_plot.jpeg",
+    "paper/03_map_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,

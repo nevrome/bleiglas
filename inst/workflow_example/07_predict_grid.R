@@ -6,7 +6,7 @@ load("inst/workflow_example/extended_area.RData")
 
 burial_type_data <- dates_prepared %>% dplyr::filter(burial_type != "unknown")
 
-iterations <- lapply(1:15, function(age_resampling_run) {
+iterations <- lapply(1:30, function(age_resampling_run) {
   current_iteration <- data.table::data.table(
     id = 1:nrow(burial_type_data),
     x = burial_type_data$x,
@@ -104,9 +104,9 @@ p <- proportion_cropped %>%
   
 p %>% 
   ggsave(
-    "paper/05_prediction_grid_plot.png",
+    "paper/07_prediction_grid_plot.jpeg",
     plot = .,
-    device = "png",
+    device = "jpeg",
     scale = 1,
     dpi = 300,
     width = 550, height = 280, units = "mm",
