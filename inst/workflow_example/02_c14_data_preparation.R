@@ -1,5 +1,7 @@
 library(magrittr)
 
+load("inst/workflow_example/epsg102013.RData")
+
 #### set constants ####
 
 # c14 reference zero
@@ -7,17 +9,13 @@ bol <- 1950
 # 2sigma range probability threshold
 threshold <- (1 - 0.9545) / 2
 
-
-
-#### data download ####
+#### download raw C14 data ####
 
 # radonb <- c14bazAAR::get_RADONB()
 # save(radonb, file = "inst/workflow_example/radonb_....RData")
 load("inst/workflow_example/radonb_04_02_2019.RData")
 
-
-
-#### 14C calibration ####
+#### 14C data cleaning and calibration ####
 
 dates <- radonb %>%
   tibble::as_tibble() %>%
@@ -56,10 +54,7 @@ dates_calibrated <- dates %>%
       )
   )
 
-
-
 # transform calBP age to calBC
-
 dates_calibrated$calage_density_distribution %<>% lapply(
   function(x) {
     x$age = -x$age + bol
@@ -67,29 +62,19 @@ dates_calibrated$calage_density_distribution %<>% lapply(
   }
 )
 
-# add center age column
+# add median age column
+dates_calibrated$calage_center <- sapply(
+  dates_calibrated$calage_density_distribution, function(x) { x$age[x$center]}
+)
 
-dates_calibrated$calage_center <- sapply(dates_calibrated$calage_density_distribution, function(x) {
-  x$age[x$center]
-})
-
-# temporal sampling
-
+# add temporal resampling column
 dates_calibrated$calage_sample <- lapply(
   dates_calibrated$calage_density_distribution, function(x) {
     sample(x$age, 100, replace = TRUE, prob = x$dens_dist)
   }
 )
 
-# test plot to check the calibration result
-# library(ggplot2)
-# dates_calibrated$calage_density_distribution[[3]] %>%
-#   ggplot() +
-#   geom_point(aes(age, norm_dens, color = two_sigma))
-
-
-
-#### filter time ####
+#### filter C14 to relevant time window ####
 
 # add artifical date id
 dates_calibrated <- dates_calibrated %>%
@@ -102,20 +87,13 @@ dates_time_selection <- dates_calibrated %>%
   dplyr::mutate(
     in_time_of_interest =
       purrr::map(calage_density_distribution, function(x){
-        any(
-          x$age >= -2200 &
-            x$age <= -800 &
-            x$two_sigma
-        )
-      }
-      )
+        any(x$age >= -2200 & x$age <= -800 & x$two_sigma)
+      })
   ) %>%
   dplyr::filter(
     in_time_of_interest == TRUE
   ) %>%
   dplyr::select(-in_time_of_interest)
-
-
 
 #### select dates relevant for the research question ####
 
@@ -124,7 +102,7 @@ dates_research_selection <- dates_time_selection %>%
   dplyr::select(
     -sourcedb, -c13val, -country, -shortref
   ) %>%
-  # filter by relevant sitetypes
+  # filter by relevant site types
   dplyr::filter(
     sitetype %in% c(
       "Grave", "Grave (mound)", "Grave (flat) inhumation",
@@ -133,7 +111,8 @@ dates_research_selection <- dates_time_selection %>%
       "cemetery"
     )
   ) %>%
-  # transform sitetype field to tidy data about burial_type and burial_construction
+  # transform sitetype field to tidy data about burial_type and 
+  # burial_construction
   dplyr::mutate(
     burial_type = ifelse(
       grepl("cremation", sitetype), "cremation",
@@ -155,15 +134,11 @@ dates_research_selection <- dates_time_selection %>%
     -sitetype
   )
 
-
-
 #### remove dates without coordinates ####
 
 dates_coordinates <- dates_research_selection %>% dplyr::filter(
   !is.na(lat) & !is.na(lon)
 )
-
-
 
 #### crop date selection to research area ####
 
@@ -172,7 +147,7 @@ load("inst/workflow_example/research_area.RData")
 # transform data to sf and the correct CRS
 dates_sf <- dates_coordinates %>% sf::st_as_sf(coords = c("lon", "lat"))
 sf::st_crs(dates_sf) <- 4326
-dates_sf %<>% sf::st_transform("+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m +no_defs")
+dates_sf %<>% sf::st_transform(epsg102013)
 
 # get dates within research area
 dates_research_area <- sf::st_intersection(dates_sf, research_area) %>%
@@ -185,12 +160,12 @@ dates_research_area %<>%
     dates_coordinates[, c("date_id", "lat", "lon")], by = "date_id"
   )
 
-
-
 #### remove labnr duplicates ####
 
 # identify dates without correct labnr
-ids_incomplete_labnrs <- dates_research_area$date_id[grepl('n/a', dates_research_area$labnr)]
+ids_incomplete_labnrs <- dates_research_area$date_id[
+  grepl('n/a', dates_research_area$labnr)
+]
 
 # remove labnr duplicates, except for those with incorrect labnrs
 duplicates_removed_dates_research_area_ids <- dates_research_area %>%
@@ -206,23 +181,21 @@ duplicates_removed_dates_research_area_ids <- dates_research_area %>%
 # merge removed selection with incorrect labnr selection
 dates_labnr_dedupe <- dates_research_area %>%
   dplyr::filter(
-    date_id %in% c(duplicates_removed_dates_research_area_ids, ids_incomplete_labnrs)
+    date_id %in% c(
+      duplicates_removed_dates_research_area_ids, ids_incomplete_labnrs
+    )
   )
-
-
 
 #### add transformed coordinate information ####
 
 dates_transformed_coords <- dates_labnr_dedupe %>% 
   sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = F) %>% 
-  sf::st_transform("+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m +no_defs") %>%
+  sf::st_transform(epsg102013) %>%
   dplyr::mutate(
     x = sf::st_coordinates(.)[,1],
     y = sf::st_coordinates(.)[,2]
   ) %>%
   tibble::as_tibble()
-
-
 
 #### store final dataset reduced to the relevant variables ####
 
