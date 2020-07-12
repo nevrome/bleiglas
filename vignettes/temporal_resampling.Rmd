@@ -41,7 +41,7 @@ prediction_grid <- expand.grid(
   z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
 )
 
-predict_grid(x, prediction_grid, cl = 5)
+bleiglas::predict_grid(x, prediction_grid, cl = 1)
 ```
 
 
