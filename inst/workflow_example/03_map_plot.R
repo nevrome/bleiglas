@@ -4,6 +4,7 @@ library(ggplot2)
 load("inst/workflow_example/dates_prepared.RData")
 load("inst/workflow_example/research_area.RData")
 load("inst/workflow_example/extended_area.RData")
+load("inst/workflow_example/epsg102013.RData")
 
 ex <- raster::extent(research_area)
 xlimit <- c(ex[1], ex[2])
@@ -31,7 +32,7 @@ p <- ggplot() +
   theme_bw() +
   coord_sf(
     xlim = xlimit, ylim = ylimit,
-    crs = sf::st_crs("+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m +no_defs")
+    crs = sf::st_crs(epsg102013)
   ) + 
   scale_shape_manual(
     values = c(
@@ -65,10 +66,19 @@ p <- ggplot() +
     panel.background = element_rect(fill = "#BFD5E3")
   ) +
   guides(
-    color = guide_legend(title = "Burial type", override.aes = list(size = 10), nrow = 2, byrow = TRUE, order = 1),
-    shape = guide_legend(title = "Burial construction", override.aes = list(size = 10), nrow = 2, byrow = TRUE, order = 2),
+    color = guide_legend(
+      title = "Burial type", override.aes = list(size = 10), 
+      nrow = 2, byrow = TRUE, order = 1
+    ),
+    shape = guide_legend(
+      title = "Burial construction", override.aes = list(size = 10), 
+      nrow = 2, byrow = TRUE, order = 2
+    ),
     size = FALSE,
-    alpha = guide_legend(title = "Calibration density", override.aes = list(size = 10, shape = 15), nrow = 2, byrow = TRUE, order = 3)
+    alpha = guide_legend(
+      title = "Calibration density", override.aes = list(size = 10, shape = 15),
+      nrow = 2, byrow = TRUE, order = 3
+    )
   )
 
 p %>%

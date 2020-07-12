@@ -3,6 +3,7 @@ library(magrittr)
 load("inst/workflow_example/dates_prepared.RData")
 load("inst/workflow_example/research_area.RData")
 load("inst/workflow_example/extended_area.RData")
+load("inst/workflow_example/epsg102013.RData")
 
 #### prepare vertices for tessellation from C14 data ####
 
