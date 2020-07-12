@@ -1,12 +1,57 @@
 #' predict_grid
 #'
-#' @param x test
-#' @param prediction_grid test
-#' @param ... test
-#' @param polygon_edges test
+#' \code{predict_grid} allows to conveniently use the tessellation output as a 
+#' model to predict values for arbitrary points. See 
+#' \code{vignette("temporal_resampling", "bleiglas")} for an example application.
+#' \code{attribute_grid_points_to_polygons} is a helper function that does the 
+#' important step of point-to-polygon attribution, which might be useful by
+#' itself.
+#'
+#' @param x List of data.tables/data.frames with the input points that define
+#' the tessellation model:
+#' \itemize{
+#'   \item id: id number that is passed to the output polygon (integer)
+#'   \item x: x-axis coordinate (numeric)
+#'   \item y: y-axis coordinate (numeric)
+#'   \item z: z-axis coordinate (numeric)
+#'   \item ...: arbitrary variables
+#' }
+#' @param prediction_grid data.table/data.frame with the points that should be
+#' predicted by the tessellation model:
+#' \itemize{
+#'   \item x: x-axis coordinate (numeric)
+#'   \item y: y-axis coordinate (numeric)
+#'   \item z: z-axis coordinate (numeric)
+#' }
+#' @param ... Further variables passed to \code{pbapply::pblapply} (e.g. \code{cl})
+#' @param polygon_edges polygon points as returned by \code{bleiglas::read_polygon_edges}
 #' 
-#' @return test
-#'  
+#' @return List of data.tables with polygon attribution and predictions
+#'
+#' @examples
+#' x <- lapply(1:5, function(i) {
+#'   current_iteration <- data.table::data.table(
+#'     id = 1:5,
+#'     x = c(1, 2, 3, 2, 1) + rnorm(5, 0, 0.3),
+#'     y = c(3, 1, 4, 4, 3) + rnorm(5, 0, 0.3),
+#'     z = c(1, 3, 4, 2, 5) + rnorm(5, 0, 0.3),
+#'     value1 = c("Brot", "Kaese", "Wurst", "Gurke", "Brot"),
+#'     value2 = c(5.3, 5.1, 5.8, 1.0, 1.2)
+#'   )
+#'   data.table::setkey(current_iteration, "x", "y", "z")
+#'   unique( current_iteration ) 
+#' })
+#'
+#' all_iterations <- data.table::rbindlist(x)
+#' 
+#' prediction_grid <- expand.grid(
+#'   x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 10),
+#'   y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 10),
+#'   z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 5)
+#' )
+#' 
+#' bleiglas::predict_grid(x, prediction_grid, cl = 1)
+#' 
 #' @name predict_grid  
 #' @export
 predict_grid <- function(
