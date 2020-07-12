@@ -1,8 +1,8 @@
 ---
-title: "Temporal resampling"
+title: "Complete example"
 output: pdf_document
 vignette: >
-  %\VignetteIndexEntry{Temporal resampling}
+  %\VignetteIndexEntry{Complete example}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -16,44 +16,48 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
-sourcecode <- paste(
-  readLines(
-   system.file("workflow_example", "01_spatial_data_preparation.R", package = "bleiglas", mustWork = T)
-   ),
-  collapse="\n"
+This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application, so it contains a lot of code from different files in `inst/worklow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide instead.
+
+```{r, echo = FALSE}
+code_files_full_path <- list.files(
+  system.file("workflow_example", package = "bleiglas", mustWork = T),
+  pattern = ".R$", full.names = T
 )
+code_files <- basename(code_files_full_path)
+sourcecode <- lapply(code_files_full_path, function(x) { paste(readLines(x), collapse="\n") })
 ```
 
-```{r eval=FALSE, code=sourcecode}
+## `r code_files[1]`
+
+```{r eval=FALSE, code=sourcecode[[1]]}
 ```
 
-```{r}
-load(system.file("workflow_example", "dates_prepared.RData", package = "bleiglas", mustWork = T))
+## `r code_files[2]`
+
+```{r eval=FALSE, code=sourcecode[[2]]}
 ```
 
-```{r}
-# x <- lapply(1:5, function(age_resampling_run) {
-#   current_iteration <- data.table::data.table(
-#     id = 1:nrow(dates_prepared),
-#     x = dates_prepared$x,
-#     y = dates_prepared$y,
-#     z = sapply(dates_prepared$calage_sample, function(x){ x[age_resampling_run] }),
-#     burial_type = dates_prepared$burial_type
-#   )
-#   data.table::setkey(current_iteration, "x", "y", "z")
-#   unique( current_iteration ) 
-# })
-# 
-# all_iterations <- data.table::rbindlist(x)
-# 
-# prediction_grid <- expand.grid(
-#   x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 100),
-#   y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 100),
-#   z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
-# )
-# 
-# bleiglas::predict_grid(x, prediction_grid, cl = 1)
+## `r code_files[3]`
+
+```{r eval=FALSE, code=sourcecode[[3]]}
 ```
 
+## `r code_files[4]`
 
+```{r eval=FALSE, code=sourcecode[[4]]}
+```
+
+## `r code_files[5]`
+
+```{r eval=FALSE, code=sourcecode[[5]]}
+```
+
+## `r code_files[6]`
+
+```{r eval=FALSE, code=sourcecode[[6]]}
+```
+
+## `r code_files[7]`
+
+```{r eval=FALSE, code=sourcecode[[7]]}
+```
