@@ -4,15 +4,23 @@ load("inst/workflow_example/dates_prepared.RData")
 load("inst/workflow_example/research_area.RData")
 load("inst/workflow_example/extended_area.RData")
 
+#### prepare vertices for tessellation from C14 data ####
+
 vertices <- dates_prepared %>%
   dplyr::transmute(
     id = 1:nrow(.),
     x = round(x, 0),
     y = round(y, 0),
-    z = calage_center * 1000,
+    z = calage_center,
     burial_type = burial_type,
     burial_construction = burial_construction
   )
+
+#### scaling age/z value up ####
+
+vertices$z <- vertices$z * 1000
+
+#### make observations unique ####
 
 dec <- function(x, a, b) {
   if (all(c(a, b) %in% x)) { return("unknown") } 
@@ -29,9 +37,11 @@ vertices %<>%
     burial_construction = dec(burial_construction, "mound", "flat")
   ) %>% dplyr::ungroup()
 
+# reduce selection to dates with information about burial type
 vertices %<>% dplyr::filter(burial_type != "unknown")
 
 #### tessellate and read result ####
+
 bb <- sf::st_bbox(research_area)
 
 poly_raw <- bleiglas::tessellate(
@@ -41,7 +51,8 @@ poly_raw <- bleiglas::tessellate(
 )
 polygon_edges <- bleiglas::read_polygon_edges(poly_raw)
 
-#### remove time overemphasis ####
+#### scale age/z down again ####
+
 polygon_edges %<>% dplyr::mutate(
   z.a = z.a / 1000,
   z.b = z.b / 1000
@@ -51,30 +62,34 @@ vertices %<>% dplyr::mutate(
   z = z / 1000
 )
 
-#### time cuts ####
+#### cut tessellation volume ####
+
 cut_sufaces <- bleiglas::cut_polygons(
   polygon_edges,
   cuts = seq(-2200, -800, 200)
 )
 
+#### transform resulting 2D polygon surfaces to sf format ####
+
 cut_surfaces_sf <- bleiglas::cut_polygons_to_sf(
   cut_sufaces,
-  crs = "+proj=aea +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m +no_defs"
+  crs = epsg102013
 )
 
-#### crop bleiglas by land area and research area ####
+#### crop 2D polygon surfaces by land area and research area ####
+
 cut_sufaces_cropped <- cut_surfaces_sf %>% 
   sf::st_intersection(extended_area) %>%
   sf::st_intersection(research_area)
 
-#### join bleiglas polygons and metainformation ####
+#### join 2D polygons and vertex point wise context information ####
+
 cut_surfaces_info <- cut_sufaces_cropped %>%
   dplyr::left_join(
     vertices,
     by = "id"
   )
 
-#### store results ####
 save(
   vertices, polygon_edges, cut_surfaces_info, 
   file = "inst/workflow_example/tesselation_calage_center_burial_type.RData"

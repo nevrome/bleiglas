@@ -9,7 +9,7 @@ ex <- raster::extent(research_area)
 xlimit <- c(ex[1], ex[2])
 ylimit <- c(ex[3], ex[4])
 
-hu <- ggplot() +
+p <- ggplot() +
   geom_sf(
     data = extended_area,
     fill = "white", colour = "black", size = 0.4
@@ -71,7 +71,7 @@ hu <- ggplot() +
     alpha = guide_legend(title = "Calibration density", override.aes = list(size = 10, shape = 15), nrow = 2, byrow = TRUE, order = 3)
   )
 
-hu %>%
+p %>%
   ggsave(
     "paper/03_map_plot.jpeg",
     plot = .,
@@ -81,4 +81,3 @@ hu %>%
     width = 400, height = 250, units = "mm",
     limitsize = F
   )
-
