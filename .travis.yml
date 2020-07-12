@@ -10,5 +10,9 @@ before_install:
 - wget http://math.lbl.gov/voro++/download/dir/voro++-0.4.6.tar.gz
 - tar xzf voro++-0.4.6.tar.gz
 - cd voro++-0.4.6/ && ./configure && make && sudo make install
+<<<<<<< HEAD
+=======
+libvoro++1
+>>>>>>> 825150ef3f4a18c10d277b7e385d6b0e8d7878d2
 after_success:
 - Rscript -e 'library(covr); codecov()'
