@@ -9,6 +9,6 @@ before_install:
 - sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
 - wget http://math.lbl.gov/voro++/download/dir/voro++-0.4.6.tar.gz
 - tar xzf voro++-0.4.6.tar.gz
-- cd voro++-0.4.6/ && ./configure && make && sudo make install
+- cd voro++-0.4.6/ && make && sudo make install
 after_success:
 - Rscript -e 'library(covr); codecov()'
