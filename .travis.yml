@@ -6,9 +6,10 @@ r_packages:
 before_install:
 - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
 - sudo apt-get --yes --force-yes update -qq
-- sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev libvoro++1
-- wget http://archive.ubuntu.com/ubuntu/pool/universe/v/voro++/voro++_0.4.6+dfsg1-2_amd64.deb
-- sudo apt install ./voro++_0.4.6+dfsg1-2_amd64.deb
+- sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
+- wget http://math.lbl.gov/voro++/download/dir/voro++-0.4.6.tar.gz
+- tar xzf voro++-0.4.6.tar.gz
+- cd voro++-0.4.6/ && ./configure && make && sudo make install
 libvoro++1
 after_success:
 - Rscript -e 'library(covr); codecov()'
