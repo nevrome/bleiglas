@@ -53,6 +53,10 @@ For \autoref{fig:plot_bleiglas} we cut these polygons into 2D time slices that c
 
 ![*bleiglas plot*. Map matrix of 2D cuts through 3D voronoi polygons as presented in \autoref{fig:plot_3D}. Each subplot shows one 200 years timeslice between 2200 and 800 calBC. As each 2D polygon belongs to one input burial and data density in some areas and time periods is very low, some graves are represented in multiple subplots. Color coding and map background is as in \autoref{fig:plot_map}.\label{fig:plot_bleiglas}](04_bleiglas_plot.png)
 
+For \autoref{fig:plot_prediction_grid} 
+
+![.\label{fig:plot_prediction_grid}](05_prediction_grid_plot.png)
+
 # Acknowledgements
 
 The package benefitted from valuable comments by Joscha Gretzinger, who also suggested the name *bleiglas* (German *Bleiglasfenster* for English *Leadlight*) inspired by the appearance of the cut surface plots.

@@ -64,7 +64,7 @@ ylimit <- c(ex[3], ex[4])
 
 library(ggplot2)
 
-proportion_cropped %>% 
+p <- proportion_cropped %>% 
   ggplot() +
   geom_sf(
     data = extended_area,
@@ -102,3 +102,13 @@ proportion_cropped %>%
     panel.background = element_rect(fill = "#BFD5E3")
   ) 
   
+p %>% 
+  ggsave(
+    "paper/05_prediction_grid_plot.png",
+    plot = .,
+    device = "png",
+    scale = 1,
+    dpi = 300,
+    width = 550, height = 280, units = "mm",
+    limitsize = F
+  )
