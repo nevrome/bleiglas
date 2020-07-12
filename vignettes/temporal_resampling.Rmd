@@ -1,6 +1,6 @@
 ---
 title: "Temporal resampling"
-output: rmarkdown::html_vignette
+output: pdf_document
 vignette: >
   %\VignetteIndexEntry{Temporal resampling}
   %\VignetteEncoding{UTF-8}
@@ -17,31 +17,43 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
+sourcecode <- paste(
+  readLines(
+   system.file("workflow_example", "01_spatial_data_preparation.R", package = "bleiglas", mustWork = T)
+   ),
+  collapse="\n"
+)
+```
+
+```{r eval=FALSE, code=sourcecode}
+```
+
+```{r}
 load(system.file("workflow_example", "dates_prepared.RData", package = "bleiglas", mustWork = T))
 ```
 
 ```{r}
-x <- lapply(1:5, function(age_resampling_run) {
-  current_iteration <- data.table::data.table(
-    id = 1:nrow(dates_prepared),
-    x = dates_prepared$x,
-    y = dates_prepared$y,
-    z = sapply(dates_prepared$calage_sample, function(x){ x[age_resampling_run] }),
-    burial_type = dates_prepared$burial_type
-  )
-  data.table::setkey(current_iteration, "x", "y", "z")
-  unique( current_iteration ) 
-})
-
-all_iterations <- data.table::rbindlist(x)
-
-prediction_grid <- expand.grid(
-  x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 100),
-  y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 100),
-  z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
-)
-
-bleiglas::predict_grid(x, prediction_grid, cl = 1)
+# x <- lapply(1:5, function(age_resampling_run) {
+#   current_iteration <- data.table::data.table(
+#     id = 1:nrow(dates_prepared),
+#     x = dates_prepared$x,
+#     y = dates_prepared$y,
+#     z = sapply(dates_prepared$calage_sample, function(x){ x[age_resampling_run] }),
+#     burial_type = dates_prepared$burial_type
+#   )
+#   data.table::setkey(current_iteration, "x", "y", "z")
+#   unique( current_iteration ) 
+# })
+# 
+# all_iterations <- data.table::rbindlist(x)
+# 
+# prediction_grid <- expand.grid(
+#   x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 100),
+#   y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 100),
+#   z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
+# )
+# 
+# bleiglas::predict_grid(x, prediction_grid, cl = 1)
 ```
 
 
