@@ -3,7 +3,7 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Travis-CI Build
-Status](https://travis-ci.org/nevrome/bleiglas.svg?branch=master)](https://travis-ci.org/nevrome/bleiglas)
+Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/bleiglas)](https://cran.r-project.org/package=bleiglas)
