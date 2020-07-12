@@ -31,7 +31,7 @@ NumericVector pnpmulti(List polygons, NumericVector testx, NumericVector testy){
   int number_of_points = testx.size();
   int number_of_polygons = polygons.size();    
     
-  NumericVector pos_poly (testx.length());
+  NumericVector pos_poly (testx.length(), NumericVector::get_na());
   
   for(int i = 0; i < number_of_points; i++) {
     for(int j = 0; j < number_of_polygons; j++) {
