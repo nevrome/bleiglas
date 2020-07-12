@@ -1,69 +1,58 @@
+#' predict_grid
+#'
+#' @param x test
+#' @param prediction_grid test
+#' @param ... test
+#' @param polygon_edges test
+#' 
+#' @return test
+#'  
+#' @name predict_grid  
+#' @export
 predict_grid <- function(
   x,
   prediction_grid,
-  cl
+  ...
 ) {
   
-  x <- lapply(1:5, function(age_resampling_run) {
-    current_iteration <- data.table::data.table(
-      id = 1:nrow(dates_prepared),
-      x = dates_prepared$x,
-      y = dates_prepared$y,
-      z = sapply(dates_prepared$calage_sample, function(x){ x[age_resampling_run] }),
-      burial_type = dates_prepared$burial_type
-    )
-    data.table::setkey(current_iteration, "x", "y", "z")
-    unique( current_iteration ) 
-  })
+  check_if_packages_are_available("pbapply")
   
-  prediction_grid <- expand.grid(
-    x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 100),
-    y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 100),
-    z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
-  )
-  
-  min_x <- min(prediction_grid$x)
-  max_x <- max(prediction_grid$x)
-  min_y <- min(prediction_grid$y)
-  max_y <- max(prediction_grid$y)
-  min_z <- min(prediction_grid$z)
-  max_z <- max(prediction_grid$z)
-  
-  res <- pbapply::pblapply(1:length(x), function(i) {
+  # loop through all position iteration
+  pbapply::pblapply(1:length(x), function(i) {
     
     input <- x[[i]]
     
+    # tessellate current iteration
     raw_voro_output <- tessellate(
       input[, c("id", "x", "y", "z")],
-      x_min = min_x, x_max = max_x, 
-      y_min = min_y, y_max = max_y, 
-      z_min = min_z, z_max = max_z,
+      x_min = min(prediction_grid$x), x_max = max(prediction_grid$x), 
+      y_min = min(prediction_grid$y), y_max = max(prediction_grid$y), 
+      z_min = min(prediction_grid$z), z_max = max(prediction_grid$z),
       options = ""
     )
     
     polygon_edges <- read_polygon_edges(raw_voro_output) 
     
+    # fit prediction grid points to polygons
     attributed_pred_grid <- attribute_grid_points_to_polygons(prediction_grid, polygon_edges)
     
-    attributed_pred_grid_with_values <- attributed_pred_grid %>% data.table::merge.data.table(
-      input[, -c("x", "y", "z")], by.x = "polygon_id", by.y = "id"
+    # merge polygon values to prediction grid
+    attributed_pred_grid_with_values <- data.table::merge.data.table(
+      attributed_pred_grid,
+      input[, c("x", "y", "z"):=NULL], 
+      by.x = "polygon_id", by.y = "id"
     )
     
+    # store iteration run number
     attributed_pred_grid_with_values$run <- i
     
     return(attributed_pred_grid_with_values)
     
-  }, cl = cl)
-  
-  return(res)
+  }, ...)
   
 }
 
-#' predict_grid
-#'
-#' @param polygon_edges test
-#' @param prediction_grid test
-#'
+#' @rdname predict_grid  
 #' @export
 attribute_grid_points_to_polygons <- function(
   prediction_grid,

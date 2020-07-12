@@ -21,11 +21,27 @@ load(system.file("workflow_example", "dates_prepared.RData", package = "bleiglas
 ```
 
 ```{r}
-dates_prepared
+x <- lapply(1:5, function(age_resampling_run) {
+  current_iteration <- data.table::data.table(
+    id = 1:nrow(dates_prepared),
+    x = dates_prepared$x,
+    y = dates_prepared$y,
+    z = sapply(dates_prepared$calage_sample, function(x){ x[age_resampling_run] }),
+    burial_type = dates_prepared$burial_type
+  )
+  data.table::setkey(current_iteration, "x", "y", "z")
+  unique( current_iteration ) 
+})
 
-prediction_grid <- 
+all_iterations <- data.table::rbindlist(x)
 
-?bleiglas::attribute_grid_points_to_polygons()
+prediction_grid <- expand.grid(
+  x = seq(min(all_iterations$x), max(all_iterations$x), length.out = 100),
+  y = seq(min(all_iterations$y), max(all_iterations$y), length.out = 100),
+  z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 10)
+)
+
+predict_grid(x, prediction_grid, cl = 5)
 ```
 
 
