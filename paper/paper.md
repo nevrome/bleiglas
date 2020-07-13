@@ -53,9 +53,9 @@ For \autoref{fig:plot_bleiglas} we cut these polygons into 2D time slices that c
 
 ![*bleiglas plot*. Map matrix of 2D cuts through 3D voronoi polygons as presented in \autoref{fig:plot_3D}. Each subplot shows one 200 years timeslice between 2200 and 800 calBC. As each 2D polygon belongs to one input burial and data density in some areas and time periods is very low, some graves are represented in multiple subplots. Color coding and map background is as in \autoref{fig:plot_map}.\label{fig:plot_bleiglas}](06_bleiglas_plot.jpeg)
 
-For \autoref{fig:plot_prediction_grid} 
+For the final \autoref{fig:plot_prediction_grid} we applied temporal resampling with `bleiglas::predict_grid()` to record observational uncertainty caused by radiocarbon dating uncertainty. For reasons of computational performance we kept the number of resampling runs and the spatial resolution in this example low. Nevertheless the advantages of the resampling approach are well visible: areas and periods with uncertain attribution to one burial type or the other are indicated as such.
 
-![.\label{fig:plot_prediction_grid}](07_prediction_grid_plot.jpeg)
+![Temporal resampling version of the bleiglas map matrix. 30 resampling runs and a spatial resolution of 100*100 cells in the research area shape bounding box. Color coding and map background again as in \autoref{fig:plot_map}.\label{fig:plot_prediction_grid}](07_prediction_grid_plot.jpeg)
 
 # Acknowledgements
 
