@@ -50,6 +50,19 @@ tessellate <- function(
   voro_path = "voro++"
 ) {
 
+  checkmate::assert_data_frame(x)
+  checkmate::assert_names(colnames(x), must.include = c("id", "x", "y", "z"))
+  checkmate::assert_true(nrow(x) == nrow(unique(x[, c("x", "y", "z")])))
+  checkmate::assert_number(x_min, na.ok = T)
+  checkmate::assert_number(x_max, na.ok = T)
+  checkmate::assert_number(y_min, na.ok = T)
+  checkmate::assert_number(y_max, na.ok = T)
+  checkmate::assert_number(z_min, na.ok = T)
+  checkmate::assert_number(z_max, na.ok = T)
+  checkmate::assert_string(output_definition, na.ok = F)
+  checkmate::assert_string(options, na.ok = F)
+  checkmate::assert_string(voro_path, na.ok = F)
+  
   to_voro <- tempfile()
   from_voro <- paste0(to_voro, ".vol")
   

@@ -12,6 +12,7 @@ License: MIT + file LICENSE
 Depends:
     R (>= 3.5.0)
 Imports: 
+    checkmate,
     data.table,
     Rcpp
 Encoding: UTF-8
