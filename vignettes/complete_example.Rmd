@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application, so it contains a lot of code from different files in `inst/worklow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide instead.
+This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in [Schmid 2019](https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/worklow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
 
 ```{r, echo = FALSE}
 code_files_full_path <- list.files(
@@ -29,25 +29,35 @@ sourcecode <- lapply(code_files_full_path, function(x) { paste(readLines(x), col
 
 ## `r code_files[1]`
 
+This first script downloads and prepares a set of spatial data objects mostly relevant for plotting. The research area for this example was arbitrarily defined as a rectangle covering the most dense data accumulations in the relevant subset of the Radon-B database.
+
 ```{r eval=FALSE, code=sourcecode[[1]]}
 ```
 
 ## `r code_files[2]`
+
+This script contains the code to filter and prepare radiocarbon dates on graves from Radon-B. For the purpose of tessellation we need the dates to be transformed to a simple table with columns for the spatiotemporal position as well as for the burial type context.
 
 ```{r eval=FALSE, code=sourcecode[[2]]}
 ```
 
 ## `r code_files[3]`
 
+The script for the first plot in the JOSS paper: A simple map showing the spatial distribution of the observed dates or the graves they represent.
+
 ```{r eval=FALSE, code=sourcecode[[3]]}
 ```
 
 ## `r code_files[4]`
 
+In this script the tessellation is finally performed. The output is a `sf` object with 2D spatial polygons for different time cuts through the 3D tessellated cube. The time slices are already cut to the boundaries of the research area and the European land outline within the latter.
+
 ```{r eval=FALSE, code=sourcecode[[4]]}
 ```
 
 ## `r code_files[5]`
+
+This script illustrates one way to create a (printable) 3D plot of the 3D tessellation output -- so again a plot script behind the second figure in the JOSS article. The input radiocarbon dates are plotted as red dots surrounded by the edges of the 3D polygons voro++ constructs. The spatial research area becomes a spatiotemporal cube.
 
 ```{r eval=FALSE, code=sourcecode[[5]]}
 ```
