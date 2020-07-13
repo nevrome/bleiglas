@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in [Schmid 2019](https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/worklow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
+This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in [Schmid 2019](https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/workflow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
 
 ```{r, echo = FALSE}
 code_files_full_path <- list.files(
@@ -64,10 +64,14 @@ This script illustrates one way to create a (printable) 3D plot of the 3D tessel
 
 ## `r code_files[6]`
 
+Yet another plot script for what we call the "bleiglas" plot (Figure 3 in the JOSS article). The 2D cut polygons are projected onto a map in a diachronic plot matrix. It allows to inspect the 3D tessellation in a easily digestible way, much more human readable than the afore produced 3D plot.
+
 ```{r eval=FALSE, code=sourcecode[[6]]}
 ```
 
 ## `r code_files[7]`
+
+The final script and cradle of the last JOSS figure applies the bleiglas grid prediction method to account for the temporal uncertainty of the C14 dates. The result is a plot with less aesthetic, but more scientific value, as the known input errors are indicated.
 
 ```{r eval=FALSE, code=sourcecode[[7]]}
 ```
