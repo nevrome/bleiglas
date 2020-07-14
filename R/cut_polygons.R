@@ -15,6 +15,10 @@
 #' @export
 cut_polygons <- function(x, cuts) {
 
+  checkmate::assert_data_table(x, min.rows = 6)
+  checkmate::assert_names(colnames(x), identical.to = c("x.a", "y.a", "z.a", "x.b", "y.b", "z.b", "polygon_id"))
+  checkmate::assert_numeric(cuts, any.missing = FALSE, all.missing = FALSE)
+  
   polygon_2D_dfs_per_cut_list <- lapply(
     cuts, function(z) {
       polygon_2D_dfs_list <- lapply(
@@ -35,7 +39,6 @@ cut_polygons <- function(x, cuts) {
           polygon_2d_df <- as.data.frame(intersection_points[c(convex_hull_order, convex_hull_order[1]),])
           colnames(polygon_2d_df) <- c("x", "y", "z")
           polygon_2d_df$polygon_id <- y$polygon_id[1]
-          polygon_2d_df$time <- z
           
           return(polygon_2d_df)
         },

@@ -7,7 +7,7 @@
 cut_polygons_to_sf(x, crs)
 }
 \arguments{
-\item{x}{data.table. Output of cut_polygons}
+\item{x}{list of lists of data.tables. Output of cut_polygons}
 
 \item{crs}{coordinate reference system of the resulting 2D polygons. 
 Integer with the EPSG code, or character with proj4string}

@@ -3,7 +3,7 @@
 #' Transform the polygon cut slices to the sf format. This only makes sense
 #' if the x and y coordinate of your input dataset are spatial coordinates.
 #'
-#' @param x data.table. Output of cut_polygons
+#' @param x list of lists of data.tables. Output of cut_polygons
 #' @param crs coordinate reference system of the resulting 2D polygons. 
 #' Integer with the EPSG code, or character with proj4string
 #' 
@@ -13,6 +13,18 @@
 cut_polygons_to_sf <- function(x, crs) {
   
   check_if_packages_are_available("sf")
+  
+  checkmate::assert_list(x, types = "list", any.missing = FALSE, all.missing = FALSE, min.len = 1)
+  for (i in length(x)) {
+    for (j in length(x[[i]])) {
+      checkmate::check_data_table(
+        x[[i]][[j]], types = "numeric", any.missing = FALSE, all.missing = FALSE, min.rows = 3
+      )
+      checkmate::check_names(
+        colnames(x[[i]][[j]]), identical.to = c("x", "y", "z", "polygon_id")
+      )
+    }
+  }
   
   x <- unlist(x, recursive = F)
   
@@ -26,9 +38,9 @@ cut_polygons_to_sf <- function(x, crs) {
   polygon_2d <- sf::st_as_sf(polygon_2d_sfc)
   sf::st_crs(polygon_2d) <- crs
   
-  ids_times <- do.call(rbind, strsplit(names(x), "\\."))
-  polygon_2d$time <- as.numeric(ids_times[,1])
-  polygon_2d$id <- as.numeric(ids_times[,2])
+  ids_zs <- do.call(rbind, strsplit(names(x), "\\."))
+  polygon_2d$z <- as.numeric(ids_zs[,1])
+  polygon_2d$id <- as.numeric(ids_zs[,2])
   
   return(polygon_2d)
   

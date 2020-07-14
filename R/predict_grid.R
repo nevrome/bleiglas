@@ -62,6 +62,18 @@ predict_grid <- function(
   
   check_if_packages_are_available("pbapply")
   
+  checkmate::assert_list(x, types = "list", any.missing = FALSE, all.missing = FALSE, min.len = 1)
+  for (i in length(x)) {
+    checkmate::check_data_table(
+      x[[i]], any.missing = FALSE, all.missing = FALSE, min.rows = 3
+    )
+    checkmate::check_names(
+      colnames(x[[i]]), must.include = c("id", "x", "y", "z")
+    )
+  }
+  checkmate::assert_data_frame(prediction_grid, min.rows = 1, types = "numeric", )
+  checkmate::assert_names(colnames(prediction_grid), identical.to = c("x", "y", "z"))
+  
   # loop through all position iteration
   pbapply::pblapply(1:length(x), function(i) {
     

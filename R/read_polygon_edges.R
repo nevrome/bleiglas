@@ -13,6 +13,8 @@
 #' @export
 read_polygon_edges <- function(x) {
 
+  checkmate::assert_character(x, any.missing = FALSE, all.missing = FALSE, min.len = 1)
+  
   # apply read for each polygon
   polygon_edges_list <- lapply(
     x,
