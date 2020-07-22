@@ -13,23 +13,11 @@ Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](ht
 
 # bleiglas
 
-bleiglas is an R package that provides some helper functions for 3D
-tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent
-horizontal cutting of the resulting polygons for 2D plotting. The
-general workflow is described below.
-
-## Installation
-
-You can install bleiglas from github
-
-``` r
-if(!require('devtools')) install.packages('devtools')
-devtools::install_github("nevrome/bleiglas")
-```
-
-For the main function tessellate you also have to [install the voro++
-software](http://math.lbl.gov/voro++/download/). For Linux users: The
-package is already available in all major software repositories.
+bleiglas is an R package that provides functions for 3D tessellation
+with [voro++](http://math.lbl.gov/voro++/) and subsequent horizontal
+cutting of the resulting polygons for 2D plotting. It was developed for
+archaeological spatiotemporal data, but may as well be used for other
+three dimensional contexts.
 
 ## Documentation
 
@@ -45,6 +33,19 @@ package is already available in all major software repositories.
     [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd)
     which contains all the code necessary to reproduce the example
     application in said JOSS paper
+
+## Installation
+
+You can install bleiglas from github
+
+``` r
+if(!require('devtools')) install.packages('devtools')
+devtools::install_github("nevrome/bleiglas")
+```
+
+For the main function tessellate you also have to [install the voro++
+software](http://math.lbl.gov/voro++/download/). For Linux users: The
+package is already available in all major software repositories.
 
 ## Quickstart
 
