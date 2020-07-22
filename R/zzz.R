@@ -6,6 +6,6 @@
 NULL
 
 #' @export
-.onUnload <- function (libpath) {
+.onUnload <- function(libpath) {
   library.dynam.unload("bleiglas", libpath)
 }

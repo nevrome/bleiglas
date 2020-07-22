@@ -10,7 +10,7 @@ test_data_set <- lapply(1:5, function(i) {
     value2 = c(5.3, 5.1, 5.8, 1.0, 1.2)
   )
   data.table::setkey(current_iteration, "x", "y", "z")
-  unique( current_iteration )
+  unique(current_iteration)
 })
 
 all_iterations <- data.table::rbindlist(test_data_set)

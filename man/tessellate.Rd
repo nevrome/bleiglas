@@ -39,10 +39,10 @@ tessellate(
 \item{z_max}{maximum z-axis coordinate of the tessellation box. Default: max(z)}
 
 \item{output_definition}{string that describes how the output file of voro++ should be structured.
-This is passed to the -c option of the command line interface. All possible customization options 
+This is passed to the -c option of the command line interface. All possible customization options
 are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"}
 
-\item{options}{string with additional options passed to voro++. All options are documented 
+\item{options}{string with additional options passed to voro++. All options are documented
 \href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"}
 
 \item{voro_path}{system path to the voro++ executable. Default: "voro++"}
@@ -70,5 +70,4 @@ polygon_points <- read_polygon_edges(voro_output)
 cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
-
 }

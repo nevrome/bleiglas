@@ -2,15 +2,16 @@ context("normal pipeline")
 
 x <- data.table::data.table(
   id = 1:9,
-  x = c(1.5,1,2,1,2,1,2,1,2),
-  y = c(1.5,1,1,2,2,1,1,2,2),
-  z = c(1.5,1,1,1,1,2,2,2,2)
+  x = c(1.5, 1, 2, 1, 2, 1, 2, 1, 2),
+  y = c(1.5, 1, 1, 2, 2, 1, 1, 2, 2),
+  z = c(1.5, 1, 1, 1, 1, 2, 2, 2, 2)
 )
 
 #### tessellate ####
 
 run1 <- tessellate(
-  x, x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3, options = ""
+  x,
+  x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3, options = ""
 )
 
 test_that("tessellate returns a character vector with 9 values", {
@@ -26,7 +27,8 @@ test_that("tessellate returns an output vector with the correct %i*%P*%t format 
 })
 
 run2 <- tessellate(
-  x, x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3, 
+  x,
+  x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3,
   output_definition = "%i", options = ""
 )
 
@@ -38,7 +40,8 @@ test_that("tessellate argument output_definition changes the output format corre
 })
 
 run3 <- tessellate(
-  x, x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3, 
+  x,
+  x_min = 0, x_max = 3, y_min = 0, y_max = 3, z_min = 0, z_max = 3,
   options = "-g"
 )
 
@@ -71,7 +74,7 @@ cut_surfaces <- cut_polygons(polygon_edges, cuts_levels)
 
 test_that("cut_polygons can cut the tessellate output as prepared by read_polygons", {
   expect_equal(
-    length(cut_surfaces) + 1 , length(cuts_levels)
+    length(cut_surfaces) + 1, length(cuts_levels)
   )
   expect_type(
     cut_surfaces, "list"

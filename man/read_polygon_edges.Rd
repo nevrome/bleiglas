@@ -7,11 +7,11 @@
 read_polygon_edges(x)
 }
 \arguments{
-\item{x}{character vector with raw, linewise output of voro++ as produced with 
+\item{x}{character vector with raw, linewise output of voro++ as produced with
 \link{tessellate} when \code{output_definition = "\%i*\%P*\%t"}}
 }
 \value{
-data.table with columns for the coordinates x, y and z of the starting and 
+data.table with columns for the coordinates x, y and z of the starting and
 end point of each polygon edge
 }
 \description{
@@ -33,5 +33,4 @@ polygon_points <- read_polygon_edges(voro_output)
 cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
-
 }

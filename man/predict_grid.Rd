@@ -36,10 +36,10 @@ predicted by the tessellation model:
 List of data.tables with polygon attribution and predictions
 }
 \description{
-\code{predict_grid} allows to conveniently use the tessellation output as a 
-model to predict values for arbitrary points. See the bleiglass JOSS paper and 
+\code{predict_grid} allows to conveniently use the tessellation output as a
+model to predict values for arbitrary points. See the bleiglass JOSS paper and
 \code{vignette("complete_example", "bleiglas")} for an example application.
-\code{attribute_grid_points_to_polygons} is a helper function that does the 
+\code{attribute_grid_points_to_polygons} is a helper function that does the
 important step of point-to-polygon attribution, which might be useful by
 itself.
 }
@@ -54,7 +54,7 @@ x <- lapply(1:5, function(i) {
     value2 = c(5.3, 5.1, 5.8, 1.0, 1.2)
   )
   data.table::setkey(current_iteration, "x", "y", "z")
-  unique( current_iteration ) 
+  unique(current_iteration)
 })
 
 all_iterations <- data.table::rbindlist(x)
@@ -66,5 +66,4 @@ prediction_grid <- expand.grid(
 )
 
 bleiglas::predict_grid(x, prediction_grid, cl = 1)
-
 }

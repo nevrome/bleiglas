@@ -9,7 +9,7 @@ cut_polygons_to_sf(x, crs)
 \arguments{
 \item{x}{list of lists of data.tables. Output of cut_polygons}
 
-\item{crs}{coordinate reference system of the resulting 2D polygons. 
+\item{crs}{coordinate reference system of the resulting 2D polygons.
 Integer with the EPSG code, or character with proj4string}
 }
 \description{
@@ -32,5 +32,4 @@ polygon_points <- read_polygon_edges(voro_output)
 cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
-
 }
