@@ -20,4 +20,16 @@ prediction_grid <- expand.grid(
   z = seq(min(all_iterations$z), max(all_iterations$z), length.out = 5)
 )
 
-bleiglas::predict_grid(test_data_set, prediction_grid, cl = 1)
+prediction_list <- predict_grid(test_data_set, prediction_grid, cl = 1)
+
+test_that("predict_grid produces the expected output structure", {
+  expect_type(
+    prediction_list, "list"
+  )
+  expect_s3_class(
+    prediction_list[[1]], "data.table"
+  )
+  expect_equal(
+    colnames(prediction_list[[1]]), c("polygon_id", "x", "y", "z", "value1", "value2", "run")
+  )
+})
