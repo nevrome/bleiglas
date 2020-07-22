@@ -37,8 +37,8 @@ List of data.tables with polygon attribution and predictions
 }
 \description{
 \code{predict_grid} allows to conveniently use the tessellation output as a 
-model to predict values for arbitrary points. See 
-\code{vignette("temporal_resampling", "bleiglas")} for an example application.
+model to predict values for arbitrary points. See the bleiglass JOSS paper and 
+\code{vignette("complete_example", "bleiglas")} for an example application.
 \code{attribute_grid_points_to_polygons} is a helper function that does the 
 important step of point-to-polygon attribution, which might be useful by
 itself.

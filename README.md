@@ -1,7 +1,7 @@
 
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![Travis-CI Build
 Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas)
 [![Coverage
@@ -150,7 +150,8 @@ quiet some relevance for geostatistical analysis like e.g. spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample points.
+one of a set of sample
+points.
 
 <table style="width:100%">
 
@@ -235,7 +236,8 @@ by 150 kilometres to each (spatial) direction to cover the area of
 Cameroon.
 
 The output of voro++ is highly customizable, but structurally complex.
-With `-v` it first of all prints some config info on the command line.
+With `-v` it first of all prints some config info on the command
+    line.
 
     Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -352,7 +354,7 @@ cut_surfaces <- bleiglas::cut_polygons(
     ## bbox:           xmin: 937143 ymin: 63124.2 xmax: 1906880 ymax: 1506580
     ## projected CRS:  World Equidistant Cylindrical (Sphere)
     ## First 10 features:
-    ##                                 x time  id
+    ##                                 x    z  id
     ## 1  POLYGON ((1195186 319422.3,... 2500  16
     ## 2  POLYGON ((1906880 811490.3,... 2500  44
     ## 3  POLYGON ((1146789 374017.9,... 2500  51
@@ -379,12 +381,12 @@ surfaces.</summary>
 cut_surfaces %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
   geom_sf_text(aes(label = id)) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -401,7 +403,8 @@ cut_surfaces %>%
 
 <summary>As all input dates come from Cameroon it might be a sensible
 decision to cut the polygon surfaces to the outline of this
-administrative unit.</summary>
+administrative
+unit.</summary>
 
 <p>
 
@@ -417,11 +420,11 @@ cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)
 cut_surfaces_cropped %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -456,7 +459,7 @@ cut_surfaces_material %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z.x) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()

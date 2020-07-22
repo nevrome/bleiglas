@@ -5,7 +5,7 @@ editor_options:
 always_allow_html: true
 ---
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![Travis-CI Build Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas) 
 [![Coverage Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/bleiglas)](https://cran.r-project.org/package=bleiglas)
@@ -236,12 +236,12 @@ cut_surfaces
 cut_surfaces %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
   geom_sf_text(aes(label = id)) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -255,11 +255,11 @@ cut_surfaces %>%
 cut_surfaces %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -281,11 +281,11 @@ cut_surfaces_cropped <- cut_surfaces %>% sf::st_intersection(cameroon_border)
 cut_surfaces_cropped %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -299,11 +299,11 @@ cut_surfaces_cropped %>%
 cut_surfaces_cropped %>%
   ggplot() +
   geom_sf(
-    aes(fill = time), 
+    aes(fill = z), 
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -329,7 +329,7 @@ cut_surfaces_material %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z.x) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
@@ -347,7 +347,7 @@ cut_surfaces_material %>%
     color = "white",
     lwd = 0.2
   ) +
-  facet_wrap(~time) +
+  facet_wrap(~z.x) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank()
