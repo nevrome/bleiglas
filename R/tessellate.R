@@ -43,10 +43,12 @@
 #' cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
 #' @export
 tessellate <- function(
-                       x,
-                       x_min = NA, x_max = NA, y_min = NA, y_max = NA, z_min = NA, z_max = NA,
-                       output_definition = "%i*%P*%t", options = "-v",
-                       voro_path = "voro++") {
+  x,
+  x_min = NA, x_max = NA, y_min = NA, y_max = NA, z_min = NA, z_max = NA,
+  output_definition = "%i*%P*%t", options = "-v",
+  voro_path = "voro++"
+) {
+  
   checkmate::assert_data_frame(x)
   checkmate::assert_names(colnames(x), must.include = c("id", "x", "y", "z"))
   checkmate::assert_true(nrow(x) == nrow(unique(x[, c("x", "y", "z")])))

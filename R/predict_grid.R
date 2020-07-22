@@ -53,10 +53,8 @@
 #' bleiglas::predict_grid(x, prediction_grid, cl = 1)
 #' @name predict_grid
 #' @export
-predict_grid <- function(
-                         x,
-                         prediction_grid,
-                         ...) {
+predict_grid <- function(x, prediction_grid, ...) {
+  
   check_if_packages_are_available("pbapply")
 
   checkmate::assert_list(x, types = "list", any.missing = FALSE, all.missing = FALSE, min.len = 1)
@@ -107,9 +105,7 @@ predict_grid <- function(
 
 #' @rdname predict_grid
 #' @export
-attribute_grid_points_to_polygons <- function(
-                                              prediction_grid,
-                                              polygon_edges) {
+attribute_grid_points_to_polygons <- function(prediction_grid, polygon_edges) {
 
   # cut 3D polygons by z level in prediction grid
   polygons_2D <- bleiglas::cut_polygons(
