@@ -1,6 +1,6 @@
 Package: bleiglas
 Title: 3D Tessellation with Voro++
-Description: Some helper functions for 3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
+Description: 3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Clemens",
@@ -28,3 +28,5 @@ Suggests:
     sf,
     testthat
 VignetteBuilder: knitr
+URL: https://github.com/nevrome/bleiglas
+BugReports: https://github.com/nevrome/bleiglas/issues

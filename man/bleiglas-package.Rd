@@ -6,7 +6,15 @@
 \alias{bleiglas-package}
 \title{bleiglas: 3D Tessellation with Voro++}
 \description{
-Some helper functions for 3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
+3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/nevrome/bleiglas}
+  \item Report bugs at \url{https://github.com/nevrome/bleiglas/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Clemens Schmid \email{clemens@nevrome.de} (\href{https://orcid.org/0000-0003-3448-5715}{ORCID}) [copyright holder]
