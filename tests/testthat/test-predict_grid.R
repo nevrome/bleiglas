@@ -1,4 +1,4 @@
-# This code runs before the tests.
+context("predict grid")
 
 test_data_set <- lapply(1:5, function(i) {
   current_iteration <- data.table::data.table(
@@ -12,16 +12,6 @@ test_data_set <- lapply(1:5, function(i) {
   data.table::setkey(current_iteration, "x", "y", "z")
   unique( current_iteration )
 })
-
-test_data <- test_data_set[[1]]
-
-voro_output <- tessellate(test_data[, c("id", "x", "y", "z")])
-
-polygon_points <- read_polygon_edges(voro_output)
-
-cut_surfaces <- cut_polygons(polygon_points, c(2, 3, 4))
-
-cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
 
 all_iterations <- data.table::rbindlist(test_data_set)
 prediction_grid <- expand.grid(
