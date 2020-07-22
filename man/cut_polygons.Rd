@@ -27,7 +27,7 @@ random_unique_points <- unique(data.table::data.table(
   y = runif(10),
   z = runif(10)
 ))
-random_unique_points$id <- 1:10
+random_unique_points$id <- 1:nrow(random_unique_points)
 
 voro_output <- tessellate(random_unique_points)
 

@@ -10,12 +10,12 @@
 #'   \item y: y-axis coordinate (numeric)
 #'   \item z: z-axis coordinate (numeric)
 #' }
-#' @param x_min minimum x-axis coordinate of the box. Default: min(x)
-#' @param x_max maximum x-axis coordinate of the box. Default: max(x)
-#' @param y_min minimum y-axis coordinate of the box. Default: min(y)
-#' @param y_max maximum y-axis coordinate of the box. Default: max(y)
-#' @param z_min minimum z-axis coordinate of the box. Default: min(z)
-#' @param z_max maximum z-axis coordinate of the box. Default: max(z)
+#' @param x_min minimum x-axis coordinate of the tessellation box. Default: min(x)
+#' @param x_max maximum x-axis coordinate of the tessellation box. Default: max(x)
+#' @param y_min minimum y-axis coordinate of the tessellation box. Default: min(y)
+#' @param y_max maximum y-axis coordinate of the tessellation box. Default: max(y)
+#' @param z_min minimum z-axis coordinate of the tessellation box. Default: min(z)
+#' @param z_max maximum z-axis coordinate of the tessellation box. Default: max(z)
 #' @param output_definition string that describes how the output file of voro++ should be structured.
 #' This is passed to the -c option of the command line interface. All possible customization options 
 #' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"
@@ -32,7 +32,7 @@
 #'   y = runif(10),
 #'   z = runif(10)
 #' ))
-#' random_unique_points$id <- 1:10
+#' random_unique_points$id <- 1:nrow(random_unique_points)
 #' 
 #' voro_output <- tessellate(random_unique_points)
 #' 

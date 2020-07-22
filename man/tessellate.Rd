@@ -26,17 +26,17 @@ tessellate(
   \item z: z-axis coordinate (numeric)
 }}
 
-\item{x_min}{minimum x-axis coordinate of the box. Default: min(x)}
+\item{x_min}{minimum x-axis coordinate of the tessellation box. Default: min(x)}
 
-\item{x_max}{maximum x-axis coordinate of the box. Default: max(x)}
+\item{x_max}{maximum x-axis coordinate of the tessellation box. Default: max(x)}
 
-\item{y_min}{minimum y-axis coordinate of the box. Default: min(y)}
+\item{y_min}{minimum y-axis coordinate of the tessellation box. Default: min(y)}
 
-\item{y_max}{maximum y-axis coordinate of the box. Default: max(y)}
+\item{y_max}{maximum y-axis coordinate of the tessellation box. Default: max(y)}
 
-\item{z_min}{minimum z-axis coordinate of the box. Default: min(z)}
+\item{z_min}{minimum z-axis coordinate of the tessellation box. Default: min(z)}
 
-\item{z_max}{maximum z-axis coordinate of the box. Default: max(z)}
+\item{z_max}{maximum z-axis coordinate of the tessellation box. Default: max(z)}
 
 \item{output_definition}{string that describes how the output file of voro++ should be structured.
 This is passed to the -c option of the command line interface. All possible customization options 
@@ -61,7 +61,7 @@ random_unique_points <- unique(data.table::data.table(
   y = runif(10),
   z = runif(10)
 ))
-random_unique_points$id <- 1:10
+random_unique_points$id <- 1:nrow(random_unique_points)
 
 voro_output <- tessellate(random_unique_points)
 
