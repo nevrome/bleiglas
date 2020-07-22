@@ -57,7 +57,7 @@ dates_calibrated <- dates %>%
 # transform calBP age to calBC
 dates_calibrated$calage_density_distribution %<>% lapply(
   function(x) {
-    x$age = -x$age + bol
+    x$age <- -x$age + bol
     return(x)
   }
 )

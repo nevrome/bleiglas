@@ -7,6 +7,8 @@
 #' @param crs coordinate reference system of the resulting 2D polygons.
 #' Integer with the EPSG code, or character with proj4string
 #'
+#' @return sf object with one row for each 2D polygon
+#'
 #' @inherit tessellate examples
 #'
 #' @export

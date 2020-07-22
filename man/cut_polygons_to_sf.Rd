@@ -12,6 +12,9 @@ cut_polygons_to_sf(x, crs)
 \item{crs}{coordinate reference system of the resulting 2D polygons.
 Integer with the EPSG code, or character with proj4string}
 }
+\value{
+sf object with one row for each 2D polygon
+}
 \description{
 Transform the polygon cut slices to the sf format. This only makes sense
 if the x and y coordinate of your input dataset are spatial coordinates.

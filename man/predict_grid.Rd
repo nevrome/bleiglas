@@ -33,7 +33,7 @@ predicted by the tessellation model:
 \item{polygon_edges}{polygon points as returned by \code{bleiglas::read_polygon_edges}}
 }
 \value{
-List of data.tables with polygon attribution and predictions
+list of data.tables with polygon attribution and predictions
 }
 \description{
 \code{predict_grid} allows to conveniently use the tessellation output as a

@@ -26,7 +26,7 @@
 #' @param ... Further variables passed to \code{pbapply::pblapply} (e.g. \code{cl})
 #' @param polygon_edges polygon points as returned by \code{bleiglas::read_polygon_edges}
 #'
-#' @return List of data.tables with polygon attribution and predictions
+#' @return list of data.tables with polygon attribution and predictions
 #'
 #' @examples
 #' x <- lapply(1:5, function(i) {
