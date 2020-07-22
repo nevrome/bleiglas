@@ -38,9 +38,13 @@ package is already available in all major software repositories.
     package
 2.  A [JOSS
     paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
-    (not submitted yet) gives some background and introduces the core
-    functions from a more technical point of view
-3.  A [vignette]() introduces an application of resampling analysis
+    (not submitted yet) which gives some background, introduces the core
+    functions from a more technical point of view and presents an
+    example application
+3.  A
+    [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd)
+    which contains all the code necessary to reproduce the example
+    application in said JOSS paper
 
 ## Quickstart
 
@@ -471,3 +475,21 @@ cut_surfaces_material %>%
 </details>
 
 <img src="README_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+
+## Citation
+
+    ## 
+    ## To cite package 'bleiglas' in publications use:
+    ## 
+    ##   Clemens Schmid (2020). bleiglas: 3D Tessellation with Voro++. R
+    ##   package version 0.0.0.9000. https://github.com/nevrome/bleiglas
+    ## 
+    ## A BibTeX entry for LaTeX users is
+    ## 
+    ##   @Manual{,
+    ##     title = {bleiglas: 3D Tessellation with Voro++},
+    ##     author = {Clemens Schmid},
+    ##     year = {2020},
+    ##     note = {R package version 0.0.0.9000},
+    ##     url = {https://github.com/nevrome/bleiglas},
+    ##   }

@@ -43,8 +43,8 @@ For the main function tessellate you also have to [install the voro++ software](
 ## Documentation
 
 1. This README (see Quickstart guide below) describes a basic workflow with code and explains some of my thought process when writing this package
-2. A [JOSS paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md) (not submitted yet) gives some background and introduces the core functions from a more technical point of view
-3. A [vignette]() introduces an application of resampling analysis
+2. A [JOSS paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md) (not submitted yet) which gives some background, introduces the core functions from a more technical point of view and presents an example application
+3. A [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd) which contains all the code necessary to reproduce the example application in said JOSS paper
 
 ## Quickstart
 
@@ -352,4 +352,10 @@ cut_surfaces_material %>%
     axis.text = element_blank(),
     axis.ticks = element_blank()
   )
+```
+
+## Citation
+
+```{r, echo=F}
+citation("bleiglas")
 ```
