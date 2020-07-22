@@ -61,7 +61,8 @@ tessellate <- function(
   checkmate::assert_string(output_definition, na.ok = F)
   checkmate::assert_string(options, na.ok = F)
   checkmate::assert_string(voro_path, na.ok = F)
-
+  check_for_voro(voro_path)
+  
   to_voro <- tempfile()
   from_voro <- paste0(to_voro, ".vol")
 
@@ -87,3 +88,27 @@ tessellate <- function(
   poly_raw <- readLines(from_voro)
   return(poly_raw)
 }
+
+#' @keywords internal
+#' @noRd
+check_for_voro <- function(voro_path) {
+  tryCatch({
+    works <- !substr(system(paste(voro_path, "-h"), intern = TRUE)[1], 1, 6) == "Voro++"
+  }, error = function(e) {
+    stop_missing_voro()
+  })
+  if (works) {
+    stop_missing_voro()
+  }
+}
+
+#' @keywords internal
+#' @noRd
+stop_missing_voro <- function() {
+  stop(
+    "voro++ does not seem to be avaible. ",
+    "Please make sure that it is installed (http://math.lbl.gov/voro++) ",
+    "and that voro_path points to the executable."
+  )
+}
+
