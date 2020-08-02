@@ -72,16 +72,9 @@ I selected dates from Cameroon between 1000 and 3000 uncalibrated BP and
 projected them into a worldwide cylindrical reference system (epsg
 [4088](https://epsg.io/4088)). As Cameroon is close to the equator this
 projection should represent distances, angles and areas sufficiently
-correct for this example exercise. A critical step when using
-tesselation for spatio-temporal data is a suitable conversion scale
-between time- and spatial units. Since 3D tesselation crucially depends
-on the concept of a 3D-distance, we need to make a decision how to
-combine length- and time-units. Here, for the purpose of this example,
-we have 1 kilometer correspond to 1 year. Since after the coordinate
-conversion our spatial units are given in meters, we below multiply all
-c14-ages by a factor 1000 to achieve this correspondence. As a minor
-pre-processing step, I here also remove samples with equal position in
-all three dimensions for the tessellation.
+correct for this example exercise. As a minor pre-processing step, I
+here also remove samples with equal position in all three dimensions for
+the tessellation.
 
 ``` r
 # download raw data
@@ -115,7 +108,7 @@ c14 <- c14_cmr_unique %>%
     id = 1:nrow(.),
     x = coords[,1], 
     y = coords[,2], 
-    z = c14age * 1000, # rescaling of temporal data
+    z = c14age,
     material = material
 )
 ```
@@ -135,18 +128,18 @@ c14
 ```
 
     ## # A tibble: 380 x 5
-    ##       id        x       y       z material
-    ##    <int>    <dbl>   <dbl>   <dbl> <chr>   
-    ##  1     1 1284303. 450331. 1920000 <NA>    
-    ##  2     2 1284303. 450331. 2596000 <NA>    
-    ##  3     3 1284303. 450331. 2360000 <NA>    
-    ##  4     4 1284303. 450331. 2380000 <NA>    
-    ##  5     5 1278776. 434150. 2810000 <NA>    
-    ##  6     6 1278776. 434150. 2710000 <NA>    
-    ##  7     7 1278776. 434150. 1860000 <NA>    
-    ##  8     8 1278776. 434150. 1960000 <NA>    
-    ##  9     9 1278776. 434150. 2820000 <NA>    
-    ## 10    10 1278776. 434150. 2110000 <NA>    
+    ##       id        x       y     z material
+    ##    <int>    <dbl>   <dbl> <int> <chr>   
+    ##  1     1 1284303. 450331.  1920 <NA>    
+    ##  2     2 1284303. 450331.  2596 <NA>    
+    ##  3     3 1284303. 450331.  2360 <NA>    
+    ##  4     4 1284303. 450331.  2380 <NA>    
+    ##  5     5 1278776. 434150.  2810 <NA>    
+    ##  6     6 1278776. 434150.  2710 <NA>    
+    ##  7     7 1278776. 434150.  1860 <NA>    
+    ##  8     8 1278776. 434150.  1960 <NA>    
+    ##  9     9 1278776. 434150.  2820 <NA>    
+    ## 10    10 1278776. 434150.  2110 <NA>    
     ## # … with 370 more rows
 
 </p>
@@ -239,27 +232,37 @@ this:
 raw_voro_output <- bleiglas::tessellate(
   c14[, c("id", "x", "y", "z")],
   x_min = min(c14$x) - 150000, x_max = max(c14$x) + 150000, 
-  y_min = min(c14$y) - 150000, y_max = max(c14$y) + 150000
+  y_min = min(c14$y) - 150000, y_max = max(c14$y) + 150000,
+  unit_scaling = c(0.001, 0.001, 1)
 )
 ```
 
-`bleiglas::tessellate(c14[, c("id", "x", "y", "z")])` would be
-sufficient, but I decided to increase the size of the tessellation box
-by 150 kilometres to each (spatial) direction to cover the area of
-Cameroon.
+A critical step when using tessellation for spatio-temporal data is a
+suitable conversion scale between time- and spatial units. Since 3D
+tessellation crucially depends on the concept of a 3D-distance, we need
+to make a decision how to combine length- and time-units. Here, for the
+purpose of this example, we have 1 kilometre correspond to 1 year. Since
+after the coordinate conversion our spatial units are given in meters,
+we divide all spatial distances by a factor 1000 to achieve this
+correspondence: `unit_scaling = c(0.001, 0.001, 1)`.
+
+I decided to increase the size of the tessellation box by 150 kilometres
+to each (spatial) direction to cover the area of Cameroon. Mind that the
+scaling factors in `unit_scaling` are also applied to the box size
+parameters `x_min`, `x_max`, ….
 
 The output of voro++ is highly customizable, and structurally complex.
 Voro++, with the `-v` flag prints some config info on the command line,
 which is also the output of `bleiglas::tesselate`:
 
-    Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
+    Container geometry        : [937.143:1906.88] [63.1242:1506.58] [1010:2990]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
-    Filename                  : /tmp/RtmpL9VlIm/file23304de43e55
+    Filename                  : /tmp/RtmpmrfjUb/file4e6b779e7830
     Output string             : %i*%P*%t
     Total imported particles  : 379 (4.2 per grid block)
     Total V. cells computed   : 379
-    Total container volume    : 2.77155e+18
-    Total V. cell volume      : 2.77168e+18
+    Total container volume    : 2.77155e+09
+    Total V. cell volume      : 2.77155e+09
 
 It then produces an output file (`*.vol`) that contains all sorts of
 geometry information for the calculated 3D polygons. I focussed on the
@@ -272,24 +275,37 @@ of the start (a) and end point (b) of each polygon edge.
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
+Before we use this output for any further analysis, we should reverse
+the rescaling introduced with the `unit_scaling` parameter to fit to the
+input data again.
+
+``` r
+polygon_edges %<>% dplyr::mutate(
+  x.a = x.a * 1000,
+  x.b = x.b * 1000,
+  y.a = y.a * 1000,
+  y.b = y.b * 1000
+)
+```
+
 <details>
 
-<summary>Data</summary>
+<summary>Data: <b>polygon\_edges</b></summary>
 
 <p>
 
     ##            x.a    y.a     z.a     x.b    y.b     z.b polygon_id
-    ##     1: 1352610 233681 1240760 1381950 158990 1274740         38
-    ##     2: 1324180 130338 1292500 1381950 158990 1274740         38
-    ##     3: 1309730 225141 1313810 1381950 158990 1274740         38
-    ##     4: 1201420 392245 1299830 1289680 241638 1324360         38
-    ##     5: 1276830 227624 1327040 1289680 241638 1324360         38
+    ##     1: 1352610 233681 1240.76 1381950 158990 1274.74         38
+    ##     2: 1324180 130338 1292.50 1381950 158990 1274.74         38
+    ##     3: 1309730 225141 1313.81 1381950 158990 1274.74         38
+    ##     4: 1201420 392245 1299.83 1289680 241638 1324.36         38
+    ##     5: 1276830 227624 1327.04 1289680 241638 1324.36         38
     ##    ---                                                         
-    ## 24134: 1408090 992474 2655000 1502620 926332 2717020        272
-    ## 24135: 1514160 920693 2717020 1502620 926332 2717020        272
-    ## 24136: 1599840 898736 2655000 1514160 920693 2717020        272
-    ## 24137: 1520780 928425 2770000 1514160 920693 2717020        272
-    ## 24138: 1502620 926332 2717020 1514160 920693 2717020        272
+    ## 24034: 1408090 992474 2655.00 1502620 926332 2717.02        272
+    ## 24035: 1514160 920693 2717.02 1502620 926332 2717.02        272
+    ## 24036: 1599840 898736 2655.00 1514160 920693 2717.02        272
+    ## 24037: 1520780 928425 2770.00 1514160 920693 2717.02        272
+    ## 24038: 1502620 926332 2717.02 1514160 920693 2717.02        272
 
 </p>
 
@@ -301,20 +317,6 @@ polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 sample points (red) in 3D.</summary>
 
 <p>
-
-Before plotting I here change the scaling of the temporal information
-back again to increase the readability of the plot.
-
-``` r
-polygon_edges %<>% dplyr::mutate(
-  z.a = z.a / 1000,
-  z.b = z.b / 1000
-)
-
-c14 %<>% dplyr::mutate(
-  z = z / 1000
-)
-```
 
 ``` r
 rgl::axes3d()
@@ -358,7 +360,7 @@ cut_surfaces <- bleiglas::cut_polygons(
 
 <details>
 
-<summary>Data</summary>
+<summary>Data: <b>cut\_surfaces</b></summary>
 
 <p>
 
@@ -490,7 +492,7 @@ analysis of Bronze Age burial types through time, as performed in our
 [JOSS
 paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
 and the
-[vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd):
+[vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd).
 
 <!-- Add JOSS paper figure here? Just a suggestion as a further teaser. It's just beautiful -->
 
