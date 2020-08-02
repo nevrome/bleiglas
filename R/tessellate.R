@@ -10,6 +10,10 @@
 #'   \item y: y-axis coordinate (numeric)
 #'   \item z: z-axis coordinate (numeric)
 #' }
+#' Note that tesselate assumes that the values given as x, y and z are comparable in units.
+#' If you input spatio-temporal data, make sure that you have units that determine your 3D distance
+#' metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
+#' Otherwise, rescale appropriately.
 #' @param x_min minimum x-axis coordinate of the tessellation box. Default: min(x)
 #' @param x_max maximum x-axis coordinate of the tessellation box. Default: max(x)
 #' @param y_min minimum y-axis coordinate of the tessellation box. Default: min(y)
