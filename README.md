@@ -43,11 +43,15 @@ if(!require('devtools')) install.packages('devtools')
 devtools::install_github("nevrome/bleiglas")
 ```
 
-For the main function tessellate you also have to [install the voro++
+For the main function `tessellate` you also have to [install the voro++
 software](http://math.lbl.gov/voro++/download/). For Linux users: The
 package is already available in all major software repositories.
 
 ## Quickstart
+
+For this quickstart, we assume you have packages `tidyverse`, `sf`,
+`rgeos` (which in turn requires the Unix package `geos`) and `c14bazAAR`
+installed.
 
 #### Getting some data
 
@@ -68,11 +72,16 @@ I selected dates from Cameroon between 1000 and 3000 uncalibrated BP and
 projected them into a worldwide cylindrical reference system (epsg
 [4088](https://epsg.io/4088)). As Cameroon is close to the equator this
 projection should represent distances, angles and areas sufficiently
-correct for this example exercise. I rescaled the temporal data with a
-factor of 1000 to better show the effect of 3D tessellation. You can
-imagine the samples to be observations in a 3D geo-time-space where one
-year equals one kilometre. I had to remove samples with equal position
-in all three dimensions for the tessellation.
+correct for this example exercise. A critical step when using
+tesselation for spatio-temporal data is a suitable conversion scale
+between time- and spatial units. Since 3D tesselation crucially depends
+on the concept of a 3D-distance, we need to make a decision how to
+combine length- and time-units. Here, for the purpose of this example,
+we have 1 kilometer correspond to 1 year. Since after the coordinate
+conversion our spatial units are given in meters, we below multiply all
+c14-ages by a factor 1000 to achieve this correspondence. As a minor
+pre-processing step, I here also remove samples with equal position in
+all three dimensions for the tessellation.
 
 ``` r
 # download raw data
@@ -151,12 +160,11 @@ space with polygons so that neither gaps nor overlaps occur. This is an
 exciting application for art (e.g. textile art or architecture) and an
 interesting challenge for mathematics. As a computational archaeologist
 I was already aware of one particular tessellation algorithm that has
-quiet some relevance for geostatistical analysis like e.g. spatial
+quite some relevance for geostatistical analysis like spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample
-points.
+one of a set of sample points.
 
 <table style="width:100%">
 
@@ -217,10 +225,10 @@ Output example of voro++ rendered with POV-Ray.
 
 </table>
 
-I learned that Voronoi tessellation can be calculated not just for 2D
+It turns out that Voronoi tessellation can be calculated not just for 2D
 surfaces, but also for higher dimensions. The
 [voro++](http://math.lbl.gov/voro++/) software library does exactly this
-for 3D space.
+for 3 dimensions, such as for spatio-temporal applications.
 
 `bleiglas::tessellate()` is a minimal wrapper function that calls the
 voro++ command line interface (therefore you have to install voro++ to
@@ -240,9 +248,9 @@ sufficient, but I decided to increase the size of the tessellation box
 by 150 kilometres to each (spatial) direction to cover the area of
 Cameroon.
 
-The output of voro++ is highly customizable, but structurally complex.
-With `-v` it first of all prints some config info on the command
-    line.
+The output of voro++ is highly customizable, and structurally complex.
+Voro++, with the `-v` flag prints some config info on the command line,
+which is also the output of `bleiglas::tesselate`:
 
     Container geometry        : [937143:1.90688e+06] [63124.2:1.50658e+06] [1.01e+06:2.99e+06]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -253,7 +261,7 @@ With `-v` it first of all prints some config info on the command
     Total container volume    : 2.77155e+18
     Total V. cell volume      : 2.77168e+18
 
-It then produces an output file (`*.vol`) that can contain all sorts of
+It then produces an output file (`*.vol`) that contains all sorts of
 geometry information for the calculated 3D polygons. I focussed on the
 edges of the polygons and wrote a parser function
 `bleiglas::read_polygon_edges()` that can transform the complex voro++
@@ -294,8 +302,8 @@ sample points (red) in 3D.</summary>
 
 <p>
 
-Before plotting I wanted to changed the scaling of the temporal
-information back again to increase the readability of the plot.
+Before plotting I here change the scaling of the temporal information
+back again to increase the readability of the plot.
 
 ``` r
 polygon_edges %<>% dplyr::mutate(
@@ -328,16 +336,17 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 
 #### Cutting the polygons
 
-The static 3D plot is of rather dubious value: Very hard to read. I
-therefore wrote `bleiglas::cut_polygons()` that can cut the 3D polygons
-at different levels of the z-axis. As the function assumes that x and y
-represent geographic coordinates, the cuts produce sets of spatial 2D
-polygons for different values of z – in our example different points in
-time. The parameter `cuts` takes a numeric vector of cutting points on
-the z axis. `bleiglas::cut_polygons()` yields a rather crude format. For
-mapping `bleiglas::cut_polygons_to_sf()` allows to transform it to `sf`.
-Here `crs` defines the spatial coordinate reference system of x and y to
-project the resulting 2D polygons correctly.
+This 3D plot, even if rotatable using mouse input, is of rather limited
+value since it’s very hard to read. I therefore wrote
+`bleiglas::cut_polygons()` that can cut the 3D polygons at different
+levels of the z-axis. As the function assumes that x and y represent
+geographic coordinates, the cuts produce sets of spatial 2D polygons for
+different values of z – in our example different points in time. The
+parameter `cuts` takes a numeric vector of cutting points on the z axis.
+`bleiglas::cut_polygons()` yields a rather raw format for specifying
+polygons. Another function, `bleiglas::cut_polygons_to_sf()`, transforms
+it to `sf`. Here `crs` defines the spatial coordinate reference system
+of x and y to project the resulting 2D polygons correctly.
 
 ``` r
 cut_surfaces <- bleiglas::cut_polygons(
@@ -406,10 +415,8 @@ cut_surfaces %>%
 
 <details>
 
-<summary>As all input dates come from Cameroon it might be a sensible
-decision to cut the polygon surfaces to the outline of this
-administrative
-unit.</summary>
+<summary>As all input dates come from Cameroon it makes sense to cut the
+polygon surfaces to the outline of this administrative unit.</summary>
 
 <p>
 
@@ -444,8 +451,8 @@ cut_surfaces_cropped %>%
 
 <details>
 
-<summary>Finally we can also visualise any point-wise information in our
-input data as a feature of the tessellation polygons.</summary>
+<summary>Finally, we can also visualise any point-wise information in
+our input data as a feature of the tessellation polygons.</summary>
 
 <p>
 
@@ -476,6 +483,16 @@ cut_surfaces_material %>%
 </details>
 
 <img src="README_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+
+This quickstart was a simple primer on how to use this package. If you
+think the final use case wasn’t too impressive, take a look at this
+analysis of Bronze Age burial types through time, as performed in our
+[JOSS
+paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
+and the
+[vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd):
+
+<!-- Add JOSS paper figure here? Just a suggestion as a further teaser. It's just beautiful -->
 
 ## Citation
 
