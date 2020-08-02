@@ -10,7 +10,8 @@
 #'   \item y: y-axis coordinate (numeric)
 #'   \item z: z-axis coordinate (numeric)
 #' }
-#' @param x_min minimum x-axis coordinate of the tessellation box. Default: min(x)
+#' @param x_min minimum x-axis coordinate of the tessellation box. Default: min(x).
+#' These values are automatically multiplied by the scaling factor in \code{unit_scaling}!
 #' @param x_max maximum x-axis coordinate of the tessellation box. Default: max(x)
 #' @param y_min minimum y-axis coordinate of the tessellation box. Default: min(y)
 #' @param y_max maximum y-axis coordinate of the tessellation box. Default: max(y)
@@ -20,7 +21,8 @@
 #' As a default setting (c(1,1,1)) tesselate assumes that the values given as x, y and z are comparable in units.
 #' If you input spatio-temporal data, make sure that you have units that determine your 3D distance
 #' metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
-#' Otherwise, rescale appropriately.
+#' Otherwise, rescale appropriately. Mind that the values of *_min and *_max are adjusted 
+#' as well by these factors.
 #' @param output_definition string that describes how the output file of voro++ should be structured.
 #' This is passed to the -c option of the command line interface. All possible customization options
 #' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"
@@ -74,6 +76,12 @@ tessellate <- function(
   from_voro <- paste0(to_voro, ".vol")
 
   # rescaling
+  if (!is.na(x_min)) { x_min <- x_min * unit_scaling[1] }
+  if (!is.na(x_max)) { x_max <- x_max * unit_scaling[1] }
+  if (!is.na(y_min)) { y_min <- y_min * unit_scaling[2] }
+  if (!is.na(y_max)) { y_max <- y_max * unit_scaling[2] }
+  if (!is.na(z_min)) { z_min <- z_min * unit_scaling[3] }
+  if (!is.na(z_max)) { z_max <- z_max * unit_scaling[3] }
   x$x <- x$x * unit_scaling[1]
   x$y <- x$y * unit_scaling[2]
   x$z <- x$z * unit_scaling[3]
