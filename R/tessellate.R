@@ -10,16 +10,17 @@
 #'   \item y: y-axis coordinate (numeric)
 #'   \item z: z-axis coordinate (numeric)
 #' }
-#' Note that tesselate assumes that the values given as x, y and z are comparable in units.
-#' If you input spatio-temporal data, make sure that you have units that determine your 3D distance
-#' metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
-#' Otherwise, rescale appropriately.
 #' @param x_min minimum x-axis coordinate of the tessellation box. Default: min(x)
 #' @param x_max maximum x-axis coordinate of the tessellation box. Default: max(x)
 #' @param y_min minimum y-axis coordinate of the tessellation box. Default: min(y)
 #' @param y_max maximum y-axis coordinate of the tessellation box. Default: max(y)
 #' @param z_min minimum z-axis coordinate of the tessellation box. Default: min(z)
 #' @param z_max maximum z-axis coordinate of the tessellation box. Default: max(z)
+#' @param unit_scaling numeric vector with 3 scaling factors for x, y and z axis values.
+#' As a default setting (c(1,1,1)) tesselate assumes that the values given as x, y and z are comparable in units.
+#' If you input spatio-temporal data, make sure that you have units that determine your 3D distance
+#' metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
+#' Otherwise, rescale appropriately.
 #' @param output_definition string that describes how the output file of voro++ should be structured.
 #' This is passed to the -c option of the command line interface. All possible customization options
 #' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"
@@ -32,23 +33,24 @@
 #' @examples
 #' random_unique_points <- unique(data.table::data.table(
 #'   id = NA,
-#'   x = runif(10),
-#'   y = runif(10),
-#'   z = runif(10)
+#'   x = runif(10, 0, 100000),
+#'   y = runif(10, 0, 100000),
+#'   z = runif(10, 0, 100)
 #' ))
 #' random_unique_points$id <- 1:nrow(random_unique_points)
 #'
-#' voro_output <- tessellate(random_unique_points)
+#' voro_output <- tessellate(random_unique_points, unit_scaling = c(0.001, 0.001, 1))
 #'
 #' polygon_points <- read_polygon_edges(voro_output)
 #'
-#' cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+#' cut_surfaces <- cut_polygons(polygon_points, c(20, 40, 60))
 #'
 #' cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
 #' @export
 tessellate <- function(
   x,
   x_min = NA, x_max = NA, y_min = NA, y_max = NA, z_min = NA, z_max = NA,
+  unit_scaling = c(1, 1, 1),
   output_definition = "%i*%P*%t", options = "-v",
   voro_path = "voro++"
 ) {
@@ -56,6 +58,7 @@ tessellate <- function(
   checkmate::assert_data_frame(x)
   checkmate::assert_names(colnames(x), must.include = c("id", "x", "y", "z"))
   checkmate::assert_true(nrow(x) == nrow(unique(x[, c("x", "y", "z")])))
+  checkmate::assert_numeric(unit_scaling, len = 3)
   checkmate::assert_number(x_min, na.ok = T)
   checkmate::assert_number(x_max, na.ok = T)
   checkmate::assert_number(y_min, na.ok = T)
@@ -70,8 +73,15 @@ tessellate <- function(
   to_voro <- tempfile()
   from_voro <- paste0(to_voro, ".vol")
 
+  # rescaling
+  x$x <- x$x * unit_scaling[1]
+  x$y <- x$y * unit_scaling[2]
+  x$z <- x$z * unit_scaling[3]
+  
+  # create voro++ input file
   utils::write.table(x, file = to_voro, quote = FALSE, row.names = F, col.names = F)
 
+  # run voro++
   system(paste(
     voro_path,
     # output string

@@ -12,6 +12,7 @@ tessellate(
   y_max = NA,
   z_min = NA,
   z_max = NA,
+  unit_scaling = c(1, 1, 1),
   output_definition = "\%i*\%P*\%t",
   options = "-v",
   voro_path = "voro++"
@@ -24,11 +25,7 @@ tessellate(
   \item x: x-axis coordinate (numeric)
   \item y: y-axis coordinate (numeric)
   \item z: z-axis coordinate (numeric)
-}
-Note that tesselate assumes that the values given as x, y and z are comparable in units.
-If you input spatio-temporal data, make sure that you have units that determine your 3D distance
-metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
-Otherwise, rescale appropriately.}
+}}
 
 \item{x_min}{minimum x-axis coordinate of the tessellation box. Default: min(x)}
 
@@ -41,6 +38,12 @@ Otherwise, rescale appropriately.}
 \item{z_min}{minimum z-axis coordinate of the tessellation box. Default: min(z)}
 
 \item{z_max}{maximum z-axis coordinate of the tessellation box. Default: max(z)}
+
+\item{unit_scaling}{numeric vector with 3 scaling factors for x, y and z axis values.
+As a default setting (c(1,1,1)) tesselate assumes that the values given as x, y and z are comparable in units.
+If you input spatio-temporal data, make sure that you have units that determine your 3D distance
+metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
+Otherwise, rescale appropriately.}
 
 \item{output_definition}{string that describes how the output file of voro++ should be structured.
 This is passed to the -c option of the command line interface. All possible customization options
@@ -61,17 +64,17 @@ voro++ must be installed on your system to use this function.
 \examples{
 random_unique_points <- unique(data.table::data.table(
   id = NA,
-  x = runif(10),
-  y = runif(10),
-  z = runif(10)
+  x = runif(10, 0, 100000),
+  y = runif(10, 0, 100000),
+  z = runif(10, 0, 100)
 ))
 random_unique_points$id <- 1:nrow(random_unique_points)
 
-voro_output <- tessellate(random_unique_points)
+voro_output <- tessellate(random_unique_points, unit_scaling = c(0.001, 0.001, 1))
 
 polygon_points <- read_polygon_edges(voro_output)
 
-cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+cut_surfaces <- cut_polygons(polygon_points, c(20, 40, 60))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
 }

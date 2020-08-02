@@ -20,17 +20,17 @@ Special reader function for polygon edge output of voro++.
 \examples{
 random_unique_points <- unique(data.table::data.table(
   id = NA,
-  x = runif(10),
-  y = runif(10),
-  z = runif(10)
+  x = runif(10, 0, 100000),
+  y = runif(10, 0, 100000),
+  z = runif(10, 0, 100)
 ))
 random_unique_points$id <- 1:nrow(random_unique_points)
 
-voro_output <- tessellate(random_unique_points)
+voro_output <- tessellate(random_unique_points, unit_scaling = c(0.001, 0.001, 1))
 
 polygon_points <- read_polygon_edges(voro_output)
 
-cut_surfaces <- cut_polygons(polygon_points, c(0.2, 0.4, 0.6))
+cut_surfaces <- cut_polygons(polygon_points, c(20, 40, 60))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
 }
