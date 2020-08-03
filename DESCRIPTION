@@ -1,7 +1,7 @@
 Package: bleiglas
 Title: 3D Tessellation with Voro++
 Description: 3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
-Version: 0.0.0.9000
+Version: 0.0.1
 Date: 2020-07-22
 Authors@R: 
     c(
