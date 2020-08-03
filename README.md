@@ -39,8 +39,8 @@ three dimensional contexts.
 You can install bleiglas from github
 
 ``` r
-if(!require('devtools')) install.packages('devtools')
-devtools::install_github("nevrome/bleiglas")
+if(!require('remotes')) install.packages('remotes')
+remotes::install_github("nevrome/bleiglas")
 ```
 
 For the main function `tessellate` you also have to [install the voro++
@@ -157,7 +157,8 @@ quite some relevance for geostatistical analysis like spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample points.
+one of a set of sample
+points.
 
 <table style="width:100%">
 
@@ -253,7 +254,8 @@ parameters `x_min`, `x_max`, ….
 
 The output of voro++ is highly customizable, and structurally complex.
 Voro++, with the `-v` flag prints some config info on the command line,
-which is also the output of `bleiglas::tesselate`:
+which is also the output of
+    `bleiglas::tesselate`:
 
     Container geometry        : [937.143:1906.88] [63.1242:1506.58] [1010:2990]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
@@ -418,7 +420,8 @@ cut_surfaces %>%
 <details>
 
 <summary>As all input dates come from Cameroon it makes sense to cut the
-polygon surfaces to the outline of this administrative unit.</summary>
+polygon surfaces to the outline of this administrative
+unit.</summary>
 
 <p>
 
