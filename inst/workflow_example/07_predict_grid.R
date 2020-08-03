@@ -126,3 +126,12 @@ p %>%
     width = 550, height = 280, units = "mm",
     limitsize = F
   )
+
+#### didactic output for vignette ####
+
+prediction_grid_example <- prediction[1:10,]
+
+save(
+  prediction_grid_example, 
+  file = "inst/workflow_example/prediction_grid_example.RData"
+)
