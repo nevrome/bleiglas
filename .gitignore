@@ -49,3 +49,5 @@ src/*.dll
 # data for JOSS figures
 paper/workflow_example/*.RData
 inst/doc
+doc
+Meta
