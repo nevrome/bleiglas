@@ -48,6 +48,12 @@ The script for the first plot in the JOSS paper: A simple map showing the spatia
 ```{r eval=FALSE, code=sourcecode[[3]]}
 ```
 
+```{r, echo=FALSE, out.width = '100%'}
+knitr::include_graphics(
+  file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "03_map_plot.jpeg")
+)
+```
+
 ## `r code_files[4]`
 
 In this script the tessellation is finally performed. The output is a `sf` object with 2D spatial polygons for different time cuts through the 3D tessellated cube. The time slices are already cut to the boundaries of the research area and the European land outline within the latter.
@@ -62,6 +68,12 @@ This script illustrates one way to create a (printable) 3D plot of the 3D tessel
 ```{r eval=FALSE, code=sourcecode[[5]]}
 ```
 
+```{r, echo=FALSE, out.width = '100%'}
+knitr::include_graphics(
+  file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "05_3D_plot.jpeg")
+)
+```
+
 ## `r code_files[6]`
 
 Yet another plot script for what we call the "bleiglas" plot (Figure 3 in the JOSS article). The 2D cut polygons are projected onto a map in a diachronic plot matrix. It allows to inspect the 3D tessellation in a easily digestible way, much more human readable than the afore produced 3D plot.
@@ -69,9 +81,21 @@ Yet another plot script for what we call the "bleiglas" plot (Figure 3 in the JO
 ```{r eval=FALSE, code=sourcecode[[6]]}
 ```
 
+```{r, echo=FALSE, out.width = '100%'}
+knitr::include_graphics(
+  file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "06_bleiglas_plot.jpeg")
+)
+```
+
 ## `r code_files[7]`
 
 The final script and cradle of the last JOSS figure applies the bleiglas grid prediction method to account for the temporal uncertainty of the C14 dates. The result is a plot with less aesthetic, but more scientific value, as the known input errors are indicated.
 
 ```{r eval=FALSE, code=sourcecode[[7]]}
+```
+
+```{r, echo=FALSE, out.width = '100%'}
+knitr::include_graphics(
+  file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "07_prediction_grid_plot.jpeg")
+)
 ```
