@@ -68,7 +68,7 @@ predict_grid <- function(x, prediction_grid, ...) {
       must.include = c("id", "x", "y", "z")
     )
   }
-  checkmate::assert_data_frame(prediction_grid, min.rows = 1, types = "numeric", )
+  checkmate::assert_data_frame(prediction_grid, min.rows = 1, types = "numeric")
   checkmate::assert_names(colnames(prediction_grid), identical.to = c("x", "y", "z"))
 
   # loop through all position iteration

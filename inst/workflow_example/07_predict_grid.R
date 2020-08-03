@@ -23,8 +23,7 @@ iterations <- lapply(1:30, function(age_resampling_run) {
     burial_type = burial_type_data$burial_type
   )
   # make sure that the observation selection is unique
-  data.table::setkey(current_iteration, "x", "y", "z")
-  unique( current_iteration ) 
+  unique( current_iteration[!duplicated(current_iteration[,c("x", "y", "z")])] ) 
 })
 
 #### prepare prediction grid ####
