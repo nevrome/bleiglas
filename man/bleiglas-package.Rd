@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Clemens Schmid \email{clemens@nevrome.de} (\href{https://orcid.org/0000-0003-3448-5715}{ORCID}) [copyright holder]
 
+Other contributors:
+\itemize{
+  \item Stephan Schiffels (\href{https://orcid.org/0000-0002-1017-9150}{ORCID}) [contributor]
+}
+
 }
 \keyword{internal}

@@ -4,11 +4,17 @@ Description: 3D tessellation with voro++ and subsequent horizontal cutting of th
 Version: 0.0.0.9000
 Date: 2020-07-22
 Authors@R: 
-    person(given = "Clemens",
-           family = "Schmid",
-           role = c("aut", "cre", "cph"),
-           email = "clemens@nevrome.de",
-           comment = c(ORCID = "0000-0003-3448-5715"))
+    c(
+      person(given = "Clemens",
+        family = "Schmid",
+        role = c("aut", "cre", "cph"),
+        email = "clemens@nevrome.de",
+        comment = c(ORCID = "0000-0003-3448-5715")),
+      person(given = "Stephan",
+        family = "Schiffels",
+        role = "ctb",
+        comment = c(ORCID = "0000-0002-1017-9150"))
+    )
 License: MIT + file LICENSE
 Depends:
     R (>= 3.5.0)
