@@ -22,7 +22,7 @@ polygon_edges$y.b <- polygon_edges$y.b/1000
 
 jpeg(
   filename = "inst/workflow_example/05_3D_plot.jpeg", 
-  width = 22, height = 14, units = "cm", res = 300
+  width = 22, height = 14, units = "cm", res = 150
 )
 
 # vertex points

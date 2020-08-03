@@ -16,10 +16,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, echo=FALSE}
-library(tibble)
-```
-
 This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in Schmid 2019 (https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/workflow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
 
 ```{r, echo = FALSE}
@@ -49,7 +45,7 @@ This script contains the code to filter and prepare radiocarbon dates on graves 
 
 ```{r, echo=FALSE} 
 load(file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "dates_prepared.RData"))
-dates_prepared
+data.table::as.data.table(dates_prepared)
 ```
 
 ## `r code_files[3]`
@@ -79,13 +75,13 @@ load(file.path(system.file("workflow_example", package = "bleiglas", mustWork = 
 ```
 
 ```{r, echo=FALSE} 
-vertices
+data.table::as.data.table(vertices)
 ```
 
 ### `polygon_edges`
 
 ```{r, echo=FALSE} 
-as_tibble(polygon_edges)
+polygon_edges
 ```
 
 ### `cut_surfaces[[1]][1:3]`

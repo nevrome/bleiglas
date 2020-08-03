@@ -87,7 +87,7 @@ p %>%
     plot = .,
     device = "jpeg",
     scale = 1,
-    dpi = 300,
+    dpi = 150,
     width = 400, height = 250, units = "mm",
     limitsize = F
   )

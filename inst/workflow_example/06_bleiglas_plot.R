@@ -37,7 +37,7 @@ p <- cut_surfaces_info %>%
       "unknown" = "grey85"
     )
   ) +
-  facet_wrap(~time, nrow = 2) +
+  facet_wrap(~z.x, nrow = 2) +
   coord_sf(
     xlim = xlimit, ylim = ylimit,
     crs = sf::st_crs(epsg102013)
@@ -66,7 +66,7 @@ p %>%
     plot = .,
     device = "jpeg",
     scale = 1,
-    dpi = 300,
+    dpi = 150,
     width = 550, height = 280, units = "mm",
     limitsize = F
   )
