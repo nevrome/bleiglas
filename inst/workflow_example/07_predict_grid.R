@@ -119,7 +119,7 @@ p <- proportion_cropped %>%
   
 p %>% 
   ggsave(
-    "paper/07_prediction_grid_plot.jpeg",
+    "inst/workflow_example/07_prediction_grid_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,

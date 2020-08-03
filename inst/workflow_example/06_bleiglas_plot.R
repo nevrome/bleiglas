@@ -62,7 +62,7 @@ p <- cut_surfaces_info %>%
 
 p %>% 
   ggsave(
-    "paper/06_bleiglas_plot.jpeg",
+    "inst/workflow_example/06_bleiglas_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,

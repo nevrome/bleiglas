@@ -83,7 +83,7 @@ p <- ggplot() +
 
 p %>%
   ggsave(
-    "paper/03_map_plot.jpeg",
+    "inst/workflow_example/03_map_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,
