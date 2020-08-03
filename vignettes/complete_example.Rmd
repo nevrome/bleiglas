@@ -16,7 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in [Schmid 2019](https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/workflow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
+```{r, echo=FALSE}
+library(tibble)
+```
+
+This vignette contains all the code behind the example in the Journal of Open Source Software paper. This can be considered a real life application initially introduced in Schmid 2019 (https://doi.org/10.1177/1059712319860842), so it contains different files in `inst/workflow` in the package directory and does not omit any code for data preparation, manipulation or plotting. See the package README for a minimal Quickstart guide to bleiglas instead.
 
 ```{r, echo = FALSE}
 code_files_full_path <- list.files(
@@ -41,6 +45,13 @@ This script contains the code to filter and prepare radiocarbon dates on graves 
 ```{r eval=FALSE, code=sourcecode[[2]]}
 ```
 
+### `dates_prepared`
+
+```{r, echo=FALSE} 
+load(file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "dates_prepared.RData"))
+dates_prepared
+```
+
 ## `r code_files[3]`
 
 The script for the first plot in the JOSS paper: A simple map showing the spatial distribution of the observed dates or the graves they represent.
@@ -59,6 +70,28 @@ knitr::include_graphics(
 In this script the tessellation is finally performed. The output is a `sf` object with 2D spatial polygons for different time cuts through the 3D tessellated cube. The time slices are already cut to the boundaries of the research area and the European land outline within the latter.
 
 ```{r eval=FALSE, code=sourcecode[[4]]}
+```
+
+### `vertices`
+
+```{r, echo=FALSE} 
+load(file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "tesselation_calage_center_burial_type.RData"))
+```
+
+```{r, echo=FALSE} 
+vertices
+```
+
+### `polygon_edges`
+
+```{r, echo=FALSE} 
+as_tibble(polygon_edges)
+```
+
+### `cut_surfaces[[1]][1:3]`
+
+```{r, echo=FALSE} 
+cut_surfaces[[1]][1:3]
 ```
 
 ## `r code_files[5]`
@@ -98,4 +131,11 @@ The final script and cradle of the last JOSS figure applies the bleiglas grid pr
 knitr::include_graphics(
   file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "07_prediction_grid_plot.jpeg")
 )
+```
+
+### `prediction (first 10 rows)`
+
+```{r, echo=FALSE} 
+load(file.path(system.file("workflow_example", package = "bleiglas", mustWork = T), "prediction_grid_example.RData"))
+prediction_grid_example
 ```
