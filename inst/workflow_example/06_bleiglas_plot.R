@@ -60,13 +60,26 @@ p <- cut_surfaces_info %>%
     panel.background = element_rect(fill = "#BFD5E3")
   ) 
 
+#### save plot ####
+
 p %>% 
   ggsave(
     "inst/workflow_example/06_bleiglas_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,
-    dpi = 150,
+    dpi = 72,
+    width = 550, height = 280, units = "mm",
+    limitsize = F
+  )
+
+p %>% 
+  ggsave(
+    "paper/06_bleiglas_plot.jpeg",
+    plot = .,
+    device = "jpeg",
+    scale = 1,
+    dpi = 300,
     width = 550, height = 280, units = "mm",
     limitsize = F
   )

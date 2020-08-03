@@ -81,13 +81,26 @@ p <- ggplot() +
     )
   )
 
+### save plot ####
+
 p %>%
   ggsave(
     "inst/workflow_example/03_map_plot.jpeg",
     plot = .,
     device = "jpeg",
     scale = 1,
-    dpi = 150,
+    dpi = 72,
+    width = 400, height = 250, units = "mm",
+    limitsize = F
+  )
+
+p %>%
+  ggsave(
+    "paper/03_map_plot.jpeg",
+    plot = .,
+    device = "jpeg",
+    scale = 1,
+    dpi = 300,
     width = 400, height = 250, units = "mm",
     limitsize = F
   )

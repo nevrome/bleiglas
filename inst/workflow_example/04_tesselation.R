@@ -93,5 +93,5 @@ cut_surfaces_info <- cut_surfaces_cropped %>%
 
 save(
   vertices, polygon_edges, cut_surfaces, cut_surfaces_info, 
-  file = "inst/workflow_example/tesselation_calage_center_burial_type.RData"
+  file = "inst/workflow_example/tesselation_calage_center_burial_type.RData",
 )
