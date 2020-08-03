@@ -65,7 +65,7 @@ vertices %<>% dplyr::mutate(
 
 #### cut tessellation volume ####
 
-cut_sufaces <- bleiglas::cut_polygons(
+cut_surfaces <- bleiglas::cut_polygons(
   polygon_edges,
   cuts = seq(-2200, -800, 200)
 )
@@ -73,25 +73,25 @@ cut_sufaces <- bleiglas::cut_polygons(
 #### transform resulting 2D polygon surfaces to sf format ####
 
 cut_surfaces_sf <- bleiglas::cut_polygons_to_sf(
-  cut_sufaces,
+  cut_surfaces,
   crs = epsg102013
 )
 
 #### crop 2D polygon surfaces by land area and research area ####
 
-cut_sufaces_cropped <- cut_surfaces_sf %>% 
+cut_surfaces_cropped <- cut_surfaces_sf %>% 
   sf::st_intersection(extended_area) %>%
   sf::st_intersection(research_area)
 
 #### join 2D polygons and vertex point wise context information ####
 
-cut_surfaces_info <- cut_sufaces_cropped %>%
+cut_surfaces_info <- cut_surfaces_cropped %>%
   dplyr::left_join(
     vertices,
     by = "id"
   )
 
 save(
-  vertices, polygon_edges, cut_surfaces_info, 
+  vertices, polygon_edges, cut_surfaces, cut_surfaces_info, 
   file = "inst/workflow_example/tesselation_calage_center_burial_type.RData"
 )
