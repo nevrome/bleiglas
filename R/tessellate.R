@@ -22,7 +22,8 @@
 #' If you input spatio-temporal data, make sure that you have units that determine your 3D distance
 #' metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
 #' Otherwise, rescale appropriately. Mind that the values of *_min and *_max are adjusted 
-#' as well by these factors.
+#' as well by these factors. The unit_scaling parameter is stored as an attribute of the output
+#' to scale the output back automatically in \link{read_polygon_edges}.
 #' @param output_definition string that describes how the output file of voro++ should be structured.
 #' This is passed to the -c option of the command line interface. All possible customization options
 #' are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default: "\%i*\%P*\%t"
@@ -30,7 +31,7 @@
 #' \href{http://math.lbl.gov/voro++/doc/cmd.html}{here}. Default: "-v"
 #' @param voro_path system path to the voro++ executable. Default: "voro++"
 #'
-#' @return raw, linewise output of voro++ in a character vector
+#' @return raw, linewise output of voro++ in a character vector with an attribute "unit scaling" (see above)
 #'
 #' @examples
 #' random_unique_points <- unique(data.table::data.table(
@@ -107,7 +108,12 @@ tessellate <- function(
     to_voro
   ))
 
+  # read voro output
   poly_raw <- readLines(from_voro)
+  
+  # store unit sclaing as an attribute
+  attr(poly_raw, "unit_scaling") <- unit_scaling
+  
   return(poly_raw)
 }
 

@@ -4,11 +4,14 @@
 \alias{read_polygon_edges}
 \title{read_polygon_edges}
 \usage{
-read_polygon_edges(x)
+read_polygon_edges(x, rescale = TRUE)
 }
 \arguments{
 \item{x}{character vector with raw, linewise output of voro++ as produced with
 \link{tessellate} when \code{output_definition = "\%i*\%P*\%t"}}
+
+\item{rescale}{Should the output of \link{tessellate} be back-rescaled according to its 
+\code{unit_scaling} attribute? Ignored if \code{x} does not have this attribute}
 }
 \value{
 data.table with columns for the coordinates x, y and z of the starting and
