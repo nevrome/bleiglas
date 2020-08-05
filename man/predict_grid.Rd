@@ -5,7 +5,7 @@
 \alias{attribute_grid_points_to_polygons}
 \title{predict_grid}
 \usage{
-predict_grid(x, prediction_grid, ...)
+predict_grid(x, prediction_grid, unit_scaling = c(1, 1, 1), ...)
 
 attribute_grid_points_to_polygons(prediction_grid, polygon_edges)
 }
@@ -27,6 +27,8 @@ predicted by the tessellation model:
   \item y: y-axis coordinate (numeric)
   \item z: z-axis coordinate (numeric)
 }}
+
+\item{unit_scaling}{passed to \link{tessellate} - see the documentation there}
 
 \item{...}{Further variables passed to \code{pbapply::pblapply} (e.g. \code{cl})}
 

@@ -35,4 +35,9 @@ polygon_points <- read_polygon_edges(voro_output)
 cut_surfaces <- cut_polygons(polygon_points, c(20, 40, 60))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
+\donttest{
+polygons_z_20 <- sf::st_geometry(cut_surfaces_sf[cut_surfaces_sf$z == 20, ])
+plot(polygons_z_20, col = sf::sf.colors(10, categorical = TRUE))
+}
+
 }

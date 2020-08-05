@@ -45,7 +45,8 @@ As a default setting (c(1,1,1)) tesselate assumes that the values given as x, y 
 If you input spatio-temporal data, make sure that you have units that determine your 3D distance
 metric the way you intend it to be. For example, if you need 1km=1year, use those units in the input. 
 Otherwise, rescale appropriately. Mind that the values of *_min and *_max are adjusted 
-as well by these factors.}
+as well by these factors. The unit_scaling parameter is stored as an attribute of the output
+to scale the output back automatically in \link{read_polygon_edges}.}
 
 \item{output_definition}{string that describes how the output file of voro++ should be structured.
 This is passed to the -c option of the command line interface. All possible customization options
@@ -57,7 +58,7 @@ are documented \href{http://math.lbl.gov/voro++/doc/custom.html}{here}. Default:
 \item{voro_path}{system path to the voro++ executable. Default: "voro++"}
 }
 \value{
-raw, linewise output of voro++ in a character vector
+raw, linewise output of voro++ in a character vector with an attribute "unit scaling" (see above)
 }
 \description{
 Command line utility wrapper for the \href{http://math.lbl.gov/voro++}{voro++} software library.
@@ -79,4 +80,9 @@ polygon_points <- read_polygon_edges(voro_output)
 cut_surfaces <- cut_polygons(polygon_points, c(20, 40, 60))
 
 cut_surfaces_sf <- cut_polygons_to_sf(cut_surfaces, crs = 25832)
+\donttest{
+polygons_z_20 <- sf::st_geometry(cut_surfaces_sf[cut_surfaces_sf$z == 20, ])
+plot(polygons_z_20, col = sf::sf.colors(10, categorical = TRUE))
+}
+
 }

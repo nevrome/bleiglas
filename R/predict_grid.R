@@ -23,6 +23,7 @@
 #'   \item y: y-axis coordinate (numeric)
 #'   \item z: z-axis coordinate (numeric)
 #' }
+#' @param unit_scaling passed to \link{tessellate} - see the documentation there
 #' @param ... Further variables passed to \code{pbapply::pblapply} (e.g. \code{cl})
 #' @param polygon_edges polygon points as returned by \code{bleiglas::read_polygon_edges}
 #'
@@ -53,7 +54,7 @@
 #' bleiglas::predict_grid(x, prediction_grid, cl = 1)
 #' @name predict_grid
 #' @export
-predict_grid <- function(x, prediction_grid, ...) {
+predict_grid <- function(x, prediction_grid, unit_scaling = c(1, 1, 1), ...) {
   
   check_if_packages_are_available("pbapply")
 
@@ -81,6 +82,7 @@ predict_grid <- function(x, prediction_grid, ...) {
       x_min = min(prediction_grid$x), x_max = max(prediction_grid$x),
       y_min = min(prediction_grid$y), y_max = max(prediction_grid$y),
       z_min = min(prediction_grid$z), z_max = max(prediction_grid$z),
+      unit_scaling = unit_scaling,
       options = ""
     )
 

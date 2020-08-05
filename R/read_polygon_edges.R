@@ -4,6 +4,8 @@
 #'
 #' @param x character vector with raw, linewise output of voro++ as produced with
 #' \link{tessellate} when \code{output_definition = "\%i*\%P*\%t"}
+#' @param rescale Should the output of \link{tessellate} be back-rescaled according to its 
+#' \code{unit_scaling} attribute? Ignored if \code{x} does not have this attribute
 #'
 #' @return data.table with columns for the coordinates x, y and z of the starting and
 #' end point of each polygon edge
@@ -11,7 +13,7 @@
 #' @inherit tessellate examples
 #'
 #' @export
-read_polygon_edges <- function(x) {
+read_polygon_edges <- function(x, rescale = TRUE) {
   
   checkmate::assert_character(x, any.missing = FALSE, all.missing = FALSE, min.len = 1)
 
@@ -58,5 +60,15 @@ read_polygon_edges <- function(x) {
 
   polygon_edges <- data.table::rbindlist(polygon_edges_list)
 
+  if ( !is.null(attr(x, "unit_scaling")) && rescale ) {
+    unit_scaling <- attr(x, "unit_scaling")
+    polygon_edges$x.a <- polygon_edges$x.a / unit_scaling[1]
+    polygon_edges$x.b <- polygon_edges$x.b / unit_scaling[1]
+    polygon_edges$y.a <- polygon_edges$y.a / unit_scaling[2]
+    polygon_edges$y.b <- polygon_edges$y.b / unit_scaling[2]
+    polygon_edges$z.a <- polygon_edges$z.a / unit_scaling[3]
+    polygon_edges$z.b <- polygon_edges$z.b / unit_scaling[3]
+  }
+  
   return(polygon_edges[, -c(1, 2)])
 }

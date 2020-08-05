@@ -34,7 +34,7 @@ run2 <- tessellate(
 
 test_that("tessellate argument output_definition changes the output format correctly", {
   expect_equal(
-    run2,
+    as.vector(run2),
     c("2", "3", "4", "5", "6", "7", "8", "1", "9")
   )
 })
