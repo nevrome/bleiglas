@@ -1,0 +1,7 @@
+.PHONY: all libvoro++.a
+
+all: $(SHLIB)
+$(SHLIB): libvoro++.a
+
+libvoro++.a: 
+	(cd voro++0.4.6; $(MAKE))

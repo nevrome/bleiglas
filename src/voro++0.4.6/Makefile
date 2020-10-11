@@ -13,7 +13,7 @@ objs=cell.o common.o container.o unitcell.o v_compute.o c_loops.o \
 src=$(patsubst %.o,%.cc,$(objs))
 
 # Makefile rules
-all: libvoro++.a voro++
+all: libvoro++.a
 
 depend:
 	$(CXX) -MM $(src) >Makefile.dep
@@ -30,10 +30,10 @@ libvoro++.a: $(objs)
 %.o: %.cc
 	$(CXX) $(CFLAGS) -c $<
 
-help: Doxyfile $(SOURCE)
-	doxygen Doxyfile
+#help: Doxyfile $(SOURCE)
+#	doxygen Doxyfile
 
 clean:
-	rm -f $(objs) voro++ libvoro++.a
+	rm -f $(objs) libvoro++.a
 
-.PHONY: all help execs depend
+.PHONY: all depend
