@@ -9,13 +9,18 @@
 
 #include <cmath>
 #include <cstring>
-#include <Rcpp.h>
 
 #include "config.h"
 #include "common.h"
 #include "cell.h"
 
-using namespace Rcpp;
+#if defined(R_BUILD)
+  #define STRICT_R_HEADERS
+  #include "R.h"
+  // textual substitution
+  #define printf Rprintf
+#endif
+
 namespace voro {
 
 /** Constructs a Voronoi cell and sets up the initial memory. */
@@ -333,7 +338,7 @@ void voronoicell_base::init_tetrahedron_base(double x0,double y0,double z0,doubl
 void voronoicell_base::check_relations() {
 	int i,j;
 	for(i=0;i<p;i++) for(j=0;j<nu[i];j++) if(ed[ed[i][j]][ed[i][nu[i]+j]]!=i)
-		Rprintf("Relational error at point %d, edge %d.\n",i,j);
+		printf("Relational error at point %d, edge %d.\n",i,j);
 }
 
 /** This routine checks for any two vertices that are connected by more than
@@ -344,7 +349,7 @@ void voronoicell_base::check_relations() {
 void voronoicell_base::check_duplicates() {
 	int i,j,k;
 	for(i=0;i<p;i++) for(j=1;j<nu[i];j++) for(k=0;k<j;k++) if(ed[i][j]==ed[i][k])
-	  Rprintf("Duplicate edges: (%d,%d) and (%d,%d) [%d]\n",i,j,i,k,ed[i][j]);
+	  printf("Duplicate edges: (%d,%d) and (%d,%d) [%d]\n",i,j,i,k,ed[i][j]);
 }
 
 /** Constructs the relational table if the edges have been specified. */
@@ -2223,13 +2228,13 @@ void voronoicell_base::print_edges() {
 	int j;
 	double *ptsp=pts;
 	for(int i=0;i<p;i++,ptsp+=3) {
-	  Rprintf("%d %d  ",i,nu[i]);
-		for(j=0;j<nu[i];j++) Rprintf(" %d",ed[i][j]);
-		Rprintf("  ");
-		while(j<(nu[i]<<1)) Rprintf(" %d",ed[i][j]);
-		Rprintf("   %d",ed[i][j]);
+	  printf("%d %d  ",i,nu[i]);
+		for(j=0;j<nu[i];j++) printf(" %d",ed[i][j]);
+		printf("  ");
+		while(j<(nu[i]<<1)) printf(" %d",ed[i][j]);
+		printf("   %d",ed[i][j]);
 		print_edges_neighbors(i);
-		Rprintf("  %g %g %g %p",*ptsp,ptsp[1],ptsp[2],(void*) ed[i]);
+		printf("  %g %g %g %p",*ptsp,ptsp[1],ptsp[2],(void*) ed[i]);
 		if(ed[i]>=mep[nu[i]]+mec[nu[i]]*((nu[i]<<1)+1)) puts(" Memory error");
 		else puts("");
 	}
@@ -2239,10 +2244,10 @@ void voronoicell_base::print_edges() {
 void voronoicell_neighbor::print_edges_neighbors(int i) {
 	if(nu[i]>0) {
 		int j=0;
-	  Rprintf("     (");
-		while(j<nu[i]-1) Rprintf("%d,",ne[i][j++]);
-		Rprintf("%d)",ne[i][j]);
-	} else Rprintf("     ()");
+	  printf("     (");
+		while(j<nu[i]-1) printf("%d,",ne[i][j++]);
+		printf("%d)",ne[i][j]);
+	} else printf("     ()");
 }
 
 // Explicit instantiation

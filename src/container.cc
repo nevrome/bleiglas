@@ -7,10 +7,15 @@
 /** \file container.cc
  * \brief Function implementations for the container and related classes. */
 
-#include <Rcpp.h>
 #include "container.h"
 
-using namespace Rcpp;
+#if defined(R_BUILD)
+  #define STRICT_R_HEADERS
+  #include "R.h"
+  // textual substitution
+  #define printf Rprintf
+#endif
+
 namespace voro {
 
 /** The class constructor sets up the geometry of container, initializing the
@@ -379,7 +384,7 @@ void container_poly::import(particle_order &vo,FILE *fp) {
 void container_base::region_count() {
 	int i,j,k,*cop=co;
 	for(k=0;k<nz;k++) for(j=0;j<ny;j++) for(i=0;i<nx;i++)
-	  Rprintf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
+	  printf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
 }
 
 /** Clears a container of particles. */
