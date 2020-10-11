@@ -99,7 +99,7 @@ class container_periodic_base : public unitcell, public voro_base {
 		inline void print_all_particles() {
 			int ijk,q;
 			for(ijk=0;ijk<oxyz;ijk++) for(q=0;q<co[ijk];q++)
-				printf("%d %g %g %g\n",id[ijk][q],p[ijk][ps*q],p[ijk][ps*q+1],p[ijk][ps*q+2]);
+			  Rprintf("%d %g %g %g\n",id[ijk][q],p[ijk][ps*q],p[ijk][ps*q+1],p[ijk][ps*q+2]);
 		}
 		void region_count();
 		/** Initializes the Voronoi cell prior to a compute_cell

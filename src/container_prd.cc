@@ -441,7 +441,7 @@ void container_periodic_poly::import(particle_order &vo,FILE *fp) {
 void container_periodic_base::region_count() {
 	int i,j,k,*cop=co;
 	for(k=0;k<nz;k++) for(j=0;j<ny;j++) for(i=0;i<nx;i++)
-		printf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
+	  Rprintf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
 }
 
 /** Clears a container of particles. */
@@ -560,7 +560,7 @@ void container_periodic_base::check_compartmentalized() {
 		// Print entries for any particles that lie outside the block's
 		// bounds
 		for(pp=p[l],c=0;c<co[l];c++,pp+=ps) if(*pp<mix||*pp>max||pp[1]<miy||pp[1]>may||pp[2]<miz||pp[2]>maz)
-			printf("%d %d %d %d %f %f %f %f %f %f %f %f %f\n",
+		  Rprintf("%d %d %d %d %f %f %f %f %f %f %f %f %f\n",
 			       id[l][c],i,j,k,*pp,pp[1],pp[2],mix,max,miy,may,miz,maz);
 	}
 }

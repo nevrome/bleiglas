@@ -377,7 +377,7 @@ void container_poly::import(particle_order &vo,FILE *fp) {
 void container_base::region_count() {
 	int i,j,k,*cop=co;
 	for(k=0;k<nz;k++) for(j=0;j<ny;j++) for(i=0;i<nx;i++)
-		printf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
+	  Rprintf("Region (%d,%d,%d): %d particles\n",i,j,k,*(cop++));
 }
 
 /** Clears a container of particles. */

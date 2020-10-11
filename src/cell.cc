@@ -331,7 +331,7 @@ void voronoicell_base::init_tetrahedron_base(double x0,double y0,double z0,doubl
 void voronoicell_base::check_relations() {
 	int i,j;
 	for(i=0;i<p;i++) for(j=0;j<nu[i];j++) if(ed[ed[i][j]][ed[i][nu[i]+j]]!=i)
-		printf("Relational error at point %d, edge %d.\n",i,j);
+		Rprintf("Relational error at point %d, edge %d.\n",i,j);
 }
 
 /** This routine checks for any two vertices that are connected by more than
@@ -342,7 +342,7 @@ void voronoicell_base::check_relations() {
 void voronoicell_base::check_duplicates() {
 	int i,j,k;
 	for(i=0;i<p;i++) for(j=1;j<nu[i];j++) for(k=0;k<j;k++) if(ed[i][j]==ed[i][k])
-		printf("Duplicate edges: (%d,%d) and (%d,%d) [%d]\n",i,j,i,k,ed[i][j]);
+	  Rprintf("Duplicate edges: (%d,%d) and (%d,%d) [%d]\n",i,j,i,k,ed[i][j]);
 }
 
 /** Constructs the relational table if the edges have been specified. */
@@ -2221,13 +2221,13 @@ void voronoicell_base::print_edges() {
 	int j;
 	double *ptsp=pts;
 	for(int i=0;i<p;i++,ptsp+=3) {
-		printf("%d %d  ",i,nu[i]);
-		for(j=0;j<nu[i];j++) printf(" %d",ed[i][j]);
-		printf("  ");
-		while(j<(nu[i]<<1)) printf(" %d",ed[i][j]);
-		printf("   %d",ed[i][j]);
+	  Rprintf("%d %d  ",i,nu[i]);
+		for(j=0;j<nu[i];j++) Rprintf(" %d",ed[i][j]);
+		Rprintf("  ");
+		while(j<(nu[i]<<1)) Rprintf(" %d",ed[i][j]);
+		Rprintf("   %d",ed[i][j]);
 		print_edges_neighbors(i);
-		printf("  %g %g %g %p",*ptsp,ptsp[1],ptsp[2],(void*) ed[i]);
+		Rprintf("  %g %g %g %p",*ptsp,ptsp[1],ptsp[2],(void*) ed[i]);
 		if(ed[i]>=mep[nu[i]]+mec[nu[i]]*((nu[i]<<1)+1)) puts(" Memory error");
 		else puts("");
 	}
@@ -2237,10 +2237,10 @@ void voronoicell_base::print_edges() {
 void voronoicell_neighbor::print_edges_neighbors(int i) {
 	if(nu[i]>0) {
 		int j=0;
-		printf("     (");
-		while(j<nu[i]-1) printf("%d,",ne[i][j++]);
-		printf("%d)",ne[i][j]);
-	} else printf("     ()");
+	  Rprintf("     (");
+		while(j<nu[i]-1) Rprintf("%d,",ne[i][j++]);
+		Rprintf("%d)",ne[i][j]);
+	} else Rprintf("     ()");
 }
 
 // Explicit instantiation
