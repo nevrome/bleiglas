@@ -4,16 +4,16 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file pre_container.hh
+/** \file pre_container.h
  * \brief Header file for the pre_container and related classes. */
 
-#ifndef VOROPP_PRE_CONTAINER_HH
-#define VOROPP_PRE_CONTAINER_HH
+#ifndef VOROPP_PRE_CONTAINER_H
+#define VOROPP_PRE_CONTAINER_H
 
 #include <cstdio>
 
-#include "c_loops.hh"
-#include "container.hh"
+#include "c_loops.h"
+#include "container.h"
 
 namespace voro {
 

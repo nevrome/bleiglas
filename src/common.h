@@ -4,17 +4,17 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file common.hh
+/** \file common.h
  * \brief Header file for the small helper functions. */
 
-#ifndef VOROPP_COMMON_HH
-#define VOROPP_COMMON_HH
+#ifndef VOROPP_COMMON_H
+#define VOROPP_COMMON_H
 
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
 
-#include "config.hh"
+#include "config.h"
 
 namespace voro {
 

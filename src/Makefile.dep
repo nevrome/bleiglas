@@ -1,0 +1,18 @@
+cell.o: cell.cc config.h common.h cell.h
+common.o: common.cc common.h config.h
+container.o: container.cc container.h config.h common.h v_base.h \
+  worklist.h cell.h c_loops.h v_compute.h rad_option.h
+unitcell.o: unitcell.cc unitcell.h config.h cell.h common.h
+v_compute.o: v_compute.cc worklist.h v_compute.h config.h cell.h \
+  common.h rad_option.h container.h v_base.h c_loops.h \
+  container_prd.h unitcell.h
+c_loops.o: c_loops.cc c_loops.h config.h
+v_base.o: v_base.cc v_base.h worklist.h config.h v_base_wl.cc
+wall.o: wall.cc wall.h cell.h config.h common.h container.h \
+  v_base.h worklist.h c_loops.h v_compute.h rad_option.h
+pre_container.o: pre_container.cc config.h pre_container.h c_loops.h \
+  container.h common.h v_base.h worklist.h cell.h v_compute.h \
+  rad_option.h
+container_prd.o: container_prd.cc container_prd.h config.h common.h \
+  v_base.h worklist.h cell.h c_loops.h v_compute.h unitcell.h \
+  rad_option.h

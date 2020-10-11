@@ -4,16 +4,16 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file unitcell.hh
+/** \file unitcell.h
  * \brief Header file for the unitcell class. */
 
-#ifndef VOROPP_UNITCELL_HH
-#define VOROPP_UNITCELL_HH
+#ifndef VOROPP_UNITCELL_H
+#define VOROPP_UNITCELL_H
 
 #include <vector>
 
-#include "config.hh"
-#include "cell.hh"
+#include "config.h"
+#include "cell.h"
 
 namespace voro {
 

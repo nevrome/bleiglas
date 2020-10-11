@@ -4,13 +4,13 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file c_loops.hh
+/** \file c_loops.h
  * \brief Header file for the loop classes. */
 
-#ifndef VOROPP_C_LOOPS_HH
-#define VOROPP_C_LOOPS_HH
+#ifndef VOROPP_C_LOOPS_H
+#define VOROPP_C_LOOPS_H
 
-#include "config.hh"
+#include "config.h"
 
 namespace voro {
 

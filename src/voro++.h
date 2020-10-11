@@ -4,7 +4,7 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file voro++.hh
+/** \file voro++.h
  * \brief A file that loads all of the Voro++ header files. */
 
 /** \mainpage Voro++ class reference manual
@@ -314,20 +314,20 @@
  * used with the container and container_poly classes. They do not support
  * the container_periodic and container_periodic_poly classes. */
 
-#ifndef VOROPP_HH
-#define VOROPP_HH
+#ifndef VOROPP_H
+#define VOROPP_H
 
-#include "config.hh"
-#include "common.hh"
-#include "cell.hh"
-#include "v_base.hh"
-#include "rad_option.hh"
-#include "container.hh"
-#include "unitcell.hh"
-#include "container_prd.hh"
-#include "pre_container.hh"
-#include "v_compute.hh"
-#include "c_loops.hh"
-#include "wall.hh"
+#include "config.h"
+#include "common.h"
+#include "cell.h"
+#include "v_base.h"
+#include "rad_option.h"
+#include "container.h"
+#include "unitcell.h"
+#include "container_prd.h"
+#include "pre_container.h"
+#include "v_compute.h"
+#include "c_loops.h"
+#include "wall.h"
 
 #endif

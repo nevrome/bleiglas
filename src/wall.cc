@@ -7,7 +7,7 @@
 /** \file wall.cc
  * \brief Function implementations for the derived wall classes. */
 
-#include "wall.hh"
+#include "wall.h"
 
 namespace voro {
 

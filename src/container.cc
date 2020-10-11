@@ -7,7 +7,7 @@
 /** \file container.cc
  * \brief Function implementations for the container and related classes. */
 
-#include "container.hh"
+#include "container.h"
 
 namespace voro {
 

@@ -7,8 +7,8 @@
 /** \file v_base.cc
  * \brief Function implementations for the base Voronoi container class. */
 
-#include "v_base.hh"
-#include "config.hh"
+#include "v_base.h"
+#include "config.h"
 
 namespace voro {
 

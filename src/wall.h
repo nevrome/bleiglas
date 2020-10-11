@@ -4,14 +4,14 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file wall.hh
+/** \file wall.h
  * \brief Header file for the derived wall classes. */
 
-#ifndef VOROPP_WALL_HH
-#define VOROPP_WALL_HH
+#ifndef VOROPP_WALL_H
+#define VOROPP_WALL_H
 
-#include "cell.hh"
-#include "container.hh"
+#include "cell.h"
+#include "container.h"
 
 namespace voro {
 

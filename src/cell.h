@@ -4,16 +4,16 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file cell.hh
+/** \file cell.h
  * \brief Header file for the voronoicell and related classes. */
 
-#ifndef VOROPP_CELL_HH
-#define VOROPP_CELL_HH
+#ifndef VOROPP_CELL_H
+#define VOROPP_CELL_H
 
 #include <vector>
 
-#include "config.hh"
-#include "common.hh"
+#include "config.h"
+#include "common.h"
 
 namespace voro {
 

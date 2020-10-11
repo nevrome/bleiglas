@@ -7,7 +7,7 @@
 /** \file c_loops.cc
  * \brief Function implementations for the loop classes. */
 
-#include "c_loops.hh"
+#include "c_loops.h"
 
 namespace voro {
 

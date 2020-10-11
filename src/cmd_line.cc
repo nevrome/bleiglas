@@ -9,7 +9,7 @@
 
 #include <cstring>
 
-#include "voro++.hh"
+#include "voro++.h"
 using namespace voro;
 
 enum blocks_mode {

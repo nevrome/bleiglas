@@ -31,3 +31,9 @@ pnpmulti <- function(polygons, testx, testy) {
     .Call('_bleiglas_pnpmulti', PACKAGE = 'bleiglas', polygons, testx, testy)
 }
 
+#' voro++ interface
+#' @noRd
+voropp_Rcpp_interface <- function(point_a) {
+    .Call('_bleiglas_voropp_Rcpp_interface', PACKAGE = 'bleiglas', point_a)
+}
+

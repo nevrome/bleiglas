@@ -4,23 +4,23 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file container_prd.hh
+/** \file container_prd.h
  * \brief Header file for the container_periodic_base and related classes. */
 
-#ifndef VOROPP_CONTAINER_PRD_HH
-#define VOROPP_CONTAINER_PRD_HH
+#ifndef VOROPP_CONTAINER_PRD_H
+#define VOROPP_CONTAINER_PRD_H
 
 #include <cstdio>
 #include <vector>
 
-#include "config.hh"
-#include "common.hh"
-#include "v_base.hh"
-#include "cell.hh"
-#include "c_loops.hh"
-#include "v_compute.hh"
-#include "unitcell.hh"
-#include "rad_option.hh"
+#include "config.h"
+#include "common.h"
+#include "v_base.h"
+#include "cell.h"
+#include "c_loops.h"
+#include "v_compute.h"
+#include "unitcell.h"
+#include "rad_option.h"
 
 namespace voro {
 

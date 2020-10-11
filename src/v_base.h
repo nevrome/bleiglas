@@ -4,13 +4,13 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file v_base.hh
+/** \file v_base.h
  * \brief Header file for the base Voronoi container class. */
 
-#ifndef VOROPP_V_BASE_HH
-#define VOROPP_V_BASE_HH
+#ifndef VOROPP_V_BASE_H
+#define VOROPP_V_BASE_H
 
-#include "worklist.hh"
+#include "worklist.h"
 
 namespace voro {
 

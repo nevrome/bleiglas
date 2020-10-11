@@ -4,15 +4,15 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file v_compute.hh
+/** \file v_compute.h
  * \brief Header file for the voro_compute template and related classes. */
 
-#ifndef VOROPP_V_COMPUTE_HH
-#define VOROPP_V_COMPUTE_HH
+#ifndef VOROPP_V_COMPUTE_H
+#define VOROPP_V_COMPUTE_H
 
-#include "config.hh"
-#include "worklist.hh"
-#include "cell.hh"
+#include "config.h"
+#include "worklist.h"
+#include "cell.h"
 
 namespace voro {
 

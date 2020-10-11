@@ -59,3 +59,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// voropp_Rcpp_interface
+SEXP voropp_Rcpp_interface(NumericVector point_a);
+RcppExport SEXP _bleiglas_voropp_Rcpp_interface(SEXP point_aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type point_a(point_aSEXP);
+    rcpp_result_gen = Rcpp::wrap(voropp_Rcpp_interface(point_a));
+    return rcpp_result_gen;
+END_RCPP
+}

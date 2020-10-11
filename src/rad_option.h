@@ -4,12 +4,12 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file rad_option.hh
+/** \file rad_option.h
  * \brief Header file for the classes encapsulating functionality for the
  * regular and radical Voronoi tessellations. */
 
-#ifndef VOROPP_RAD_OPTION_HH
-#define VOROPP_RAD_OPTION_HH
+#ifndef VOROPP_RAD_OPTION_H
+#define VOROPP_RAD_OPTION_H
 
 #include <cmath>
 

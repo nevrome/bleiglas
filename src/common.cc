@@ -7,7 +7,7 @@
 /** \file common.cc
  * \brief Implementations of the small helper functions. */
 
-#include "common.hh"
+#include "common.h"
 
 namespace voro {
 

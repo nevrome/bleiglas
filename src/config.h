@@ -4,11 +4,11 @@
 // Email    : chr@alum.mit.edu
 // Date     : August 30th 2011
 
-/** \file config.hh
+/** \file config.h
  * \brief Master configuration file for setting various compile-time options. */
 
-#ifndef VOROPP_CONFIG_HH
-#define VOROPP_CONFIG_HH
+#ifndef VOROPP_CONFIG_H
+#define VOROPP_CONFIG_H
 
 namespace voro {
 
