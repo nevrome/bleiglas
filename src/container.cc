@@ -7,8 +7,10 @@
 /** \file container.cc
  * \brief Function implementations for the container and related classes. */
 
+#include <Rcpp.h>
 #include "container.h"
 
+using namespace Rcpp;
 namespace voro {
 
 /** The class constructor sets up the geometry of container, initializing the

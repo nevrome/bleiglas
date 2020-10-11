@@ -12,6 +12,7 @@
 
 #include <cstdio>
 #include <vector>
+#include <Rcpp.h>
 
 #include "config.h"
 #include "common.h"
@@ -22,6 +23,7 @@
 #include "unitcell.h"
 #include "rad_option.h"
 
+using namespace Rcpp;
 namespace voro {
 
 /** \brief Class for representing a particle system in a 3D periodic

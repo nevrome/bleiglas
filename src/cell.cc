@@ -9,11 +9,13 @@
 
 #include <cmath>
 #include <cstring>
+#include <Rcpp.h>
 
 #include "config.h"
 #include "common.h"
 #include "cell.h"
 
+using namespace Rcpp;
 namespace voro {
 
 /** Constructs a Voronoi cell and sets up the initial memory. */
