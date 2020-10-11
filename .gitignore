@@ -39,9 +39,10 @@ vignettes/*.pdf
 .Renviron
 
 # bytecode
-src/*.o
-src/*.so
-src/*.dll
+*.o
+*.so
+*.dll
+*.a
 
 # rendered documents
 *.html

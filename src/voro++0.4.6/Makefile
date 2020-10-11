@@ -28,7 +28,7 @@ libvoro++.a: $(objs)
 #	$(CXX) $(CFLAGS) -L. -o voro++ cmd_line.cc -lvoro++
 
 %.o: %.cc
-	$(CXX) $(CFLAGS) -c $<
+	$(CXX) $(CFLAGS) -fPIC -c $<
 
 #help: Doxyfile $(SOURCE)
 #	doxygen Doxyfile
