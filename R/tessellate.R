@@ -63,52 +63,52 @@ tessellate <- function(
   voro_path = "voro++"
 ) {
   
-  checkmate::assert_data_frame(x)
-  checkmate::assert_names(colnames(x), must.include = c("id", "x", "y", "z"))
-  checkmate::assert_true(nrow(x) == nrow(unique(x[, c("x", "y", "z")])))
-  checkmate::assert_numeric(unit_scaling, len = 3)
-  checkmate::assert_number(x_min, na.ok = T)
-  checkmate::assert_number(x_max, na.ok = T)
-  checkmate::assert_number(y_min, na.ok = T)
-  checkmate::assert_number(y_max, na.ok = T)
-  checkmate::assert_number(z_min, na.ok = T)
-  checkmate::assert_number(z_max, na.ok = T)
-  checkmate::assert_string(output_definition, na.ok = F)
-  checkmate::assert_string(options, na.ok = F)
-  checkmate::assert_string(voro_path, na.ok = F)
-  check_for_voro(voro_path)
+  # checkmate::assert_data_frame(x)
+  # checkmate::assert_names(colnames(x), must.include = c("id", "x", "y", "z"))
+  # checkmate::assert_true(nrow(x) == nrow(unique(x[, c("x", "y", "z")])))
+  # checkmate::assert_numeric(unit_scaling, len = 3)
+  # checkmate::assert_number(x_min, na.ok = T)
+  # checkmate::assert_number(x_max, na.ok = T)
+  # checkmate::assert_number(y_min, na.ok = T)
+  # checkmate::assert_number(y_max, na.ok = T)
+  # checkmate::assert_number(z_min, na.ok = T)
+  # checkmate::assert_number(z_max, na.ok = T)
+  # checkmate::assert_string(output_definition, na.ok = F)
+  # checkmate::assert_string(options, na.ok = F)
+  # checkmate::assert_string(voro_path, na.ok = F)
+  # check_for_voro(voro_path)
   
   to_voro <- tempfile()
   from_voro <- paste0(to_voro, ".vol")
 
   # rescaling
-  if (!is.na(x_min)) { x_min <- x_min * unit_scaling[1] }
-  if (!is.na(x_max)) { x_max <- x_max * unit_scaling[1] }
-  if (!is.na(y_min)) { y_min <- y_min * unit_scaling[2] }
-  if (!is.na(y_max)) { y_max <- y_max * unit_scaling[2] }
-  if (!is.na(z_min)) { z_min <- z_min * unit_scaling[3] }
-  if (!is.na(z_max)) { z_max <- z_max * unit_scaling[3] }
-  x$x <- x$x * unit_scaling[1]
-  x$y <- x$y * unit_scaling[2]
-  x$z <- x$z * unit_scaling[3]
+  # if (!is.na(x_min)) { x_min <- x_min * unit_scaling[1] }
+  # if (!is.na(x_max)) { x_max <- x_max * unit_scaling[1] }
+  # if (!is.na(y_min)) { y_min <- y_min * unit_scaling[2] }
+  # if (!is.na(y_max)) { y_max <- y_max * unit_scaling[2] }
+  # if (!is.na(z_min)) { z_min <- z_min * unit_scaling[3] }
+  # if (!is.na(z_max)) { z_max <- z_max * unit_scaling[3] }
+  # x$x <- x$x * unit_scaling[1]
+  # x$y <- x$y * unit_scaling[2]
+  # x$z <- x$z * unit_scaling[3]
   
   # create voro++ input file
   utils::write.table(x, file = to_voro, quote = FALSE, row.names = F, col.names = F)
 
   # run voro++
-  system(paste(
+  voropp_Rcpp_interface(c(
     voro_path,
     # output string
-    paste("-c", output_definition),
+    "-c", output_definition,
     # additional options
     options,
     # x_min x_max y_min y_max z_min z_max
-    ifelse(is.na(x_min), min(x$x), x_min),
-    ifelse(is.na(x_max), max(x$x), x_max),
-    ifelse(is.na(y_min), min(x$y), y_min),
-    ifelse(is.na(y_max), max(x$y), y_max),
-    ifelse(is.na(z_min), min(x$z), z_min),
-    ifelse(is.na(z_max), max(x$z), z_max),
+    min(x$x),# ifelse(is.na(x_min), min(x$x), x_min),
+    max(x$x),# ifelse(is.na(x_max), max(x$x), x_max),
+    min(x$y),# ifelse(is.na(y_min), min(x$y), y_min),
+    max(x$y),# ifelse(is.na(y_max), max(x$y), y_max),
+    min(x$z),# ifelse(is.na(z_min), min(x$z), z_min),
+    max(x$z),# ifelse(is.na(z_max), max(x$z), z_max),
     # input file
     to_voro
   ))
