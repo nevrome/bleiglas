@@ -1,5 +1,5 @@
 # Voro++ makefile
-#
+# 
 # Author : Chris H. Rycroft (LBL / UC Berkeley)
 # Email  : chr@alum.mit.edu
 # Date   : August 30th 2011

@@ -4,7 +4,6 @@ all: $(SHLIB)
 $(SHLIB): libvoro++.a
 
 libvoro++.a: 
-	(cd voro++0.4.6; $(MAKE))
+	$(MAKE) --directory=voro++0.4.6 libvoro++.a
 	
 PKG_LIBS = -Lvoro++0.4.6 -lvoro++
-
