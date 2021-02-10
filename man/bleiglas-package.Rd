@@ -6,7 +6,7 @@
 \alias{bleiglas-package}
 \title{bleiglas: 3D Tessellation with Voro++}
 \description{
-3D tessellation with voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
+3D tessellation with Voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
 }
 \seealso{
 Useful links:
