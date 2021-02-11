@@ -1,12 +1,14 @@
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Inactive – The project has reached a stable, usable
+state but is no longer being actively developed; support/maintenance
+will be provided as time
+allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
+![GitHub R package
+version](https://img.shields.io/github/r-package/v/nevrome/bleiglas)
 [![Travis-CI Build
 Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/bleiglas)](https://cran.r-project.org/package=bleiglas)
 [![license](https://img.shields.io/github/license/nevrome/bleiglas)](https://www.r-project.org/Licenses/MIT)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -458,15 +460,16 @@ and the
     ## 
     ## To cite package 'bleiglas' in publications use:
     ## 
-    ##   Clemens Schmid (2020). bleiglas: 3D Tessellation with Voro++. R
-    ##   package version 0.1.0. https://github.com/nevrome/bleiglas
+    ##   Clemens Schmid (2020). bleiglas: Spatiotemporal Data Interpolation
+    ##   and Visualisation based on 3D Tessellation with Voro++. R package
+    ##   version 0.1.1. https://github.com/nevrome/bleiglas
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {bleiglas: 3D Tessellation with Voro++},
+    ##     title = {bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++},
     ##     author = {Clemens Schmid},
     ##     year = {2020},
-    ##     note = {R package version 0.1.0},
+    ##     note = {R package version 0.1.1},
     ##     url = {https://github.com/nevrome/bleiglas},
     ##   }
