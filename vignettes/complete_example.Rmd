@@ -29,7 +29,7 @@ sourcecode <- lapply(code_files_full_path, function(x) { paste(readLines(x), col
 
 ## `r code_files[1]`
 
-This first script downloads and prepares a set of spatial data objects mostly relevant for plotting. The research area for this example was arbitrarily defined as a rectangle covering the most dense data accumulations in the relevant subset of the Radon-B database.
+This first script downloads and prepares a set of spatial data objects which will later be used for plotting. The research area for this example was arbitrarily defined as a rectangle covering the most dense data accumulations in the relevant subset of the Radon-B database.
 
 ```{r eval=FALSE, code=sourcecode[[1]]}
 ```
