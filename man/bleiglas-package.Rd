@@ -4,9 +4,9 @@
 \name{bleiglas-package}
 \alias{bleiglas}
 \alias{bleiglas-package}
-\title{bleiglas: 3D Tessellation with Voro++}
+\title{bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++}
 \description{
-3D tessellation with Voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.
+3D tessellation with the Voro++ software library and subsequent horizontal cutting of the resulting polygons for 2D representation. Applicable to all sorts of 3D point clouds, but optimized for spatiotemporal data.
 }
 \seealso{
 Useful links:
