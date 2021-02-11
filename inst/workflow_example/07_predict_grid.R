@@ -111,6 +111,7 @@ p <- proportion_cropped %>%
     legend.title = element_text(size = 20, face = "bold"),
     axis.title = element_blank(),
     axis.text = element_blank(),
+    axis.ticks = element_blank(),
     legend.text = element_text(size = 20),
     strip.text.x = element_text(size = 20),
     panel.background = element_rect(fill = "#BFD5E3")
