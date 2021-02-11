@@ -14,7 +14,7 @@ Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](ht
 # bleiglas
 
 bleiglas is an R package that provides functions for 3D tessellation
-with [voro++](http://math.lbl.gov/voro++/) and subsequent horizontal
+with [Voro++](http://math.lbl.gov/voro++/) and subsequent horizontal
 cutting of the resulting polygons for 2D plotting. It was developed for
 archaeological spatiotemporal data, but may as well be used for other
 three dimensional contexts.
@@ -43,7 +43,7 @@ if(!require('remotes')) install.packages('remotes')
 remotes::install_github("nevrome/bleiglas")
 ```
 
-For the main function `tessellate` you also have to [install the voro++
+For the main function `tessellate` you also have to [install the Voro++
 software](http://math.lbl.gov/voro++/download/). For Linux users: The
 package is already available in all major software repositories.
 
@@ -63,9 +63,9 @@ combine spatial (x & y) and temporal (z) position with some meta
 information.
 
 <details>
-
-<summary>Click here for the data preparation steps</summary>
-
+<summary>
+Click here for the data preparation steps
+</summary>
 <p>
 
 I selected dates from Cameroon between 1000 and 3000 uncalibrated BP and
@@ -109,41 +109,38 @@ c14 <- c14_cmr_unique %>%
     x = coords[,1], 
     y = coords[,2], 
     z = c14age,
-    material = material
+    period = period
 )
 ```
 
 </p>
-
 </details>
-
 <details>
-
-<summary>Data: <b>c14</b></summary>
-
+<summary>
+Data: <b>c14</b>
+</summary>
 <p>
 
 ``` r
 c14 
 ```
 
-    ## # A tibble: 380 x 5
-    ##       id        x       y     z material
-    ##    <int>    <dbl>   <dbl> <int> <chr>   
-    ##  1     1 1284303. 450331.  1920 <NA>    
-    ##  2     2 1284303. 450331.  2596 <NA>    
-    ##  3     3 1284303. 450331.  2360 <NA>    
-    ##  4     4 1284303. 450331.  2380 <NA>    
-    ##  5     5 1278776. 434150.  2810 <NA>    
-    ##  6     6 1278776. 434150.  2710 <NA>    
-    ##  7     7 1278776. 434150.  1860 <NA>    
-    ##  8     8 1278776. 434150.  1960 <NA>    
-    ##  9     9 1278776. 434150.  2820 <NA>    
-    ## 10    10 1278776. 434150.  2110 <NA>    
-    ## # … with 370 more rows
+    ## # A tibble: 393 x 5
+    ##       id        x       y     z period
+    ##    <int>    <dbl>   <dbl> <int> <chr> 
+    ##  1     1 1284303. 450340.  1920 EIA   
+    ##  2     2 1101276. 321798.  2340 EIA   
+    ##  3     3 1101276. 321798.  2520 LSA   
+    ##  4     4 1093159. 264311.  2000 <NA>  
+    ##  5     5 1132077. 340034.  1670 <NA>  
+    ##  6     6 1101276. 321798.  2200 <NA>  
+    ##  7     7 1101276. 321798.  2030 <NA>  
+    ##  8     8 1101276. 321798.  1760 EIA   
+    ##  9     9 1093159. 264311.  1710 <NA>  
+    ## 10    10 1093159. 264311.  1940 <NA>  
+    ## # … with 383 more rows
 
 </p>
-
 </details>
 
 #### 3D tessellation
@@ -157,75 +154,47 @@ quite some relevance for geostatistical analysis like spatial
 interpolation: Voronoi tilings that are created with [Delaunay
 triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 These are tessellations where each polygon covers the space closest to
-one of a set of sample
-points.
+one of a set of sample points.
 
 <table style="width:100%">
-
 <tr>
-
 <th>
-
 <figure>
-
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ceramic_Tile_Tessellations_in_Marrakech.jpg/320px-Ceramic_Tile_Tessellations_in_Marrakech.jpg" height="150" />
-
 <figcaption>
-
 Islamic mosaic with tile tessellations in Marrakech, Morocco.
 <a href="https://en.wikipedia.org/wiki/File:Ceramic_Tile_Tessellations_in_Marrakech.jpg">wiki</a>
-
 </figcaption>
-
 </figure>
-
 </th>
-
 <th>
-
 <figure>
-
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Delaunay_Voronoi.svg/441px-Delaunay_Voronoi.svg.png" height="150" />
-
 <figcaption>
-
 Delaunay triangulation and its Voronoi diagram.
 <a href="https://commons.wikimedia.org/wiki/File:Delaunay_Voronoi.svg">wiki</a>
-
 </figcaption>
-
 </figure>
-
 </th>
-
 <th>
-
 <figure>
-
 <img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" />
-
 <figcaption>
-
-Output example of voro++ rendered with POV-Ray.
+Output example of Voro++ rendered with POV-Ray.
 <a href="http://math.lbl.gov/voro++">math.lbl.gov</a>
-
 </figcaption>
-
 </figure>
-
 </th>
-
 <tr>
-
 </table>
 
 It turns out that Voronoi tessellation can be calculated not just for 2D
 surfaces, but also for higher dimensions. The
-[voro++](http://math.lbl.gov/voro++/) software library does exactly this
-for 3 dimensions, such as for spatio-temporal applications.
+[Voro++](http://math.lbl.gov/voro++/) software library does exactly this
+for 3 dimensions. This makes it useful for spatio-temporal applications.
 
 `bleiglas::tessellate()` is a minimal wrapper function that calls the
-voro++ command line interface (therefore you have to install voro++ to
+Voro++ command line interface (therefore you have to install Voro++ to
 use it) for datasets like the one introduced above. We can apply it like
 this:
 
@@ -252,72 +221,65 @@ to each (spatial) direction to cover the area of Cameroon. Mind that the
 scaling factors in `unit_scaling` are also applied to the box size
 parameters `x_min`, `x_max`, ….
 
-The output of voro++ is highly customizable, and structurally complex.
-Voro++, with the `-v` flag prints some config info on the command line,
-which is also the output of
-    `bleiglas::tesselate`:
+The output of Voro++ is highly customizable, and structurally complex.
+With the `-v` flag, the voro++ CLI interface prints some config info,
+which is also the output of `bleiglas::tesselate`:
 
-    Container geometry        : [937.143:1906.88] [63.1242:1506.58] [1010:2990]
+    Container geometry        : [937.154:1936.57] [63.1609:1506.58] [1010:2990]
     Computational grid size   : 3 by 5 by 6 (estimated from file)
-    Filename                  : /tmp/RtmpmrfjUb/file4e6b779e7830
+    Filename                  : /tmp/RtmpVZjBW3/file3aeb5f400f38
     Output string             : %i*%P*%t
-    Total imported particles  : 379 (4.2 per grid block)
-    Total V. cells computed   : 379
-    Total container volume    : 2.77155e+09
-    Total V. cell volume      : 2.77155e+09
+    Total imported particles  : 392 (4.4 per grid block)
+    Total V. cells computed   : 392
+    Total container volume    : 2.8563e+09
+    Total V. cell volume      : 2.8563e+09
 
 It then produces an output file (`*.vol`) that contains all sorts of
-geometry information for the calculated 3D polygons. I focussed on the
-edges of the polygons and wrote a parser function
-`bleiglas::read_polygon_edges()` that can transform the complex voro++
-output to a tidy data.frame with six columns: the coordinates (x, y, z)
-of the start (a) and end point (b) of each polygon edge.
+geometry information for the calculated 3D polygons. `tesselate` returns
+the content of this file as a character vector with the additionally
+attached attribute `unit_scaling`
+(`attributes(raw_voro_output)$unit_scaling`), which is just the scaling
+vector we put in above.
+
+I focussed on the edges of the polygons and wrote a parser function
+`bleiglas::read_polygon_edges()` that can transform the complex Voro++
+output for this specific output case to a tidy data.frame with six
+columns: the coordinates (x, y, z) of the start (a) and end point (b) of
+each polygon edge.
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-Before we use this output for any further analysis, we should reverse
-the rescaling introduced with the `unit_scaling` parameter to fit to the
-input data again.
-
-``` r
-polygon_edges %<>% dplyr::mutate(
-  x.a = x.a * 1000,
-  x.b = x.b * 1000,
-  y.a = y.a * 1000,
-  y.b = y.b * 1000
-)
-```
+`read_polygon_edges` also automatically reverses the rescaling
+introduced in `tesselate` with the `unit_scaling` attribute.
 
 <details>
-
-<summary>Data: <b>polygon\_edges</b></summary>
-
+<summary>
+Data: <b>polygon\_edges</b>
+</summary>
 <p>
 
-    ##            x.a    y.a     z.a     x.b    y.b     z.b polygon_id
-    ##     1: 1352610 233681 1240.76 1381950 158990 1274.74         38
-    ##     2: 1324180 130338 1292.50 1381950 158990 1274.74         38
-    ##     3: 1309730 225141 1313.81 1381950 158990 1274.74         38
-    ##     4: 1201420 392245 1299.83 1289680 241638 1324.36         38
-    ##     5: 1276830 227624 1327.04 1289680 241638 1324.36         38
-    ##    ---                                                         
-    ## 24034: 1408090 992474 2655.00 1502620 926332 2717.02        272
-    ## 24035: 1514160 920693 2717.02 1502620 926332 2717.02        272
-    ## 24036: 1599840 898736 2655.00 1514160 920693 2717.02        272
-    ## 24037: 1520780 928425 2770.00 1514160 920693 2717.02        272
-    ## 24038: 1502620 926332 2717.02 1514160 920693 2717.02        272
+    ##            x.a     y.a     z.a     x.b    y.b     z.b polygon_id
+    ##     1:  937154  374130 1307.99 1201480 392161 1299.80         25
+    ##     2: 1289460  241706 1324.42 1201480 392161 1299.80         25
+    ##     3: 1212280  387619 1290.18 1201480 392161 1299.80         25
+    ##     4: 1190480  335990 1202.59 1233970 377206 1268.57         25
+    ##     5: 1352310  233958 1240.81 1233970 377206 1268.57         25
+    ##    ---                                                          
+    ## 24916: 1341410 1041000 2655.00 1645270 892489 2655.00        290
+    ## 24917: 1622180  900165 2682.50 1645270 892489 2655.00        290
+    ## 24918: 1361490 1027580 2682.50 1622180 900165 2682.50        290
+    ## 24919: 1596200  911750 2731.50 1622180 900165 2682.50        290
+    ## 24920: 1645270  892489 2655.00 1622180 900165 2682.50        290
 
 </p>
-
 </details>
-
 <details>
-
-<summary>We can plot these polygon edges (black) together with the input
-sample points (red) in 3D.</summary>
-
+<summary>
+We can plot these polygon edges (black) together with the input sample
+points (red) in 3D.
+</summary>
 <p>
 
 ``` r
@@ -333,10 +295,9 @@ rgl::view3d(userMatrix = view_matrix, zoom = 0.9)
 ```
 
 </p>
-
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 #### Cutting the polygons
 
@@ -361,38 +322,35 @@ cut_surfaces <- bleiglas::cut_polygons(
 ```
 
 <details>
-
-<summary>Data: <b>cut\_surfaces</b></summary>
-
+<summary>
+Data: <b>cut\_surfaces</b>
+</summary>
 <p>
 
-    ## Simple feature collection with 74 features and 2 fields
+    ## Simple feature collection with 76 features and 2 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
-    ## bbox:           xmin: 937143 ymin: 63124.2 xmax: 1906880 ymax: 1506580
+    ## bbox:           xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
     ## projected CRS:  World Equidistant Cylindrical (Sphere)
     ## First 10 features:
     ##                                 x    z  id
-    ## 1  POLYGON ((1195186 319422.3,... 2500  16
-    ## 2  POLYGON ((1906880 811490.3,... 2500  44
-    ## 3  POLYGON ((1146789 374017.9,... 2500  51
-    ## 4  POLYGON ((1215920 365182.3,... 2500  53
-    ## 5  POLYGON ((1416023 455769.2,... 2500  82
-    ## 6  POLYGON ((1082637 969464, 9... 2500 102
-    ## 7  POLYGON ((1906880 63124.2, ... 2500 104
-    ## 8  POLYGON ((1386791 333246.8,... 2500 134
-    ## 9  POLYGON ((1116403 63124.2, ... 2500 143
-    ## 10 POLYGON ((1371502 63124.2, ... 2500 186
+    ## 1  POLYGON ((1195386 319810.5,... 2500   3
+    ## 2  POLYGON ((1936570 809055.4,... 2500  31
+    ## 3  POLYGON ((1146675 374628.2,... 2500  38
+    ## 4  POLYGON ((1215947 365177.1,... 2500  40
+    ## 5  POLYGON ((1416056 455852, 1... 2500  69
+    ## 6  POLYGON ((1082719 969489.5,... 2500 103
+    ## 7  POLYGON ((1936570 315020.3,... 2500 105
+    ## 8  POLYGON ((1386575 333838.1,... 2500 135
+    ## 9  POLYGON ((1116416 63160.9, ... 2500 144
+    ## 10 POLYGON ((1377347 63160.9, ... 2500 185
 
 </p>
-
 </details>
-
 <details>
-
-<summary>With this data we can plot a matrix of maps that show the cut
-surfaces.</summary>
-
+<summary>
+With this data we can plot a matrix of maps that show the cut surfaces.
+</summary>
 <p>
 
 ``` r
@@ -412,17 +370,15 @@ cut_surfaces %>%
 ```
 
 </p>
-
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 <details>
-
-<summary>As all input dates come from Cameroon it makes sense to cut the
-polygon surfaces to the outline of this administrative
-unit.</summary>
-
+<summary>
+As all input dates come from Cameroon it makes sense to cut the polygon
+surfaces to the outline of this administrative unit.
+</summary>
 <p>
 
 ``` r
@@ -449,16 +405,15 @@ cut_surfaces_cropped %>%
 ```
 
 <p>
-
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 <details>
-
-<summary>Finally, we can also visualise any point-wise information in
-our input data as a feature of the tessellation polygons.</summary>
-
+<summary>
+Finally, we can also visualise any point-wise information in our input
+data as a feature of the tessellation polygons.
+</summary>
 <p>
 
 ``` r
@@ -472,7 +427,7 @@ cut_surfaces_material <- cut_surfaces_cropped %>%
 cut_surfaces_material %>%
   ggplot() +
   geom_sf(
-    aes(fill = material), 
+    aes(fill = period), 
     color = "white",
     lwd = 0.2
   ) +
@@ -484,10 +439,9 @@ cut_surfaces_material %>%
 ```
 
 </p>
-
 </details>
 
-<img src="README_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 This quickstart was a simple primer on how to use this package. If you
 think the final use case wasn’t too impressive, take a look at this
@@ -505,7 +459,7 @@ and the
     ## To cite package 'bleiglas' in publications use:
     ## 
     ##   Clemens Schmid (2020). bleiglas: 3D Tessellation with Voro++. R
-    ##   package version 0.0.0.9000. https://github.com/nevrome/bleiglas
+    ##   package version 0.1.0. https://github.com/nevrome/bleiglas
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -513,6 +467,6 @@ and the
     ##     title = {bleiglas: 3D Tessellation with Voro++},
     ##     author = {Clemens Schmid},
     ##     year = {2020},
-    ##     note = {R package version 0.0.0.9000},
+    ##     note = {R package version 0.1.0},
     ##     url = {https://github.com/nevrome/bleiglas},
     ##   }

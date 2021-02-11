@@ -27,7 +27,7 @@ view_matrix <- structure(c(0.586383819580078, 0.356217533349991, -0.727502763271
 
 # bleiglas
 
-bleiglas is an R package that provides functions for 3D tessellation with [voro++](http://math.lbl.gov/voro++/) and subsequent horizontal cutting of the resulting polygons for 2D plotting. It was developed for archaeological spatiotemporal data, but may as well be used for other three dimensional contexts.
+bleiglas is an R package that provides functions for 3D tessellation with [Voro++](http://math.lbl.gov/voro++/) and subsequent horizontal cutting of the resulting polygons for 2D plotting. It was developed for archaeological spatiotemporal data, but may as well be used for other three dimensional contexts.
 
 ## Documentation
 
@@ -44,7 +44,7 @@ if(!require('remotes')) install.packages('remotes')
 remotes::install_github("nevrome/bleiglas")
 ```
 
-For the main function `tessellate` you also have to [install the voro++ software](http://math.lbl.gov/voro++/download/). For Linux users: The package is already available in all major software repositories.
+For the main function `tessellate` you also have to [install the Voro++ software](http://math.lbl.gov/voro++/download/). For Linux users: The package is already available in all major software repositories.
 
 ## Quickstart
 
@@ -88,7 +88,7 @@ c14 <- c14_cmr_unique %>%
     x = coords[,1], 
     y = coords[,2], 
     z = c14age,
-    material = material
+    period = period
 )
 ```
 
@@ -118,14 +118,14 @@ c14
       <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Delaunay_Voronoi.svg/441px-Delaunay_Voronoi.svg.png" height="150" /> <figcaption>Delaunay triangulation and its Voronoi diagram. <a href="https://commons.wikimedia.org/wiki/File:Delaunay_Voronoi.svg">wiki</a></figcaption></figure>
     </th>
     <th>
-      <figure><img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" /> <figcaption>Output example of voro++ rendered with POV-Ray. <a href="http://math.lbl.gov/voro++">math.lbl.gov</a></figcaption></figure>
+      <figure><img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" /> <figcaption>Output example of Voro++ rendered with POV-Ray. <a href="http://math.lbl.gov/voro++">math.lbl.gov</a></figcaption></figure>
     </th>
   <tr>
 </table>
 
-It turns out that Voronoi tessellation can be calculated not just for 2D surfaces, but also for higher dimensions. The [voro++](http://math.lbl.gov/voro++/) software library does exactly this for 3 dimensions, such as for spatio-temporal applications.
+It turns out that Voronoi tessellation can be calculated not just for 2D surfaces, but also for higher dimensions. The [Voro++](http://math.lbl.gov/voro++/) software library does exactly this for 3 dimensions. This makes it useful for spatio-temporal applications.
 
-`bleiglas::tessellate()` is a minimal wrapper function that calls the voro++ command line interface (therefore you have to install voro++ to use it) for datasets like the one introduced above. We can apply it like this:
+`bleiglas::tessellate()` is a minimal wrapper function that calls the Voro++ command line interface (therefore you have to install Voro++ to use it) for datasets like the one introduced above. We can apply it like this:
 
 ```{r}
 raw_voro_output <- bleiglas::tessellate(
@@ -140,35 +140,28 @@ A critical step when using tessellation for spatio-temporal data is a suitable c
 
 I decided to increase the size of the tessellation box by 150 kilometres to each (spatial) direction to cover the area of Cameroon. Mind that the scaling factors in `unit_scaling` are also applied to the box size parameters `x_min`, `x_max`, ....
 
-The output of voro++ is highly customizable, and structurally complex. Voro++, with the `-v` flag prints some config info on the command line, which is also the output of `bleiglas::tesselate`:
+The output of Voro++ is highly customizable, and structurally complex. With the `-v` flag, the voro++ CLI interface prints some config info, which is also the output of `bleiglas::tesselate`:
 
 ```
-Container geometry        : [937.143:1906.88] [63.1242:1506.58] [1010:2990]
+Container geometry        : [937.154:1936.57] [63.1609:1506.58] [1010:2990]
 Computational grid size   : 3 by 5 by 6 (estimated from file)
-Filename                  : /tmp/RtmpmrfjUb/file4e6b779e7830
+Filename                  : /tmp/RtmpVZjBW3/file3aeb5f400f38
 Output string             : %i*%P*%t
-Total imported particles  : 379 (4.2 per grid block)
-Total V. cells computed   : 379
-Total container volume    : 2.77155e+09
-Total V. cell volume      : 2.77155e+09
+Total imported particles  : 392 (4.4 per grid block)
+Total V. cells computed   : 392
+Total container volume    : 2.8563e+09
+Total V. cell volume      : 2.8563e+09
 ```
 
-It then produces an output file (`*.vol`) that contains all sorts of geometry information for the calculated 3D polygons. I focussed on the edges of the polygons and wrote a parser function `bleiglas::read_polygon_edges()` that can transform the complex voro++ output to a tidy data.frame with six columns: the coordinates (x, y, z) of the start (a) and end point (b) of each polygon edge.
+It then produces an output file (`*.vol`) that contains all sorts of geometry information for the calculated 3D polygons. `tesselate` returns the content of this file as a character vector with the additionally attached attribute `unit_scaling` (`attributes(raw_voro_output)$unit_scaling`), which is just the scaling vector we put in above. 
+
+I focussed on the edges of the polygons and wrote a parser function `bleiglas::read_polygon_edges()` that can transform the complex Voro++ output for this specific output case to a tidy data.frame with six columns: the coordinates (x, y, z) of the start (a) and end point (b) of each polygon edge.
 
 ```{r}
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-Before we use this output for any further analysis, we should reverse the rescaling introduced with the `unit_scaling` parameter to fit to the input data again.
-
-```{r}
-polygon_edges %<>% dplyr::mutate(
-  x.a = x.a * 1000,
-  x.b = x.b * 1000,
-  y.a = y.a * 1000,
-  y.b = y.b * 1000
-)
-```
+`read_polygon_edges` also automatically reverses the rescaling introduced in `tesselate` with the `unit_scaling` attribute.
 
 <details><summary>Data: <b>polygon_edges</b></summary>
 <p>
@@ -328,7 +321,7 @@ cut_surfaces_material <- cut_surfaces_cropped %>%
 cut_surfaces_material %>%
   ggplot() +
   geom_sf(
-    aes(fill = material), 
+    aes(fill = period), 
     color = "white",
     lwd = 0.2
   ) +
@@ -346,7 +339,7 @@ cut_surfaces_material %>%
 cut_surfaces_material %>%
   ggplot() +
   geom_sf(
-    aes(fill = material), 
+    aes(fill = period), 
     color = "white",
     lwd = 0.2
   ) +
