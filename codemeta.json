@@ -1,13 +1,16 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "bleiglas",
-  "description": "3D tessellation with Voro++ and subsequent horizontal cutting of the resulting polygons for 2D plotting.",
-  "name": "bleiglas: 3D Tessellation with Voro++",
+  "description": "3D tessellation with the Voro++ software library and subsequent horizontal cutting of the resulting polygons for 2D representation. Applicable to all sorts of 3D point clouds, but optimized for spatiotemporal data.",
+  "name": "bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++",
   "codeRepository": "https://github.com/nevrome/bleiglas",
   "issueTracker": "https://github.com/nevrome/bleiglas/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -157,8 +160,13 @@
     }
   ],
   "readme": "https://github.com/nevrome/bleiglas/blob/master/README.md",
-  "fileSize": "15162.203KB",
+  "fileSize": "18072.652KB",
   "contIntegration": ["https://travis-ci.com/nevrome/bleiglas", "https://codecov.io/github/nevrome/bleiglas?branch=master"],
-  "developmentStatus": "https://www.repostatus.org/#wip",
-  "keywords": ["r", "tessellation", "3d", "voronoi"]
+  "developmentStatus": "https://www.repostatus.org/#inactive",
+  "keywords": [
+    "r",
+    "tessellation",
+    "3d",
+    "voronoi"
+  ]
 }
