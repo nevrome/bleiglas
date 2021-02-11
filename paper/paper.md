@@ -1,5 +1,5 @@
 ---
-title: 'bleiglas: An R package for 3D tessellation with voro++'
+title: 'bleiglas: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation'
 tags:
   - R
   - 3D data analysis
