@@ -85,7 +85,9 @@ here also remove samples with equal position in all three dimensions for
 the tessellation.
 
 ``` r
-# download raw data
+# download raw data with the data access package c14bazAAR
+# c14bazAAR can be installed with
+# install.packages("c14bazAAR", repos = c(ropensci = "https://ropensci.r-universe.dev"))
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
   # filter data
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR") 
