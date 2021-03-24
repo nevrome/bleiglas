@@ -17,8 +17,8 @@ iterations <- lapply(1:30, function(age_resampling_run) {
     id = 1:nrow(burial_type_data),
     x = burial_type_data$x,
     y = burial_type_data$y,
-    z = sapply(burial_type_data$calage_sample, function(x){ 
-      x[age_resampling_run] }
+    z = vapply(burial_type_data$calage_sample, function(x){ 
+      x[age_resampling_run] }, 0
     ) * 1000,
     burial_type = burial_type_data$burial_type
   )

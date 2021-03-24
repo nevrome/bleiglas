@@ -63,8 +63,8 @@ dates_calibrated$calage_density_distribution %<>% lapply(
 )
 
 # add median age column
-dates_calibrated$calage_center <- sapply(
-  dates_calibrated$calage_density_distribution, function(x) { x$age[x$center]}
+dates_calibrated$calage_center <- vapply(
+  dates_calibrated$calage_density_distribution, function(x) { x$age[x$center]}, 0
 )
 
 # add temporal resampling column

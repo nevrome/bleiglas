@@ -53,9 +53,9 @@ cut_polygons <- function(x, cuts) {
   )
 
   polygon_2D_dfs_per_cut_list_without_empty <- Filter(Negate(is.null), polygon_2D_dfs_per_cut_list)
-  names(polygon_2D_dfs_per_cut_list_without_empty) <- cuts[!sapply(polygon_2D_dfs_per_cut_list, function(x) {
+  names(polygon_2D_dfs_per_cut_list_without_empty) <- cuts[!vapply(polygon_2D_dfs_per_cut_list, function(x) {
     is.null(x)
-  })]
+  }, TRUE)]
 
   return(polygon_2D_dfs_per_cut_list_without_empty)
 }
