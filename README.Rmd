@@ -159,13 +159,13 @@ Total V. cell volume      : 2.8563e+09
 
 It then produces an output file (`*.vol`) that contains all sorts of geometry information for the calculated 3D polygons. `tesselate` returns the content of this file as a character vector with the additionally attached attribute `unit_scaling` (`attributes(raw_voro_output)$unit_scaling`), which is just the scaling vector we put in above. 
 
-I focussed on the edges of the polygons and wrote a parser function `bleiglas::read_polygon_edges()` that can transform the complex Voro++ output for this specific output case to a tidy data.frame with six columns: the coordinates (x, y, z) of the start (a) and end point (b) of each polygon edge.
+I focussed on the edges of the polygons and wrote a parser function `bleiglas::read_polygon_edges()` that can transform the complex Voro++ output for this specific output case to a tidy data.table with six columns: the coordinates (x, y, z) of the start (a) and end point (b) of each polygon edge. A data.table is a tabular R data structure very similar to the standard data.frame. Read more about it [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
 
 ```{r}
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-`read_polygon_edges` also automatically reverses the rescaling introduced in `tesselate` with the `unit_scaling` attribute.
+`read_polygon_edges` automatically reverses the rescaling introduced in `tesselate` with the `unit_scaling` attribute.
 
 <details><summary>Data: <b>polygon_edges</b></summary>
 <p>

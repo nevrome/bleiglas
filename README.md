@@ -253,16 +253,18 @@ vector we put in above.
 
 I focussed on the edges of the polygons and wrote a parser function
 `bleiglas::read_polygon_edges()` that can transform the complex Voro++
-output for this specific output case to a tidy data.frame with six
+output for this specific output case to a tidy data.table with six
 columns: the coordinates (x, y, z) of the start (a) and end point (b) of
-each polygon edge.
+each polygon edge. A data.table is a tabular R data structure very
+similar to the standard data.frame. Read more about it
+[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-`read_polygon_edges` also automatically reverses the rescaling
-introduced in `tesselate` with the `unit_scaling` attribute.
+`read_polygon_edges` automatically reverses the rescaling introduced in
+`tesselate` with the `unit_scaling` attribute.
 
 <details>
 <summary>
@@ -338,10 +340,10 @@ Data: <b>cut\_surfaces</b>
 <p>
 
     ## Simple feature collection with 76 features and 2 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
-    ## projected CRS:  World Equidistant Cylindrical (Sphere)
+    ## Geometry type: POLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
+    ## Projected CRS: World Equidistant Cylindrical (Sphere)
     ## First 10 features:
     ##                                 x    z  id
     ## 1  POLYGON ((1195386 319810.5,... 2500   3

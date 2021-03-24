@@ -2,7 +2,7 @@
 #'
 #' Figuratively cut horizontal slices of a 3D, tessellated cube.
 #'
-#' @param x data.table with output of voro++ as produced with
+#' @param x \link[data.table]{data.table} with output of voro++ as produced with
 #' \link{tessellate} and then \link{read_polygon_edges}
 #' @param cuts numeric vector with z-axis coordinates where cuts should be applied
 #'

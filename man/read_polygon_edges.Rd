@@ -14,7 +14,7 @@ read_polygon_edges(x, rescale = TRUE)
 \code{unit_scaling} attribute? Ignored if \code{x} does not have this attribute}
 }
 \value{
-data.table with columns for the coordinates x, y and z of the starting and
+\link[data.table]{data.table} with columns for the coordinates x, y and z of the starting and
 end point of each polygon edge
 }
 \description{
