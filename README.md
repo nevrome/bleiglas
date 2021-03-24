@@ -28,7 +28,7 @@ three dimensional contexts.
     package
 2.  A [JOSS
     paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
-    (not submitted yet) which gives some background, introduces the core
+    (in Review) which gives some background, introduces the core
     functions from a more technical point of view and presents an
     example application
 3.  A
@@ -46,8 +46,10 @@ remotes::install_github("nevrome/bleiglas")
 ```
 
 For the main function `tessellate` you also have to [install the Voro++
-software](http://math.lbl.gov/voro++/download/). For Linux users: The
-package is already available in all major software repositories.
+software](http://math.lbl.gov/voro++/download/). The package is already
+available in all major Linux software repositories (on Debian/Ubuntu you
+can simply run `sudo apt-get install voro++`.). MacOS users should be
+able to install it via homebrew (`brew install voro++`).
 
 ## Quickstart
 
