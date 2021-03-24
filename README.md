@@ -31,10 +31,14 @@ three dimensional contexts.
     (in Review) which gives some background, introduces the core
     functions from a more technical point of view and presents an
     example application
-3.  A
+3.  A (rather technical)
     [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd)
     which contains all the code necessary to reproduce the example
     application in said JOSS paper
+
+If you have questions beyond this documentation feel free to open an
+[issue](https://github.com/nevrome/bleiglas/issues) here on Github.
+Please also see our [contributing guide](CONTRIBUTING.md).
 
 ## Installation
 

@@ -33,7 +33,9 @@ bleiglas is an R package that provides functions for 3D tessellation with [Voro+
 
 1. This README (see Quickstart guide below) describes a basic workflow with code and explains some of my thought process when writing this package
 2. A [JOSS paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md) (in Review) which gives some background, introduces the core functions from a more technical point of view and presents an example application
-3. A [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd) which contains all the code necessary to reproduce the example application in said JOSS paper
+3. A (rather technical) [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd) which contains all the code necessary to reproduce the example application in said JOSS paper
+
+If you have questions beyond this documentation feel free to open an [issue](https://github.com/nevrome/bleiglas/issues) here on Github. Please also see our [contributing guide](CONTRIBUTING.md).
 
 ## Installation 
 
