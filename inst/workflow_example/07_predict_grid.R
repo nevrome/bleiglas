@@ -14,7 +14,7 @@ burial_type_data <- dates_prepared %>% dplyr::filter(burial_type != "unknown")
 
 iterations <- lapply(1:30, function(age_resampling_run) {
   current_iteration <- data.table::data.table(
-    id = 1:nrow(burial_type_data),
+    id = seq_len(nrow(burial_type_data)),
     x = burial_type_data$x,
     y = burial_type_data$y,
     z = vapply(burial_type_data$calage_sample, function(x){ 

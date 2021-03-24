@@ -9,7 +9,7 @@ load("inst/workflow_example/epsg102013.RData")
 
 vertices <- dates_prepared %>%
   dplyr::transmute(
-    id = 1:nrow(.),
+    id = seq_len(nrow(.)),
     x = round(x, 0),
     y = round(y, 0),
     z = calage_center,

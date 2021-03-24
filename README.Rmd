@@ -88,7 +88,7 @@ coords <- data.frame(c14_cmr_unique$lon, c14_cmr_unique$lat) %>%
 # create active dataset
 c14 <- c14_cmr_unique %>% 
   dplyr::transmute(
-    id = 1:nrow(.),
+    id = seq_len(nrow(.)),
     x = coords[,1], 
     y = coords[,2], 
     z = c14age,

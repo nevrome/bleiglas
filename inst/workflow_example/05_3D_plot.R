@@ -41,7 +41,7 @@ plot_my_3d <- function() {
     polygon_edges[[5]], 
     polygon_edges[[6]]
   )
-  for(i in 1:length(csstart$x)) {
+  for(i in seq_along(csstart$x)) {
     segments(
       csstart$x[i], csstart$y[i], csstop$x[i], csstop$y[i], 
       lwd = 0.1, col = "black"

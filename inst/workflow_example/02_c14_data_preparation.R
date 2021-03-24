@@ -79,7 +79,7 @@ dates_calibrated$calage_sample <- lapply(
 # add artifical date id
 dates_calibrated <- dates_calibrated %>%
   dplyr::mutate(
-    date_id = 1:nrow(.)
+    date_id = seq_len(nrow(.))
   )
 
 # filter dates to only include dates in time range of interest

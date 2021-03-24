@@ -115,7 +115,7 @@ coords <- data.frame(c14_cmr_unique$lon, c14_cmr_unique$lat) %>%
 # create active dataset
 c14 <- c14_cmr_unique %>% 
   dplyr::transmute(
-    id = 1:nrow(.),
+    id = seq_len(nrow(.)),
     x = coords[,1], 
     y = coords[,2], 
     z = c14age,
@@ -340,10 +340,10 @@ Data: <b>cut\_surfaces</b>
 <p>
 
     ## Simple feature collection with 76 features and 2 fields
-    ## Geometry type: POLYGON
-    ## Dimension:     XY
-    ## Bounding box:  xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
-    ## Projected CRS: World Equidistant Cylindrical (Sphere)
+    ## geometry type:  POLYGON
+    ## dimension:      XY
+    ## bbox:           xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
+    ## projected CRS:  World Equidistant Cylindrical (Sphere)
     ## First 10 features:
     ##                                 x    z  id
     ## 1  POLYGON ((1195386 319810.5,... 2500   3
