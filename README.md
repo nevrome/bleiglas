@@ -31,10 +31,10 @@ three dimensional contexts.
     (in Review) which gives some background, introduces the core
     functions from a more technical point of view and presents an
     example application
-3.  A (rather technical)
-    [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd)
-    which contains all the code necessary to reproduce the example
-    application in said JOSS paper
+3.  A (rather technical) vignette which contains all the code necessary
+    to reproduce the example application in said JOSS paper. When
+    bleiglas is installed you can open the vignette in R with
+    `vignette("bleiglas_bronze_age_burial_rite_distribution_case_study")`
 
 If you have questions beyond this documentation feel free to open an
 [issue](https://github.com/nevrome/bleiglas/issues) here on Github.
@@ -46,7 +46,7 @@ You can install bleiglas from github
 
 ``` r
 if(!require('remotes')) install.packages('remotes')
-remotes::install_github("nevrome/bleiglas")
+remotes::install_github("nevrome/bleiglas", build_vignettes = TRUE)
 ```
 
 For the main function `tessellate` you also have to [install the Voro++
@@ -470,7 +470,7 @@ and the
     ## 
     ##   Clemens Schmid (2020). bleiglas: Spatiotemporal Data Interpolation
     ##   and Visualisation based on 3D Tessellation with Voro++. R package
-    ##   version 0.1.1. https://github.com/nevrome/bleiglas
+    ##   version 0.1.2. https://github.com/nevrome/bleiglas
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -478,6 +478,6 @@ and the
     ##     title = {bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++},
     ##     author = {Clemens Schmid},
     ##     year = {2020},
-    ##     note = {R package version 0.1.1},
+    ##     note = {R package version 0.1.2},
     ##     url = {https://github.com/nevrome/bleiglas},
     ##   }

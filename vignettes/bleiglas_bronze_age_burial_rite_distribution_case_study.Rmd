@@ -1,8 +1,8 @@
 ---
-title: "Complete example"
+title: "Bleiglas Bronze Age burial rite distribution case study"
 output: pdf_document
 vignette: >
-  %\VignetteIndexEntry{Complete example}
+  %\VignetteIndexEntry{Bleiglas Bronze Age burial rite distribution case study}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
