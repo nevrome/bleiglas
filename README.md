@@ -34,7 +34,7 @@ three dimensional contexts.
 3.  A (rather technical) vignette which contains all the code necessary
     to reproduce the example application in said JOSS paper. When
     bleiglas is installed you can open the vignette in R with
-    `vignette("bleiglas_bronze_age_burial_rite_distribution_case_study")`
+    `vignette("bleiglas_case_study")`
 
 If you have questions beyond this documentation feel free to open an
 [issue](https://github.com/nevrome/bleiglas/issues) here on Github.
@@ -340,10 +340,10 @@ Data: <b>cut\_surfaces</b>
 <p>
 
     ## Simple feature collection with 76 features and 2 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
-    ## projected CRS:  World Equidistant Cylindrical (Sphere)
+    ## Geometry type: POLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
+    ## Projected CRS: World Equidistant Cylindrical (Sphere)
     ## First 10 features:
     ##                                 x    z  id
     ## 1  POLYGON ((1195386 319810.5,... 2500   3
@@ -467,19 +467,22 @@ and the
 
 ## Citation
 
-    ## 
-    ## To cite package 'bleiglas' in publications use:
-    ## 
-    ##   Clemens Schmid (2020). bleiglas: Spatiotemporal Data Interpolation
-    ##   and Visualisation based on 3D Tessellation with Voro++. R package
-    ##   version 0.1.2. https://github.com/nevrome/bleiglas
-    ## 
-    ## A BibTeX entry for LaTeX users is
-    ## 
-    ##   @Manual{,
-    ##     title = {bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++},
-    ##     author = {Clemens Schmid},
-    ##     year = {2020},
-    ##     note = {R package version 0.1.2},
-    ##     url = {https://github.com/nevrome/bleiglas},
-    ##   }
+
+    To cite bleiglas in publications use:
+
+      ?
+
+    A BibTeX entry for LaTeX users is
+
+      @Article{,
+        title = {{bleiglas}: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation},
+        author = {Clemens Schmid and Stephan Schiffels},
+        journal = {Journal of Open Source Software},
+        volume = {?},
+        number = {?},
+        pages = {?},
+        month = {?},
+        year = {?},
+        doi = {?},
+        url = {?},
+      }

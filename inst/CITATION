@@ -1,0 +1,18 @@
+citHeader("To cite bleiglas in publications use:")
+
+citEntry(
+  entry   = "Article",
+  title   = "{bleiglas}: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation",
+  author  = personList(as.person("Clemens Schmid"), as.person("Stephan Schiffels")),
+  journal = "Journal of Open Source Software",
+  volume  = "?",
+  number  = "?",
+  pages   = "?",
+  month   = "?",
+  year    = "?",
+  doi     = "?",
+  url     = "?",
+  textVersion = paste(
+    "?"
+  )
+)

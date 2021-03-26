@@ -360,6 +360,6 @@ This quickstart was a simple primer on how to use this package. If you think the
 
 ## Citation
 
-```{r, echo=F}
+```{r, echo=F,comment=""}
 citation("bleiglas")
 ```
