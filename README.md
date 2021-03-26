@@ -15,26 +15,29 @@ Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](ht
 
 # bleiglas
 
-bleiglas is an R package that provides functions for 3D tessellation
-with [Voro++](http://math.lbl.gov/voro++/) and subsequent horizontal
-cutting of the resulting polygons for 2D plotting. It was developed for
-archaeological spatiotemporal data, but may as well be used for other
-three dimensional contexts.
-
-## Documentation
+bleiglas is an R package that employs
+[Voro++](http://math.lbl.gov/voro++/) for the calculation of three
+dimensional Voronoi diagrams from input point clouds. This is a special
+form of tessellation where each polygon is defined as the area closest
+to one particular seed point. Voronoi diagrams have useful applications
+in - among others - astronomy, material science or geography and
+bleiglas provides functions to make 3D tessellation more readily
+available as a mean for data visualisation and interpolation. It can be
+used for any 3D point cloud, but the output is optimized for
+spatiotemporal applications in archaeology.
 
 1.  This README (see Quickstart guide below) describes a basic workflow
     with code and explains some of my thought process when writing this
-    package
+    package.
 2.  A [JOSS
     paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
-    (in Review) which gives some background, introduces the core
-    functions from a more technical point of view and presents an
-    example application
-3.  A (rather technical) vignette which contains all the code necessary
-    to reproduce the example application in said JOSS paper. When
-    bleiglas is installed you can open the vignette in R with
-    `vignette("bleiglas_case_study")`
+    (in Review) gives some background, introduces the core functions
+    from a more technical point of view and presents an example
+    application.
+3.  A (rather technical) vignette presents all the code necessary to
+    reproduce the “real world” example application in said JOSS paper.
+    When bleiglas is installed you can open the vignette in R with
+    `vignette("bleiglas_case_study")`.
 
 If you have questions beyond this documentation feel free to open an
 [issue](https://github.com/nevrome/bleiglas/issues) here on Github.
