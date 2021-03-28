@@ -174,6 +174,7 @@ one of a set of sample points.
 <th>
 <figure>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ceramic_Tile_Tessellations_in_Marrakech.jpg/320px-Ceramic_Tile_Tessellations_in_Marrakech.jpg" height="150" />
+<br>
 <figcaption>
 Islamic mosaic with tile tessellations in Marrakech, Morocco.
 <a href="https://en.wikipedia.org/wiki/File:Ceramic_Tile_Tessellations_in_Marrakech.jpg">wiki</a>
@@ -183,6 +184,7 @@ Islamic mosaic with tile tessellations in Marrakech, Morocco.
 <th>
 <figure>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Delaunay_Voronoi.svg/441px-Delaunay_Voronoi.svg.png" height="150" />
+<br>
 <figcaption>
 Delaunay triangulation and its Voronoi diagram.
 <a href="https://commons.wikimedia.org/wiki/File:Delaunay_Voronoi.svg">wiki</a>
@@ -192,6 +194,7 @@ Delaunay triangulation and its Voronoi diagram.
 <th>
 <figure>
 <img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" />
+<br>
 <figcaption>
 Output example of Voro++ rendered with POV-Ray.
 <a href="http://math.lbl.gov/voro++">math.lbl.gov</a>
