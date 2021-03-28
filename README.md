@@ -15,26 +15,33 @@ Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](ht
 
 # bleiglas
 
-bleiglas is an R package that provides functions for 3D tessellation
-with [Voro++](http://math.lbl.gov/voro++/) and subsequent horizontal
-cutting of the resulting polygons for 2D plotting. It was developed for
-archaeological spatiotemporal data, but may as well be used for other
-three dimensional contexts.
-
-## Documentation
+bleiglas is an R package that employs
+[Voro++](http://math.lbl.gov/voro++/) for the calculation of three
+dimensional Voronoi diagrams from input point clouds. This is a special
+form of tessellation where each polygon is defined as the area closest
+to one particular seed point. Voronoi diagrams have useful applications
+in - among others - astronomy, material science or geography and
+bleiglas provides functions to make 3D tessellation more readily
+available as a mean for data visualisation and interpolation. It can be
+used for any 3D point cloud, but the output is optimized for
+spatiotemporal applications in archaeology.
 
 1.  This README (see Quickstart guide below) describes a basic workflow
     with code and explains some of my thought process when writing this
-    package
+    package.
 2.  A [JOSS
     paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
-    (not submitted yet) which gives some background, introduces the core
-    functions from a more technical point of view and presents an
-    example application
-3.  A
-    [vignette](https://github.com/nevrome/bleiglas/blob/master/vignettes/complete_example.Rmd)
-    which contains all the code necessary to reproduce the example
-    application in said JOSS paper
+    (in Review) gives some background, introduces the core functions
+    from a more technical point of view and presents an example
+    application.
+3.  A (rather technical) vignette presents all the code necessary to
+    reproduce the “real world” example application in said JOSS paper.
+    When bleiglas is installed you can open the vignette in R with
+    `vignette("bleiglas_case_study")`.
+
+If you have questions beyond this documentation feel free to open an
+[issue](https://github.com/nevrome/bleiglas/issues) here on Github.
+Please also see our [contributing guide](CONTRIBUTING.md).
 
 ## Installation
 
@@ -42,12 +49,14 @@ You can install bleiglas from github
 
 ``` r
 if(!require('remotes')) install.packages('remotes')
-remotes::install_github("nevrome/bleiglas")
+remotes::install_github("nevrome/bleiglas", build_vignettes = TRUE)
 ```
 
 For the main function `tessellate` you also have to [install the Voro++
-software](http://math.lbl.gov/voro++/download/). For Linux users: The
-package is already available in all major software repositories.
+software](http://math.lbl.gov/voro++/download/). The package is already
+available in all major Linux software repositories (on Debian/Ubuntu you
+can simply run `sudo apt-get install voro++`.). MacOS users should be
+able to install it via homebrew (`brew install voro++`).
 
 ## Quickstart
 
@@ -79,7 +88,9 @@ here also remove samples with equal position in all three dimensions for
 the tessellation.
 
 ``` r
-# download raw data
+# download raw data with the data access package c14bazAAR
+# c14bazAAR can be installed with
+# install.packages("c14bazAAR", repos = c(ropensci = "https://ropensci.r-universe.dev"))
 c14_cmr <- c14bazAAR::get_c14data("adrac") %>% 
   # filter data
   dplyr::filter(!is.na(lat) & !is.na(lon), c14age > 1000, c14age < 3000, country == "CMR") 
@@ -107,7 +118,7 @@ coords <- data.frame(c14_cmr_unique$lon, c14_cmr_unique$lat) %>%
 # create active dataset
 c14 <- c14_cmr_unique %>% 
   dplyr::transmute(
-    id = 1:nrow(.),
+    id = seq_len(nrow(.)),
     x = coords[,1], 
     y = coords[,2], 
     z = c14age,
@@ -245,16 +256,18 @@ vector we put in above.
 
 I focussed on the edges of the polygons and wrote a parser function
 `bleiglas::read_polygon_edges()` that can transform the complex Voro++
-output for this specific output case to a tidy data.frame with six
+output for this specific output case to a tidy data.table with six
 columns: the coordinates (x, y, z) of the start (a) and end point (b) of
-each polygon edge.
+each polygon edge. A data.table is a tabular R data structure very
+similar to the standard data.frame. Read more about it
+[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
 
 ``` r
 polygon_edges <- bleiglas::read_polygon_edges(raw_voro_output)
 ```
 
-`read_polygon_edges` also automatically reverses the rescaling
-introduced in `tesselate` with the `unit_scaling` attribute.
+`read_polygon_edges` automatically reverses the rescaling introduced in
+`tesselate` with the `unit_scaling` attribute.
 
 <details>
 <summary>
@@ -330,10 +343,10 @@ Data: <b>cut\_surfaces</b>
 <p>
 
     ## Simple feature collection with 76 features and 2 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
-    ## projected CRS:  World Equidistant Cylindrical (Sphere)
+    ## Geometry type: POLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 937154 ymin: 63160.9 xmax: 1936570 ymax: 1506580
+    ## Projected CRS: World Equidistant Cylindrical (Sphere)
     ## First 10 features:
     ##                                 x    z  id
     ## 1  POLYGON ((1195386 319810.5,... 2500   3
@@ -457,19 +470,22 @@ and the
 
 ## Citation
 
-    ## 
-    ## To cite package 'bleiglas' in publications use:
-    ## 
-    ##   Clemens Schmid (2020). bleiglas: Spatiotemporal Data Interpolation
-    ##   and Visualisation based on 3D Tessellation with Voro++. R package
-    ##   version 0.1.1. https://github.com/nevrome/bleiglas
-    ## 
-    ## A BibTeX entry for LaTeX users is
-    ## 
-    ##   @Manual{,
-    ##     title = {bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++},
-    ##     author = {Clemens Schmid},
-    ##     year = {2020},
-    ##     note = {R package version 0.1.1},
-    ##     url = {https://github.com/nevrome/bleiglas},
-    ##   }
+
+    To cite bleiglas in publications use:
+
+      ?
+
+    A BibTeX entry for LaTeX users is
+
+      @Article{,
+        title = {{bleiglas}: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation},
+        author = {Clemens Schmid and Stephan Schiffels},
+        journal = {Journal of Open Source Software},
+        volume = {?},
+        number = {?},
+        pages = {?},
+        month = {?},
+        year = {?},
+        doi = {?},
+        url = {?},
+      }

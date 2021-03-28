@@ -14,7 +14,7 @@ read_polygon_edges(x, rescale = TRUE)
 \code{unit_scaling} attribute? Ignored if \code{x} does not have this attribute}
 }
 \value{
-data.table with columns for the coordinates x, y and z of the starting and
+\link[data.table]{data.table} with columns for the coordinates x, y and z of the starting and
 end point of each polygon edge
 }
 \description{
@@ -27,7 +27,7 @@ random_unique_points <- unique(data.table::data.table(
   y = runif(10, 0, 100000),
   z = runif(10, 0, 100)
 ))
-random_unique_points$id <- 1:nrow(random_unique_points)
+random_unique_points$id <- seq_len(nrow(random_unique_points))
 
 voro_output <- tessellate(random_unique_points, unit_scaling = c(0.001, 0.001, 1))
 

@@ -7,7 +7,7 @@
 cut_polygons(x, cuts)
 }
 \arguments{
-\item{x}{data.table with output of voro++ as produced with
+\item{x}{\link[data.table]{data.table} with output of voro++ as produced with
 \link{tessellate} and then \link{read_polygon_edges}}
 
 \item{cuts}{numeric vector with z-axis coordinates where cuts should be applied}
@@ -27,7 +27,7 @@ random_unique_points <- unique(data.table::data.table(
   y = runif(10, 0, 100000),
   z = runif(10, 0, 100)
 ))
-random_unique_points$id <- 1:nrow(random_unique_points)
+random_unique_points$id <- seq_len(nrow(random_unique_points))
 
 voro_output <- tessellate(random_unique_points, unit_scaling = c(0.001, 0.001, 1))
 

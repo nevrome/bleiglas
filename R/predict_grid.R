@@ -73,7 +73,7 @@ predict_grid <- function(x, prediction_grid, unit_scaling = c(1, 1, 1), ...) {
   checkmate::assert_names(colnames(prediction_grid), identical.to = c("x", "y", "z"))
 
   # loop through all position iteration
-  pbapply::pblapply(1:length(x), function(i) {
+  pbapply::pblapply(seq_along(x), function(i) {
     input <- x[[i]]
 
     # tessellate current iteration

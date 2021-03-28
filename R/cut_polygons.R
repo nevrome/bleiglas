@@ -2,7 +2,7 @@
 #'
 #' Figuratively cut horizontal slices of a 3D, tessellated cube.
 #'
-#' @param x data.table with output of voro++ as produced with
+#' @param x \link[data.table]{data.table} with output of voro++ as produced with
 #' \link{tessellate} and then \link{read_polygon_edges}
 #' @param cuts numeric vector with z-axis coordinates where cuts should be applied
 #'
@@ -53,9 +53,9 @@ cut_polygons <- function(x, cuts) {
   )
 
   polygon_2D_dfs_per_cut_list_without_empty <- Filter(Negate(is.null), polygon_2D_dfs_per_cut_list)
-  names(polygon_2D_dfs_per_cut_list_without_empty) <- cuts[!sapply(polygon_2D_dfs_per_cut_list, function(x) {
+  names(polygon_2D_dfs_per_cut_list_without_empty) <- cuts[!vapply(polygon_2D_dfs_per_cut_list, function(x) {
     is.null(x)
-  })]
+  }, TRUE)]
 
   return(polygon_2D_dfs_per_cut_list_without_empty)
 }

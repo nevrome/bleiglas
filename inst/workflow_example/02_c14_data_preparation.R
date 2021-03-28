@@ -63,8 +63,8 @@ dates_calibrated$calage_density_distribution %<>% lapply(
 )
 
 # add median age column
-dates_calibrated$calage_center <- sapply(
-  dates_calibrated$calage_density_distribution, function(x) { x$age[x$center]}
+dates_calibrated$calage_center <- vapply(
+  dates_calibrated$calage_density_distribution, function(x) { x$age[x$center]}, 0
 )
 
 # add temporal resampling column
@@ -79,7 +79,7 @@ dates_calibrated$calage_sample <- lapply(
 # add artifical date id
 dates_calibrated <- dates_calibrated %>%
   dplyr::mutate(
-    date_id = 1:nrow(.)
+    date_id = seq_len(nrow(.))
   )
 
 # filter dates to only include dates in time range of interest

@@ -7,7 +7,7 @@
 #' @param rescale Should the output of \link{tessellate} be back-rescaled according to its 
 #' \code{unit_scaling} attribute? Ignored if \code{x} does not have this attribute
 #'
-#' @return data.table with columns for the coordinates x, y and z of the starting and
+#' @return \link[data.table]{data.table} with columns for the coordinates x, y and z of the starting and
 #' end point of each polygon edge
 #'
 #' @inherit tessellate examples

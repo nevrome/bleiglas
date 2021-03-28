@@ -27,7 +27,11 @@ The open source software library [Voro++](http://math.lbl.gov/voro++) [@Rycroft2
 
 Voronoi tessellation has useful applications in all kinds of scientific contexts spanning astronomy (e.g. @Paranjape2020-sg) material science (e.g. @Tsuru2020-ep) or geography (e.g. @Liu2019-fw). In computational and landscape archaeology, Delaunay triangulation and Voronoi diagrams were applied as well [@Nakoinz2016-bq], but to our knowledge mostly limited to an entirely spatial 2D perspective. 3D tessellation could be employed here to add a third dimension, most intriguingly a temporal one. This could allow for new methods of spatiotemporal data interpolation, analysis and visualisation.
 
+# Statement of need
+
 The ``bleiglas`` R package serves as an R interface to the Voro++ command line tool. It adds a number of utility functions for particular data manipulation applications, including but not limited to automatic 2D cutting of the 3D Voro++ output for subsequent mapping and grid sampling for position and value uncertainty mitigation. The relevant workflows are explained below. Although we wrote this package for our own needs in archaeology and archaeogenetics, the code is by no means restricted to data from these fields, just as Voronoi tessellation is a generic, subject-agnostic method with a huge range of use-cases.
+
+Voronoi tessellation is implemented in a many R packages, maybe most prominently in the deldir (*Delaunay Triangulation and Dirichlet (Voronoi) Tessellation*) [@Turner2021] and the tripack (*Triangulation of Irregularly Spaced Data*) [@Gebhardt2020] packages, which were specifically designed for this application. ggvoronoi (*Voronoi Diagrams and Heatmaps with 'ggplot2'*) [@Garrett2021] and `dismo::voronoi()` [@Hijmans2020] build on deldir. Another implementation directly integrated with the spatial `sf` [@Pebesma2018] format is available with `sf::st_voronoi()`. All of these packages and functions focus on 2D data and to our knowledge none offer a comparable toolset to handle 3D Voronoi diagrams as introduced with ``bleiglas``.
 
 # Core functionality
 

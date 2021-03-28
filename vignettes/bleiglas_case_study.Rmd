@@ -1,8 +1,8 @@
 ---
-title: "Complete example"
+title: "Bleiglas Bronze Age burial rite distribution case study"
 output: pdf_document
 vignette: >
-  %\VignetteIndexEntry{Complete example}
+  %\VignetteIndexEntry{Bleiglas Bronze Age burial rite distribution case study}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -25,6 +25,20 @@ code_files_full_path <- list.files(
 )
 code_files <- basename(code_files_full_path)
 sourcecode <- lapply(code_files_full_path, function(x) { paste(readLines(x), collapse="\n") })
+```
+
+Running the code in this vignette requires some additional packages. You can install them with
+
+``` {r eval=FALSE}
+install.packages(
+  c("Bchron", "bleiglas", "c14bazAAR", "data.table", "dplyr", 
+    "ggplot2", "magrittr", "pbapply", "purrr", "raster", 
+    "rnaturalearth", "scatterplot3d", "sf", "tibble"),
+  repos = c(
+    CRAN = "https://cloud.r-project.org", 
+    ropensci = "https://ropensci.r-universe.dev"
+  )
+)
 ```
 
 ## `r code_files[1]`

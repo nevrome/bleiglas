@@ -1,8 +1,13 @@
 Package: bleiglas
-Title: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++
-Description: 3D tessellation with the Voro++ software library and subsequent horizontal cutting of the resulting polygons for 2D representation. Applicable to all sorts of 3D point clouds, but optimized for spatiotemporal data.
+Title: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation
+Description: Employs Voro++ for the calculation of three dimensional Voronoi diagrams from
+    input point clouds. This is a special form of tessellation where each polygon is defined 
+    as the area closest to one particular seed point. Voronoi diagrams have useful applications
+    in - among others - astronomy, material science or geography and bleiglas provides functions 
+    to make 3D tessellation more readily available as a mean for data visualisation and interpolation.
+    It can be used for any 3D point cloud, but the output is optimized for spatiotemporal applications 
+    in archaeology.
 Version: 0.1.2
-Date: 2020-07-22
 Authors@R: 
     c(
       person(given = "Clemens",
