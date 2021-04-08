@@ -7,7 +7,7 @@ Description: Employs Voro++ for the calculation of three dimensional Voronoi dia
     to make 3D tessellation more readily available as a mean for data visualisation and interpolation.
     It can be used for any 3D point cloud, but the output is optimized for spatiotemporal applications 
     in archaeology.
-Version: 0.2.0
+Version: 1.0.0
 Authors@R:
     c(
       person(given = "Clemens",
