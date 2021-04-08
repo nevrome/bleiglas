@@ -5,18 +5,18 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "bleiglas",
-  "description": "3D tessellation with the Voro++ software library and subsequent horizontal cutting of the resulting polygons for 2D representation. Applicable to all sorts of 3D point clouds, but optimized for spatiotemporal data.",
-  "name": "bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation with Voro++",
+  "description": "Employs Voro++ for the calculation of three dimensional Voronoi diagrams from\n    input point clouds. This is a special form of tessellation where each polygon is defined \n    as the area closest to one particular seed point. Voronoi diagrams have useful applications\n    in - among others - astronomy, material science or geography and bleiglas provides functions \n    to make 3D tessellation more readily available as a mean for data visualisation and interpolation.\n    It can be used for any 3D point cloud, but the output is optimized for spatiotemporal applications \n    in archaeology.",
+  "name": "bleiglas: Spatiotemporal Data Interpolation and Visualisation based on 3D Tessellation",
   "codeRepository": "https://github.com/nevrome/bleiglas",
   "issueTracker": "https://github.com/nevrome/bleiglas/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
   "author": [
     {
       "@type": "Person",
@@ -160,7 +160,7 @@
     }
   ],
   "readme": "https://github.com/nevrome/bleiglas/blob/master/README.md",
-  "fileSize": "18072.652KB",
+  "fileSize": "17905.404KB",
   "contIntegration": ["https://travis-ci.com/nevrome/bleiglas", "https://codecov.io/github/nevrome/bleiglas?branch=master"],
   "developmentStatus": "https://www.repostatus.org/#inactive",
   "keywords": [
@@ -168,5 +168,37 @@
     "tessellation",
     "3d",
     "voronoi"
+  ],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "?",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Clemens",
+          "familyName": "Schmid"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Stephan",
+          "familyName": "Schiffels"
+        }
+      ],
+      "name": "{bleiglas}: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation",
+      "identifier": "?",
+      "url": "?",
+      "pagination": "?",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "?",
+        "datePublished": "?",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "?",
+          "name": "Journal of Open Source Software"
+        }
+      }
+    }
   ]
 }
