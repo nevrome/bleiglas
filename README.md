@@ -10,6 +10,7 @@ Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travi
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
 [![license](https://img.shields.io/github/license/nevrome/bleiglas)](https://www.r-project.org/Licenses/MIT)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.03092/status.svg)](https://doi.org/10.21105/joss.03092)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -29,11 +30,9 @@ spatiotemporal applications in archaeology.
 1.  This README (see Quickstart guide below) describes a basic workflow
     with code and explains some of my thought process when writing this
     package.
-2.  A [JOSS
-    paper](https://github.com/nevrome/bleiglas/blob/master/paper/paper.md)
-    (in Review) gives some background, introduces the core functions
-    from a more technical point of view and presents an example
-    application.
+2.  A [JOSS paper](https://doi.org/10.21105/joss.03092) gives some
+    background, introduces the core functions from a more technical
+    point of view and presents an example application.
 3.  A (rather technical) vignette presents all the code necessary to
     reproduce the “real world” example application in said JOSS paper.
     When bleiglas is installed you can open the vignette in R with
@@ -193,7 +192,7 @@ Delaunay triangulation and its Voronoi diagram.
 </th>
 <th>
 <figure>
-<img src="http://math.lbl.gov/voro++/examples/custom_output/custom_output_l.png" height="150" />
+<img src="https://aip.scitation.org/na101/home/literatum/publisher/aip/journals/content/cha/2009/cha.2009.19.issue-4/1.3215722/production/images/medium/1.3215722.figures.f4.gif" height="150" />
 <br>
 <figcaption>
 Output example of Voro++ rendered with POV-Ray.
@@ -476,19 +475,21 @@ and the
 
     To cite bleiglas in publications use:
 
-      ?
+      Schmid and Schiffels (2021). bleiglas: An R package for interpolation
+      and visualisation of spatiotemporal data with 3D tessellation.
+      Journal of Open Source Software, 6(60), 3092,
+      https://doi.org/10.21105/joss.03092
 
     A BibTeX entry for LaTeX users is
 
       @Article{,
-        title = {{bleiglas}: An R package for interpolation and visualisation of spatiotemporal data with 3D tessellation},
+        title = {{bleiglas}: An {R} package for interpolation and visualisation of spatiotemporal data with 3D tessellation},
         author = {Clemens Schmid and Stephan Schiffels},
         journal = {Journal of Open Source Software},
-        volume = {?},
-        number = {?},
-        pages = {?},
-        month = {?},
-        year = {?},
-        doi = {?},
-        url = {?},
+        volume = {6},
+        number = {60},
+        pages = {3092},
+        year = {2021},
+        doi = {10.21105/joss.03092},
+        url = {https://doi.org/10.21105/joss.03092},
       }
