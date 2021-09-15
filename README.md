@@ -5,8 +5,7 @@ will be provided as time
 allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 ![GitHub R package
 version](https://img.shields.io/github/r-package/v/nevrome/bleiglas)
-[![Travis-CI Build
-Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas)
+[![R-CMD-check](https://github.com/nevrome/bleiglas/actions/workflows/check-release.yaml/badge.svg)](https://github.com/nevrome/bleiglas/actions/workflows/check-release.yaml)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
 [![license](https://img.shields.io/github/license/nevrome/bleiglas)](https://www.r-project.org/Licenses/MIT)
@@ -137,7 +136,7 @@ Data: <b>c14</b>
 c14 
 ```
 
-    ## # A tibble: 393 x 5
+    ## # A tibble: 393 × 5
     ##       id        x       y     z period
     ##    <int>    <dbl>   <dbl> <int> <chr> 
     ##  1     1 1284303. 450340.  1920 EIA   
@@ -284,9 +283,9 @@ Data: <b>polygon\_edges</b>
     ##     4: 1190480  335990 1202.59 1233970 377206 1268.57         25
     ##     5: 1352310  233958 1240.81 1233970 377206 1268.57         25
     ##    ---                                                          
-    ## 24916: 1341410 1041000 2655.00 1645270 892489 2655.00        290
+    ## 24916: 1683200  887252 2655.00 1645270 892489 2655.00        290
     ## 24917: 1622180  900165 2682.50 1645270 892489 2655.00        290
-    ## 24918: 1361490 1027580 2682.50 1622180 900165 2682.50        290
+    ## 24918: 1393030 1012170 2682.50 1622180 900165 2682.50        290
     ## 24919: 1596200  911750 2731.50 1622180 900165 2682.50        290
     ## 24920: 1645270  892489 2655.00 1622180 900165 2682.50        290
 
@@ -356,7 +355,7 @@ Data: <b>cut\_surfaces</b>
     ## 3  POLYGON ((1146675 374628.2,... 2500  38
     ## 4  POLYGON ((1215947 365177.1,... 2500  40
     ## 5  POLYGON ((1416056 455852, 1... 2500  69
-    ## 6  POLYGON ((1082719 969489.5,... 2500 103
+    ## 6  POLYGON ((1083149 968036.7,... 2500 103
     ## 7  POLYGON ((1936570 315020.3,... 2500 105
     ## 8  POLYGON ((1386575 333838.1,... 2500 135
     ## 9  POLYGON ((1116416 63160.9, ... 2500 144
