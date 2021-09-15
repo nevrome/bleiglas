@@ -1,0 +1,2 @@
+- V 1.0.1: Fixed a small memory allocation bug
+- V 1.0.0: Release version
