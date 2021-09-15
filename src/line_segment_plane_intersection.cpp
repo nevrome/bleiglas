@@ -90,7 +90,7 @@ SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_
 SEXP line_segment_plane_intersection_multi(NumericMatrix points, NumericVector plane_point, NumericVector plane_normal) {
   
   std::vector<NumericMatrix> res_multiple_segments;
-  res_multiple_segments.reserve(points.nrow());
+  res_multiple_segments.reserve(points.nrow() + 1);
   for (int i = 0; i < points.nrow(); i++) {
     NumericVector point_a = { points(i, 0), points(i, 1), points(i, 2) };
     NumericVector point_b = { points(i, 3), points(i, 4), points(i, 5) };
