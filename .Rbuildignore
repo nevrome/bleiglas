@@ -12,3 +12,4 @@
 ^codemeta\.json$
 ^doc$
 ^Meta$
+^\.github$

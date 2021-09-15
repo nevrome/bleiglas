@@ -7,7 +7,7 @@ always_allow_html: true
 
 [![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 ![GitHub R package version](https://img.shields.io/github/r-package/v/nevrome/bleiglas)
-[![Travis-CI Build Status](https://travis-ci.com/nevrome/bleiglas.svg?branch=master)](https://travis-ci.com/nevrome/bleiglas) 
+[![R-CMD-check](https://github.com/nevrome/bleiglas/actions/workflows/check-release.yaml/badge.svg)](https://github.com/nevrome/bleiglas/actions/workflows/check-release.yaml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/nevrome/bleiglas/master.svg)](https://codecov.io/github/nevrome/bleiglas?branch=master)
 [![license](https://img.shields.io/github/license/nevrome/bleiglas)](https://www.r-project.org/Licenses/MIT)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03092/status.svg)](https://doi.org/10.21105/joss.03092)

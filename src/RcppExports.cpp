@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // line_segment_plane_intersection
 SEXP line_segment_plane_intersection(NumericVector point_a, NumericVector point_b, NumericVector plane_point, NumericVector plane_normal);
 RcppExport SEXP _bleiglas_line_segment_plane_intersection(SEXP point_aSEXP, SEXP point_bSEXP, SEXP plane_pointSEXP, SEXP plane_normalSEXP) {
